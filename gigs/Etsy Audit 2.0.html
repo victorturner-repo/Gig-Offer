@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Etsy Conversion Leak Audit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* review-flow */
+    .flow-hidden { opacity: 0; transform: translateY(8px); }
+    .flow-show { opacity: 1; transform: translateY(0); transition: opacity 420ms ease, transform 420ms ease; }
+  </style>
+
+</head>
+
+<body class="bg-white text-neutral-900 antialiased">
+
+  <header class="sticky top-0 z-50 bg-white border-b border-neutral-200">
+    <div class="max-w-5xl mx-auto px-4 py-2 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <img src="/assets/images/profilephoto.png" alt="Victor Turner Profile" class="h-9 w-9 rounded-full object-cover shrink-0">
+        <div class="min-w-0">
+          <p class="text-sm font-semibold truncate">Victor Turner</p>
+          <p class="text-xs text-neutral-500 truncate">Decision Flow Fix Systems</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="px-3 py-2 text-xs border border-neutral-300 rounded-lg whitespace-nowrap"><a href="/Profile.html">
+  View Profile
+</a></button>
+        <button class="px-3 py-2 text-xs bg-neutral-900 text-white rounded-lg whitespace-nowrap">Message</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-4 space-y-6">
+
+    <section class="rounded-xl border border-neutral-200 overflow-hidden">
+      <div class="aspect-[16/10] bg-neutral-100">
+        <img src="/assets/images/EtsyAudit.png" alt="Gig Cover Banner" class="w-full h-full object-cover">
+      </div>
+    </section>
+
+    <section class="space-y-2">
+      <h1 class="text-xl font-semibold leading-snug">Etsy Conversion Leak Audit – Revenue Diagnosis for Underperforming Listings</h1>
+      <p class="text-sm text-neutral-600">Traffic is useless if buyers don’t decide — I map exactly where your listing leaks trust, clarity, and purchase confidence.</p>
+
+      <p class="mt-2">
+        <a href="#reviews" id="reviewLink" class="text-sm font-medium text-orange-600 hover:underline inline-block relative z-10 inline-block pointer-events-auto">
+          View Client Reviews (13)
+        </a>
+      </p>
+    </section>
+
+    <section id="package-card" class="border border-neutral-200 rounded-xl p-4 space-y-4">
+      <div role="tablist" aria-label="Package selection"
+        class="flex gap-2 overflow-x-auto snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-3 sm:overflow-visible">
+        <button type="button" data-tab="basic" role="tab" aria-selected="true"
+          class="tab-btn snap-start min-h-[44px] px-4 py-2 text-sm font-medium rounded-lg bg-neutral-900 text-white whitespace-nowrap sm:whitespace-normal sm:text-center">
+          Basic
+        </button>
+        <button type="button" data-tab="standard" role="tab" aria-selected="false"
+          class="tab-btn snap-start min-h-[44px] px-4 py-2 text-sm font-medium rounded-lg border border-neutral-300 whitespace-nowrap sm:whitespace-normal sm:text-center">
+          Standard
+        </button>
+        <button type="button" data-tab="premium" role="tab" aria-selected="false"
+          class="tab-btn snap-start min-h-[44px] px-4 py-2 text-sm font-medium rounded-lg border border-neutral-300 whitespace-nowrap sm:whitespace-normal sm:text-center">
+          Premium
+        </button>
+      </div>
+
+      <div class="bg-neutral-50 rounded-lg p-4 space-y-3">
+        <div class="flex justify-between items-center gap-3">
+          <h3 id="pkg-title" class="text-sm font-semibold">Conversion Leak Diagnosis (1 Listing)</h3>
+          <span id="pkg-price" class="text-sm font-semibold">$49</span>
+        </div>
+
+        <ul id="pkg-features" class="text-xs space-y-2 text-neutral-700"></ul>
+
+        <div class="flex justify-between text-xs text-neutral-500">
+          <span id="pkg-delivery">3–5 days</span>
+          <span id="pkg-revision">1 clarification round</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <button id="continue-btn"
+          class="w-full bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white py-3 rounded-lg text-sm font-semibold">
+          Continue — Basic
+        </button>
+        <button id="compare-btn"
+          class="w-full border border-neutral-300 py-3 rounded-lg text-sm font-semibold">
+          Compare Package
+        </button>
+      </div>
+    </section>
+
+    <section id="comparison-section" class="hidden border border-neutral-200 rounded-xl p-4 space-y-4">
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-neutral-200">
+              <th class="text-left p-2 sticky left-0 bg-white">Feature</th>
+              <th class="p-2">Basic</th>
+              <th class="p-2">Standard</th>
+              <th class="p-2">Premium</th>
+            </tr>
+          </thead>
+          <tbody class="text-neutral-700">
+            <tr class="border-b border-neutral-200">
+              <td class="p-2 sticky left-0 bg-white">Listings</td>
+              <td class="p-2">1</td>
+              <td class="p-2">Up to 5</td>
+              <td class="p-2">Up to 15</td>
+            </tr>
+            <tr class="border-b border-neutral-200">
+              <td class="p-2 sticky left-0 bg-white">Scope</td>
+              <td class="p-2">Diagnosis + priority map</td>
+              <td class="p-2">Diagnosis + guided rewrite direction</td>
+              <td class="p-2">Full conversion architecture blueprint</td>
+            </tr>
+            <tr class="border-b border-neutral-200">
+              <td class="p-2 sticky left-0 bg-white">Delivery</td>
+              <td class="p-2">5–7 days</td>
+              <td class="p-2">7–10 days</td>
+              <td class="p-2">14–21 days</td>
+            </tr>
+            <tr class="border-b border-neutral-200">
+              <td class="p-2 sticky left-0 bg-white">Revisions</td>
+              <td class="p-2">1 round</td>
+              <td class="p-2">2 rounds</td>
+              <td class="p-2">2 rounds</td>
+            </tr>
+            <tr>
+              <td class="p-2 sticky left-0 bg-white">Core Output</td>
+              <td class="p-2">Leak heatmap + ranked roadmap</td>
+              <td class="p-2">Roadmap + section-by-section guidance</td>
+              <td class="p-2">Blueprint + sequencing model</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    
+<section class="border border-neutral-200 rounded-xl p-5 space-y-5 bg-neutral-50">
+  <div class="space-y-2">
+    <h2 class="text-lg font-semibold">Traffic Is Useless If Buyers Don’t Decide</h2>
+    <p class="text-sm text-neutral-700">You’re getting views. You’re running ads. But revenue isn’t scaling.</p>
+    <p class="text-sm text-neutral-700"><span class="font-medium">This is not a traffic problem.</span> It’s a conversion architecture problem.</p>
+  </div>
+
+  <div class="border-t border-neutral-200 pt-4 space-y-3">
+    <h3 class="text-sm font-semibold">What This Service Actually Is</h3>
+    <p class="text-sm text-neutral-700">This is a <span class="font-medium">structural buyer decision diagnosis</span>.</p>
+
+    <div class="grid gap-3 sm:grid-cols-2">
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">This is NOT</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Keyword research</li>
+          <li>Basic listing feedback</li>
+          <li>A generic SEO audit</li>
+          <li>A rewrite service</li>
+        </ul>
+      </div>
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">This IS</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Where your listing leaks trust, clarity, and authority</li>
+          <li>Why buyers hesitate mid-scroll</li>
+          <li>What fixes revenue first (ranked by leverage)</li>
+          <li>A clear upgrade path only if needed</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-neutral-200 bg-white p-3">
+      <p class="text-sm text-neutral-700"><span class="font-medium">Ranking without conversion is wasted traffic.</span> This audit identifies why buyers hesitate, then gives you a priority roadmap to fix it.</p>
+    </div>
+  </div>
+
+  <div class="border-t border-neutral-200 pt-4 space-y-3">
+    <h3 class="text-sm font-semibold">The Core Problem Most Etsy Sellers Ignore</h3>
+    <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+      <li>The message does not match buyer intent</li>
+      <li>The decision flow is not structured</li>
+      <li>Authority signals are weak</li>
+      <li>Offer clarity is diluted</li>
+      <li>Purchase confidence collapses mid-scroll</li>
+    </ul>
+    <p class="text-sm text-neutral-700">Traffic alone does not convert. Buyers need structured decision sequencing. If your listing does not guide them, they leave.</p>
+  </div>
+
+  <div class="border-t border-neutral-200 pt-4 space-y-3">
+    <h3 class="text-sm font-semibold">What This Audit Diagnoses</h3>
+
+    <div class="grid gap-3 sm:grid-cols-2">
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">1) Traffic vs Conversion Mismatch</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Keyword intent vs product positioning</li>
+          <li>Click-through promise vs listing reality</li>
+          <li>Ad traffic misalignment</li>
+        </ul>
+        <p class="text-xs text-neutral-500">Revenue impact: prevents paying for non-buying traffic.</p>
+      </div>
+
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">2) Buyer Intent Breakdown</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Early doubt signals</li>
+          <li>Value confusion</li>
+          <li>Benefit clarity gaps</li>
+        </ul>
+        <p class="text-xs text-neutral-500">Revenue impact: reduces bounce and indecision.</p>
+      </div>
+
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">3) Message Clarity Score</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Headline precision</li>
+          <li>Benefit stacking</li>
+          <li>Feature-to-outcome alignment</li>
+        </ul>
+        <p class="text-xs text-neutral-500">Revenue impact: improves buyer confidence.</p>
+      </div>
+
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">4) Authority Signal Audit</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Proof elements</li>
+          <li>Trust reinforcement</li>
+          <li>Expertise positioning</li>
+        </ul>
+        <p class="text-xs text-neutral-500">Revenue impact: increases purchase conviction.</p>
+      </div>
+
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">5) Offer Friction Map</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Pricing structure</li>
+          <li>Variation confusion</li>
+          <li>Shipping clarity</li>
+          <li>Risk perception</li>
+        </ul>
+        <p class="text-xs text-neutral-500">Revenue impact: removes silent objections.</p>
+      </div>
+
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">6) Psychological Leak Points</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Comparison friction</li>
+          <li>Unanswered buyer questions</li>
+          <li>Missing reassurance triggers</li>
+        </ul>
+        <p class="text-xs text-neutral-500">Revenue impact: strengthens closing probability.</p>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+      <p class="text-sm font-semibold">7) Execution Priority Map</p>
+      <p class="text-sm text-neutral-700">You receive a ranked roadmap based on leverage impact — not random suggestions.</p>
+      <p class="text-xs text-neutral-500">Revenue impact: prevents scattered execution.</p>
+    </div>
+  </div>
+
+  <div class="border-t border-neutral-200 pt-4 space-y-3">
+    <h3 class="text-sm font-semibold">What You Receive</h3>
+    <div class="grid gap-3 sm:grid-cols-2">
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">Deliverables</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Structured PDF diagnostic report</li>
+          <li>Conversion leak heatmap</li>
+          <li>Priority-ranked execution roadmap</li>
+          <li>Clarity + authority scoring breakdown</li>
+        </ul>
+      </div>
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">If Needed (Not Default)</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Strategic rewrite recommendation (only where required)</li>
+          <li>Optional upgrade path into full rewrite or system rebuild</li>
+        </ul>
+        <p class="text-xs text-neutral-500">Clear scope. No vague advice.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-neutral-200 pt-4 space-y-3">
+    <h3 class="text-sm font-semibold">Who This Is For / Not For</h3>
+    <div class="grid gap-3 sm:grid-cols-2">
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">This is for</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Etsy shops already getting traffic</li>
+          <li>Sellers running Etsy Ads but not scaling</li>
+          <li>Strong products with weak conversions</li>
+          <li>Operators serious about revenue optimization</li>
+        </ul>
+      </div>
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">This is not for</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>New shops without traffic data</li>
+          <li>Sellers looking for keyword stuffing</li>
+          <li>Hobby sellers</li>
+          <li>Those expecting instant hacks</li>
+        </ul>
+        <p class="text-sm text-neutral-700">This is structured revenue optimization.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-neutral-200 pt-4 space-y-3">
+    <h3 class="text-sm font-semibold">How This Differs From Typical Etsy Audits</h3>
+    <div class="grid gap-3 sm:grid-cols-2">
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">Most audits</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Focus only on SEO</li>
+          <li>Give surface-level comments</li>
+          <li>Suggest minor tweaks</li>
+          <li>Provide no priority structure</li>
+        </ul>
+      </div>
+      <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+        <p class="text-sm font-semibold">This audit</p>
+        <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+          <li>Maps buyer psychology</li>
+          <li>Identifies decision friction</li>
+          <li>Aligns traffic with purchase intent</li>
+          <li>Prioritizes based on revenue impact</li>
+        </ul>
+        <p class="text-sm text-neutral-700">It operates at system level.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="before-order" class="border-t border-neutral-200 pt-4 space-y-3">
+    <h3 class="text-sm font-semibold">Before You Order</h3>
+    <p class="text-sm text-neutral-700">Send your listing link first. I’ll confirm fit and ensure your shop qualifies for this level of audit.</p>
+    <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
+      <p class="text-sm font-medium">Send:</p>
+      <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
+        <li>Listing link</li>
+        <li>Product category</li>
+        <li>Your main performance concern (traffic, ads, conversion, or inconsistency)</li>
+      </ul>
+      <p class="text-sm text-neutral-700">This protects your time and mine.</p>
+    </div>
+    <button class="w-full bg-neutral-900 text-white py-3 rounded-lg text-sm font-semibold">
+      Message Before Ordering
+    </button>
+  </div>
+</section>
+
+
+<section id="reviews" class="border border-neutral-200 rounded-xl p-5 sm:p-6 space-y-4 bg-white">
+      <div class="mx-auto w-full max-w-5xl px-3 sm:px-4 py-4">
+        <header class="pt-2 flow-hidden">
+          <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900">Reviews</h2>
+
+          <div class="mt-3">
+            <button type="button" id="tab-all" class="relative pb-3 text-base font-semibold text-neutral-900" aria-selected="true">
+              All (<span id="count-all">13</span>)
+              <span class="absolute left-0 -bottom-[1px] h-[3px] w-10 rounded-full bg-blue-600" aria-hidden="true"></span>
+            </button>
+            <div class="h-px w-full bg-neutral-200"></div>
+          </div>
+        </header>
+
+        <section class="mt-4">
+          <div id="reviews-list" class="space-y-6" role="list">
+            <article data-review data-index="1" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Heather M.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Conversion Leak Audit</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">We finally saw why buyers hesitated</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">This was system work, not random tweaks. Intent alignment + structure cleanup + conversion signals. Impressions stabilized and sales followed.</p>
+            </article>
+
+            <article data-review data-index="2" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Daniel R.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Traffic / Intent Fit</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">Traffic started matching buyer readiness</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">Once titles/tags reflected what shoppers actually type and expect, Etsy pushed it more consistently. Clicks improved and conversion followed.</p>
+            </article>
+
+            <article data-review data-index="3" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Amina K.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Decision Flow Fix</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">The decision flow stopped leaking</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">It wasn’t SEO-only. The listing became clearer, buyers stayed longer, and checkout rate improved — rankings strengthened because engagement improved too.</p>
+            </article>
+
+            <article data-review data-index="4" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Priya S.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Leak Diagnosis</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">Clear priorities — no more guessing</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">The audit showed the biggest blockers first. Every change had a reason and an execution order.</p>
+            </article>
+
+            <article data-review data-index="5" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Marcus J.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Clarity + Positioning</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">The listing became clearer instantly</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">After the rebuild, the listing held better over time. Confidence improved — conversion followed.</p>
+            </article>
+
+            <article data-review data-index="6" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Sophie L.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Offer Friction Fix</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">Objections got handled before checkout</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">Traffic quality improved because the listing angle matched buyer expectations — not just more traffic.</p>
+            </article>
+
+            <article data-review data-index="7" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Tosin A.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Authority Signals</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">Trust signals finally felt credible</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">Once categories/attributes were corrected, Etsy’s understanding improved and reach increased steadily.</p>
+            </article>
+
+            <article data-review data-index="8" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Noah P.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Messaging Cleanup</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">Cleaner message, stronger conviction</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">Higher saves, longer dwell time, fewer bounces — rankings improved with better shopper signals.</p>
+            </article>
+
+            <article data-review data-index="9" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Elena D.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Conversion Recovery</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">Fixed the leak that caused drop-offs</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">We corrected intent mismatch and reinforced conversion clarity. Rankings climbed back steadily.</p>
+            </article>
+
+            <article data-review data-index="10" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Grace T.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Traffic Alignment</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">Stopped attracting the wrong clicks</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">Less irrelevant clicking. More serious buyers. Better conversion signals that held over time.</p>
+            </article>
+
+            <article data-review data-index="11" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Chioma N.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Execution Roadmap</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">Execution roadmap made results repeatable</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">The system approach reduced cannibalization and improved stability across listings.</p>
+            </article>
+
+            <article data-review data-index="12" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Lena W.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Blueprint Upgrade</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">This felt like an operator, not a generic audit</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">Clear priorities, clean execution, and no “hope marketing.” Stronger signals across the board.</p>
+            </article>
+
+            <article data-review data-index="13" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-base font-semibold text-neutral-900">Olivia C.</p>
+                  <span class="mt-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="shrink-0 text-right">
+                  <div class="flex justify-end"><span class="text-amber-500" aria-label="Rating 5 out of 5">★★★★★</span></div>
+                  <div class="mt-1 text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-neutral-600">
+                <span class="font-medium text-neutral-700">Conversion Leak Audit</span><span class="text-neutral-300">•</span><span>Jan 2026</span>
+              </div>
+              <h3 class="mt-3 text-lg sm:text-xl font-semibold text-neutral-900">Confidence improved — conversion followed</h3>
+              <p class="mt-2 text-sm leading-6 text-neutral-600">Once intent + conversion were aligned, rankings stopped swinging and traffic held.</p>
+            </article>
+          </div>
+
+          <div class="mt-6 flex flex-col gap-3 flow-hidden">
+            <button id="btn-load" type="button"
+              class="w-full rounded-xl bg-neutral-900 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2">
+              Load more reviews
+            </button>
+
+            <button id="btn-collapse" type="button"
+              class="hidden w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm font-semibold text-neutral-900 shadow-sm transition hover:bg-neutral-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2">
+              Collapse reviews
+            </button>
+
+            <p id="status" class="text-center text-xs text-neutral-500" aria-live="polite">
+              Showing <span id="visibleCount">3</span> of <span id="totalCount">13</span>
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <script>
+        (function () {
+          const STEP = 3;
+          const MIN_VISIBLE = 3;
+          const list = document.getElementById("reviews-list");
+          const btnLoad = document.getElementById("btn-load");
+          const btnCollapse = document.getElementById("btn-collapse");
+          const visibleCountEl = document.getElementById("visibleCount");
+          const totalCountEl = document.getElementById("totalCount");
+          const countAllEl = document.getElementById("count-all");
+          const status = document.getElementById("status");
+
+          if (!list || !btnLoad || !btnCollapse || !visibleCountEl || !totalCountEl || !countAllEl) return;
+
+          const cards = Array.prototype.slice.call(list.querySelectorAll("[data-review]"));
+          const TOTAL = cards.length;
+
+          totalCountEl.textContent = String(TOTAL);
+          countAllEl.textContent = String(TOTAL);
+
+          function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+          function setVisible(card, on) {
+            if (on) {
+              card.classList.remove("hidden");
+              card.removeAttribute("aria-hidden");
+            } else {
+              card.classList.add("hidden");
+              card.setAttribute("aria-hidden", "true");
+            }
+          }
+
+          function render(count) {
+            const next = clamp(count, MIN_VISIBLE, TOTAL);
+            for (let i = 0; i < cards.length; i++) setVisible(cards[i], i < next);
+
+            visibleCountEl.textContent = String(next);
+
+            const all = next >= TOTAL;
+            btnLoad.classList.toggle("hidden", all);
+            btnLoad.disabled = all;
+
+            btnCollapse.classList.toggle("hidden", next === MIN_VISIBLE);
+
+            if (status) status.textContent = all ? "Showing all " + TOTAL + " reviews" : "Showing " + next + " of " + TOTAL;
+          }
+
+          let visible = MIN_VISIBLE;
+          render(visible);
+
+          btnLoad.addEventListener("click", function () {
+            visible = clamp(visible + STEP, MIN_VISIBLE, TOTAL);
+            render(visible);
+          });
+
+          btnCollapse.addEventListener("click", function () {
+            visible = MIN_VISIBLE;
+            render(visible);
+            const target = document.getElementById("reviews");
+            if (target) {
+              const header = document.querySelector("header.sticky");
+              const offset = header ? Math.ceil(header.getBoundingClientRect().height + 16) : 16;
+              const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+              window.scrollTo({ top, behavior: "smooth" });
+            }
+          });
+        })();
+      </script>
+    </section>
+
+
+<section id="faqs" class="space-y-3">
+  <h2 class="text-lg font-semibold">FAQs</h2>
+
+  <details class="border border-neutral-200 rounded-lg p-3 text-sm">
+    <summary class="cursor-pointer select-none">Is this a rewrite service?</summary>
+    <p class="mt-2 text-neutral-600">
+      No. This is a diagnosis + priority execution plan. If a rewrite is required, you’ll get clear section-by-section guidance or an upgrade path.
+    </p>
+  </details>
+
+  <details class="border border-neutral-200 rounded-lg p-3 text-sm">
+    <summary class="cursor-pointer select-none">Do I need Etsy Ads for this to work?</summary>
+    <p class="mt-2 text-neutral-600">
+      No. This works whether you’re running ads or not. If you are running ads, it prevents you from paying for misaligned traffic and weak decision flow.
+    </p>
+  </details>
+
+  <details class="border border-neutral-200 rounded-lg p-3 text-sm">
+    <summary class="cursor-pointer select-none">What do you need from me?</summary>
+    <p class="mt-2 text-neutral-600">
+      Your listing link and your main problem (traffic but low sales, ad spend not scaling, or inconsistent conversion). That’s enough to start.
+    </p>
+  </details>
+
+  <details class="border border-neutral-200 rounded-lg p-3 text-sm">
+    <summary class="cursor-pointer select-none">How fast will I see results?</summary>
+    <p class="mt-2 text-neutral-600">
+      This is an audit, not an instant switch. Once you implement the top priorities, most shops see clearer buyer behavior within 1–3 weeks depending on traffic volume.
+    </p>
+  </details>
+</section>
+
+
+<section class="space-y-3">
+      <h2 class="text-lg font-semibold">Other Gigs</h2>
+      <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div class="snap-start min-w-[250px] border border-neutral-200 rounded-xl p-3 space-y-2">
+          <img src="/assets/images/EtsyListingConversionRewrite.png" alt="Gig 1" class="h-32 w-full object-cover rounded-lg">
+          <h3 class="text-sm font-semibold">I Will Rewrite Your Etsy Listing to Increase Conversions</h3>
+          <p class="text-xs text-neutral-600">Conversion Structure for Listings That Get Views But Not Sales.</p>
+          <p class="text-sm font-semibold">$49</p>
+          <button class="w-full border border-neutral-300 py-2 rounded-lg text-sm"><a href="/Etsy%Rewrite.html"
+   class="block w-full border border-neutral-300 py-2 rounded-lg text-sm text-center active:scale-[0.99]">
+  View Gig
+</a></button>
+        </div>
+        <div class="snap-start min-w-[250px] border border-neutral-200 rounded-xl p-3 space-y-2">
+          <img src="/assets/images/Etsy ranking.png" alt="Gig 2" class="h-32 w-full object-cover rounded-lg">
+          <h3 class="text-sm font-semibold">Fix Your Etsy Ranking and Rebuild Your Sales Engine</h3>
+          <p class="text-xs text-neutral-600">Structured Ranking + Conversion System for Serious Sellers.</p>
+          <p class="text-sm font-semibold">$129</p>
+          <button class="w-full border border-neutral-300 py-2 rounded-lg text-sm">View Gig</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="sticky-bar"
+    class="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-200 shadow-lg p-3 flex items-center justify-between gap-3 lg:hidden translate-y-full transition-transform duration-300">
+    <div class="text-xs min-w-0">
+      <p id="sticky-pkg" class="font-semibold truncate">Basic</p>
+      <p id="sticky-meta" class="truncate">$49 · 5–7 days</p>
+    </div>
+    <button id="sticky-continue"
+      class="bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap">
+      Continue — Basic
+    </button>
+  </div>
+
+  <div class="h-20 lg:hidden"></div>
+
+  <script>
+    const compareBtn = document.getElementById("compare-btn");
+    const comparisonSection = document.getElementById("comparison-section");
+
+    const pkgTitle = document.getElementById("pkg-title");
+    const pkgPrice = document.getElementById("pkg-price");
+    const pkgFeatures = document.getElementById("pkg-features");
+    const pkgDelivery = document.getElementById("pkg-delivery");
+    const pkgRevision = document.getElementById("pkg-revision");
+
+    const continueBtn = document.getElementById("continue-btn");
+    const stickyBar = document.getElementById("sticky-bar");
+    const stickyContinue = document.getElementById("sticky-continue");
+    const stickyPkg = document.getElementById("sticky-pkg");
+    const stickyMeta = document.getElementById("sticky-meta");
+
+    const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
+
+    
+const PACKAGES = {
+      basic: {
+        label: "Basic",
+        title: "Conversion Leak Diagnosis (1 Listing)",
+        price: "$49",
+        delivery: "3–5 days",
+        revision: "1 clarification round",
+        features: [
+          "Full structural audit of 1 listing",
+          "Conversion leak heatmap (what breaks trust + clarity)",
+          "Traffic vs conversion mismatch check (incl. ads if running)",
+          "Message clarity score (headline, benefits, outcomes)",
+          "Authority signal audit (proof + trust reinforcement)",
+          "Offer friction map (variations, price, shipping, risk)",
+          "Priority-ranked execution roadmap (what to fix first)"
+        ]
+      },
+      standard: {
+        label: "Standard",
+        title: "Diagnosis + Strategic Rewrite Direction (1 Listing)",
+        price: "$129",
+        delivery: "5–7 days",
+        revision: "1 clarification round",
+        features: [
+          "Everything in Basic",
+          "Section-by-section rewrite guidance (what to change + why)",
+          "Headline + value restructuring strategy",
+          "Benefit stacking + feature-to-outcome alignment",
+          "Buyer objection coverage map (missing reassurance triggers)",
+          "Implementation checklist to execute fast"
+        ]
+      },
+      premium: {
+        label: "Premium",
+        title: "Full Conversion Architecture Blueprint (1 Listing)",
+        price: "$249",
+        delivery: "7–10 days",
+        revision: "1 clarification round",
+        features: [
+          "Everything in Standard",
+          "Messaging framework blueprint (system-level structure)",
+          "Authority stacking strategy (proof sequencing)",
+          "Offer restructuring guidance (reduce decision friction)",
+          "Psychological sequencing model (scroll → conviction → action)",
+          "Upgrade path guidance into full rewrite/system rebuild (optional)"
+        ]
+      }
+    };
+
+    let activeTab = "basic";
+
+    function styleTabs(tabKey) {
+      tabButtons.forEach(btn => {
+        const isActive = btn.dataset.tab === tabKey;
+        btn.setAttribute("aria-selected", isActive ? "true" : "false");
+        btn.classList.remove("bg-neutral-900", "text-white");
+        btn.classList.add("border", "border-neutral-300");
+        if (isActive) {
+          btn.classList.add("bg-neutral-900", "text-white");
+          btn.classList.remove("border", "border-neutral-300");
+        }
+      });
+    }
+
+    function renderPackage(tabKey) {
+      const data = PACKAGES[tabKey];
+      if (!data) return;
+
+      activeTab = tabKey;
+      styleTabs(tabKey);
+
+      pkgTitle.textContent = data.title;
+      pkgPrice.textContent = data.price;
+      pkgDelivery.textContent = data.delivery;
+      pkgRevision.textContent = data.revision;
+
+      pkgFeatures.innerHTML = data.features.map(t => `<li>${t}</li>`).join("");
+
+      stickyPkg.textContent = data.label;
+      stickyMeta.textContent = `${data.price} · ${data.delivery}`;
+
+      continueBtn.textContent = `Continue — ${data.label}`;
+      stickyContinue.textContent = `Continue — ${data.label}`;
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        renderPackage(btn.dataset.tab);
+        btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      });
+    });
+
+    compareBtn.addEventListener("click", () => {
+      comparisonSection.classList.toggle("hidden");
+      if (!comparisonSection.classList.contains("hidden")) {
+        compareBtn.textContent = "Hide Comparison";
+        comparisonSection.scrollIntoView({ behavior: "smooth" });
+      } else {
+        compareBtn.textContent = "Compare Package";
+      }
+    });
+
+    const pkgCard = document.getElementById("package-card");
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) stickyBar.classList.remove("translate-y-full");
+      else stickyBar.classList.add("translate-y-full");
+    }, { threshold: 0.2 });
+
+    io.observe(pkgCard);
+
+    function handleContinue() {
+      const target = document.getElementById("before-order");
+      if (target) target.scrollIntoView({ behavior: "smooth" });
+    }
+
+    continueBtn.addEventListener("click", handleContinue);
+    stickyContinue.addEventListener("click", handleContinue);
+
+    renderPackage("basic");
+  </script>
+
+
+  <script>
+    /* review-flow-script */
+    (function () {
+      const link = document.getElementById("reviewLink") || document.querySelector('a[href="#reviews"]');
+      const target = document.getElementById("reviews");
+      const header = document.querySelector("header.sticky");
+
+      if (link && target) {
+        function getOffset() {
+          const h = header ? header.getBoundingClientRect().height : 0;
+          return Math.ceil(h + 16);
+        }
+
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const top = target.getBoundingClientRect().top + window.pageYOffset - getOffset();
+          window.scrollTo({ top, behavior: "smooth" });
+        });
+      }
+
+      const root = document.getElementById("reviews");
+      if (!root) return;
+
+      const items = Array.from(root.querySelectorAll(".flow-hidden"));
+      if (!items.length) return;
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("flow-show");
+            entry.target.classList.remove("flow-hidden");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      items.forEach((el) => io.observe(el));
+    })();
+  </script>
+</body>
+</html>
