@@ -998,8 +998,6 @@
       
 // ✅ Update Continue link to checkout error page (dynamic)
 const checkoutUrl = `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(tabKey)}`;
-continueBtn.href = checkoutUrl;
-stickyContinue.href = checkoutUrl;
 
     tabButtons.forEach(btn => {
       btn.addEventListener("click", () => {
