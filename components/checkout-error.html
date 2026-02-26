@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Service Unavailable</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-white text-slate-900">
+
+  <!-- Minimal Preloader -->
+  <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
+    <div class="flex items-center gap-3">
+      <!-- classic spinner -->
+      <span
+        class="h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-slate-900"
+        aria-hidden="true"
+      ></span>
+
+      <!-- single dynamic status line -->
+      <p id="statusLine" class="text-sm text-slate-700">
+        Checking checkout status…
+      </p>
+    </div>
+  </div>
+
+  <!-- Page content (hidden until loader ends) -->
+  <main id="content" class="mx-auto max-w-2xl px-4 py-10 sm:py-14 opacity-0 transition-opacity duration-200">
+
+    <header class="border-b border-slate-200 pb-6">
+      <p class="text-xs font-medium text-slate-500">Status</p>
+      <h1 class="mt-1 text-2xl font-semibold tracking-tight">
+        Checkout temporarily unavailable
+      </h1>
+      <p class="mt-2 text-sm leading-6 text-slate-600">
+        The checkout endpoint is currently failing to complete requests. Please use the alternate contact path below.
+      </p>
+    </header>
+
+    <section class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <p class="text-xs font-medium text-slate-500">Reference</p>
+          <p class="mt-0.5 font-mono text-sm font-semibold text-slate-900">VictorTurner</p>
+        </div>
+
+        <a
+          href="#"
+          id="copyRef"
+          class="text-sm font-medium text-slate-700 underline decoration-slate-300 underline-offset-4 hover:text-slate-900"
+        >
+          Copy reference
+        </a>
+      </div>
+
+      <p class="mt-3 text-xs leading-5 text-slate-600">
+        Estimated resolution: Recovery is in progress. Service will be re-enabled once stability is confirmed.
+      </p>
+    </section>
+
+    <section class="mt-6">
+      <h2 class="text-sm font-semibold text-slate-900">Provide the following</h2>
+      <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
+        <li>Name</li>
+        <li>Service/package</li>
+        <li>Relevant link</li>
+        <li class="text-slate-500">Optional: budget range</li>
+      </ul>
+    </section>
+
+    <section class="mt-6 rounded-xl border border-slate-200 p-4">
+      <h2 class="text-sm font-semibold text-slate-900">Next steps</h2>
+      <div class="mt-2 space-y-2 text-sm">
+        <p>
+          <a
+            href="https://wa.me/234XXXXXXXXXX?text=Hi%20Checkout%20is%20down.%20Reference:%20VictorTurner%0AName:%0AService/package:%0ALink:"
+            class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-500"
+          >
+            Contact via WhatsApp
+          </a>
+        </p>
+        <p>
+          <a
+            href="mailto:you@example.com?subject=Checkout%20Issue%20-%20VictorTurner&body=Reference:%20VictorTurner%0AName:%0AService/package:%0ALink:%0ABudget(optional):"
+            class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-500"
+          >
+            Contact via Email
+          </a>
+        </p>
+        <p>
+          <a
+            href="index.html"
+            class="font-medium text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-500"
+          >
+            Return to services
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <footer class="mt-8 border-t border-slate-200 pt-5">
+      <p class="text-xs leading-5 text-slate-600">
+        Privacy note: Do not send card details. Support will not request sensitive payment information through messages.
+      </p>
+    </footer>
+
+  </main>
+
+  <script>
+    // Copy reference
+    document.getElementById("copyRef").addEventListener("click", async (e) => {
+      e.preventDefault();
+      const ref = "VictorTurner";
+      try {
+        await navigator.clipboard.writeText(ref);
+        const el = document.getElementById("copyRef");
+        const prev = el.textContent;
+        el.textContent = "Copied";
+        setTimeout(() => (el.textContent = prev), 900);
+      } catch {
+        alert("Copy failed. Reference: " + ref);
+      }
+    });
+
+    // Minimal preloader (20s) + dynamic status text
+    const DURATION_MS = 20000;
+    const preloader = document.getElementById("preloader");
+    const content = document.getElementById("content");
+    const statusLine = document.getElementById("statusLine");
+
+    const messages = [
+      "Checking checkout status…",
+      "Retrying payment gateway handshake…",
+      "Validating service routes…",
+      "Applying stability gate…",
+      "Loading status page…"
+    ];
+
+    let i = 0;
+    statusLine.textContent = messages[i];
+
+    // rotate the single status line every 4 seconds
+    const msgInterval = setInterval(() => {
+      i = Math.min(i + 1, messages.length - 1);
+      statusLine.textContent = messages[i];
+    }, 4000);
+
+    // reveal after 20 seconds
+    setTimeout(() => {
+      clearInterval(msgInterval);
+      preloader.classList.add("opacity-0");
+      setTimeout(() => {
+        preloader.classList.add("hidden");
+        content.classList.remove("opacity-0");
+        content.classList.add("opacity-100");
+      }, 180);
+    }, DURATION_MS);
+  </script>
+
+</body>
+</html> 
