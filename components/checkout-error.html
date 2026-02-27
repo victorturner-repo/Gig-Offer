@@ -38,26 +38,37 @@
       </p>
     </header>
 
-    <section class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
-      <div class="flex items-center justify-between gap-3">
-        <p class="mt-3 text-xs leading-5 text-slate-600">
-        Estimated resolution: Recovery is in progress. Service will be re-enabled once stability is confirmed.
+    <section class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5">
+  
+  <!-- Status Message -->
+  <p class="text-xs leading-5 text-slate-600">
+   <span class="font-semibold text-slate-800">Estimated resolution:</span>
+    Recovery is in progress. Service will be re-enabled once stability is confirmed.
+  </p>
+
+  <!-- Reference Row -->
+  <div class="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    
+    <div>
+      <p class="text-[11px] font-medium uppercase tracking-wide text-slate-500">
+        Reference
       </p>
-        <div>
-          <p class="text-xs font-medium text-slate-500">Reference</p>
-          <p class="mt-0.5 font-mono text-sm font-semibold text-slate-900">VictorTurner</p>
-        </div>
+      <p id="refValue" class="font-mono text-sm font-semibold text-slate-900">
+        VictorTurner
+      </p>
+    </div>
 
-        <a
-          href="#"
-          id="copyRef"
-          class="text-sm font-medium text-slate-700 underline decoration-slate-300 underline-offset-4 hover:text-slate-900"
-        >
-          Copy reference
-        </a>
-      </div>
-    </section>
+    <button
+      id="copyRef"
+      type="button"
+      class="w-fit text-sm font-medium text-slate-700 underline decoration-slate-300 underline-offset-4 hover:text-slate-900 transition"
+    >
+      Copy reference
+    </button>
 
+  </div>
+</section>
+    
     <section class="mt-6">
       <h2 class="text-sm font-semibold text-slate-900">Provide the following</h2>
       <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
