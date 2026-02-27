@@ -42,11 +42,29 @@
 
   <main class="max-w-5xl mx-auto px-4 py-4 space-y-6">
 
-    <section class="rounded-xl border border-neutral-200 overflow-hidden">
-      <div class="aspect-[16/10] bg-neutral-100">
-        <img src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/EtsyListingConversionRewrite.png " alt="Gig Cover Banner" class="w-full h-full object-cover">
+<section class="rounded-xl border border-neutral-200 overflow-hidden">
+  <div id="bannerWrap" class="relative aspect-[16/10] bg-neutral-100">
+    <!-- Preloader overlay -->
+    <div
+      id="bannerLoader"
+      class="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-[1px]"
+    >
+      <div class="flex flex-col items-center gap-2">
+        <div class="h-8 w-8 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin"></div>
+        <p id="bannerStatus" class="text-xs font-medium text-neutral-700">Loading preview…</p>
       </div>
-    </section>
+    </div>
+
+    <!-- Banner image -->
+    <img
+      id="bannerImg"
+      src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/EtsyListingConversionRewrite.png" alt="Gig Cover Banner"
+      class="w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+</section>
 
     <section class="space-y-2">
       <h1 class="text-lg font-semibold leading-snug">I Will Rewrite Your Etsy Listing to Increase Conversions</h1>
