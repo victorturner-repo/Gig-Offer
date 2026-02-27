@@ -45,31 +45,34 @@
 <section class="rounded-xl border border-neutral-200 overflow-hidden">
   <div id="bannerWrap" class="relative aspect-[16/10] bg-neutral-100">
     <!-- Preloader overlay -->
-    <div
-      id="bannerLoader"
-      class="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-[1px]"
-    >
-      <div class="flex flex-col items-center gap-2">
-        <div class="h-8 w-8 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin"></div>
-        <p id="bannerStatus" class="text-xs font-medium text-neutral-700">Loading preview…</p>
-      </div>
+<div id="bannerWrap" class="relative aspect-[16/10] bg-neutral-100 overflow-hidden">
+  <!-- Preloader overlay -->
+  <div
+    id="bannerLoader"
+    class="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-[1px]"
+  >
+    <div class="flex flex-col items-center gap-2">
+      <div class="h-8 w-8 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin"></div>
+      <p id="bannerStatus" class="text-xs font-medium text-neutral-700">Loading preview…</p>
     </div>
-
-    <!-- Banner image -->
-    <picture>
-  <source
-    srcset="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/EtsyListingConversionRewrite-1600.webp"
-    type="image/webp"
-  />
-  <img
-    src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/EtsyListingConversionRewrite-1600.webp"
-    alt="Gig Cover Banner"
-    class="w-full h-full object-cover"
-    loading="eager"
-    decoding="async"
-  />
-</picture>
   </div>
+
+  <!-- Banner image -->
+  <picture>
+    <source
+      srcset="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/EtsyListingConversionRewrite-1600.webp"
+      type="image/webp"
+    />
+    <img
+      id="bannerImg"
+      src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/EtsyListingConversionRewrite-1600.webp"
+      alt="Gig Cover Banner"
+      class="w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+    />
+  </picture>
+</div>
 </section>
 
     <section class="space-y-2">
