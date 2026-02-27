@@ -1171,7 +1171,7 @@ fetchpriority="eager"
     const status = document.getElementById("bannerStatus");
     if (!img || !loader) return;
 
-    const MIN_SHOW_MS = 650;     // ensures users actually see it
+    const MIN_SHOW_MS = 1200;     // ensures users actually see it
     const MAX_WAIT_MS = 8000;    // never block UI forever
     const startedAt = Date.now();
     let closed = false;
