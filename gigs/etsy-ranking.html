@@ -731,18 +731,24 @@
 
   </main>
 
-  <div id="sticky-bar"
-    class="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-200 shadow-lg p-3 flex items-center justify-between gap-3 lg:hidden translate-y-full transition-transform duration-300">
-    <div class="text-xs min-w-0">
-      <p id="sticky-pkg" class="font-semibold truncate">Basic</p>
-      <p id="sticky-meta" class="truncate">$49 · 5–7 days</p>
-    </div>
-    <a id="sticky-continue"
-   href="/Gig-Offer/components/checkout-error.html?pkg=basic"
-   class="bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap text-center">
-  Continue — Basic
-</a>
+<div id="sticky-bar"
+  class="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-t border-neutral-200 shadow-lg
+         px-4 py-3 flex items-center justify-between gap-4
+         lg:hidden translate-y-full transition-transform duration-300
+         pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+
+  <div class="text-xs min-w-0 leading-tight">
+    <p id="sticky-pkg" class="font-semibold truncate">Basic</p>
+    <p id="sticky-meta" class="text-neutral-500 truncate">$49 · 5–7 days</p>
   </div>
+
+  <a id="sticky-continue"
+     href="/Gig-Offer/components/checkout-error.html?pkg=basic&gig=etsy-ranking"
+     class="shrink-0 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white
+            px-5 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap text-center transition-colors duration-200">
+    Continue — Basic
+  </a>
+</div>
 
   <div class="h-20 lg:hidden"></div>
   
