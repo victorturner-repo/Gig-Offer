@@ -27,9 +27,16 @@
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <button class="px-3 py-2 text-xs border border-neutral-300 rounded-lg whitespace-nowrap"><a href="/Gig-Offer/">View Profile</a></button>
-        <button class="px-3 py-2 text-xs bg-neutral-900 text-white rounded-lg whitespace-nowrap">Message</button>
-      </div>
+          <a
+    href="/Gig-Offer/"
+    class="px-3 py-2 text-xs border border-neutral-300 rounded-lg whitespace-nowrap inline-flex items-center justify-center"
+  >View Profile
+          </a>
+  <!-- Message (anchor styled as button - set your destination) -->
+  <a href="#before-order"
+    class="px-3 py-2 text-xs bg-neutral-900 text-white rounded-lg whitespace-nowrap inline-flex items-center justify-center">
+    Message</a>
+             </div>
     </div>
   </header>
 
@@ -84,19 +91,22 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <a 
-  id="continue-btn"
-  href="/Gig-Offer/components/checkout-error.html?pkg=basic"
-  class="w-full bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white py-3 rounded-lg text-sm font-semibold text-center block transition"
->
-  Continue – Basic
-</a>
-        <button id="compare-btn"
-          class="w-full border border-neutral-300 py-3 rounded-lg text-sm font-semibold">
-          Compare Package
-        </button>
-      </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+  <a 
+    id="continue-btn"
+    href="/Gig-Offer/components/checkout-error.html?pkg=basic"
+    class="w-full h-[48px] flex items-center justify-center bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white rounded-lg text-sm font-semibold text-center transition"
+  >
+    Continue — Basic
+  </a>
+
+  <button
+    id="compare-btn"
+    class="w-full h-[48px] flex items-center justify-center border border-neutral-300 rounded-lg text-sm font-semibold"
+  >
+    Compare Package
+  </button>
+</div>
     </section>
 
     <section id="comparison-section" class="hidden border border-neutral-200 rounded-xl p-4 space-y-4">
@@ -884,157 +894,197 @@
       <p id="sticky-pkg" class="font-semibold truncate">Basic</p>
       <p id="sticky-meta" class="truncate">$49 · 3–5 days</p>
     </div>
-    <button id="sticky-continue"
-      class="bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap">
-      Continue — Basic
-    </button>
+    <a id="sticky-continue"
+   href="/Gig-Offer/components/checkout-error.html?pkg=basic"
+   class="bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap text-center">
+  Continue — Basic
+</a>
   </div>
 
   <div class="h-20 lg:hidden"></div>
 
-  <script>
-    const compareBtn = document.getElementById("compare-btn");
-    const comparisonSection = document.getElementById("comparison-section");
+<script>
+  // ---------------------------
+  // Package + Compare System (Navigate Mode)
+  // ---------------------------
 
-    const pkgTitle = document.getElementById("pkg-title");
-    const pkgPrice = document.getElementById("pkg-price");
-    const pkgFeatures = document.getElementById("pkg-features");
-    const pkgDelivery = document.getElementById("pkg-delivery");
-    const pkgRevision = document.getElementById("pkg-revision");
+  const compareBtn = document.getElementById("compare-btn");
+  const comparisonSection = document.getElementById("comparison-section");
 
-    const continueBtn = document.getElementById("continue-btn");
-    const stickyBar = document.getElementById("sticky-bar");
-    const stickyContinue = document.getElementById("sticky-continue");
-    const stickyPkg = document.getElementById("sticky-pkg");
-    const stickyMeta = document.getElementById("sticky-meta");
+  const pkgTitle = document.getElementById("pkg-title");
+  const pkgPrice = document.getElementById("pkg-price");
+  const pkgFeatures = document.getElementById("pkg-features");
+  const pkgDelivery = document.getElementById("pkg-delivery");
+  const pkgRevision = document.getElementById("pkg-revision");
 
-    const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
+  const continueBtn = document.getElementById("continue-btn"); // <a>
+  const stickyBar = document.getElementById("sticky-bar");
+  const stickyContinue = document.getElementById("sticky-continue"); // <button> (or <a>)
+  const stickyPkg = document.getElementById("sticky-pkg");
+  const stickyMeta = document.getElementById("sticky-meta");
 
-    const PACKAGES = {
-      basic: {
-        label: "Basic",
-        title: "Decision-Flow Rewrite (1 Listing)",
-        price: "$49",
-        delivery: "3–5 days",
-        revision: "2 structured revisions",
-        features: [
-          "Conversion diagnostic: clarity gaps + hesitation triggers",
-          "Buyer decision flow rewrite (engineered sequencing)",
-          "Objection preemption inside the copy",
-          "Mobile-first scan formatting (short blocks, fast clarity)",
-          "Emotion → Logic → Action structure",
-          "Strategic CTA placement aligned to buyer readiness",
-          "400–700 word target (based on complexity)"
-        ]
-      },
-      standard: {
-        label: "Standard",
-        title: "Conversion System Rewrite (Up to 3 Listings)",
-        price: "$129",
-        delivery: "5–7 days",
-        revision: "2 structured revisions",
-        features: [
-          "Conversion diagnostic per listing (pattern-level friction)",
-          "Buyer psychology mapping (drivers + motivators)",
-          "Decision flow architecture across up to 3 listings",
-          "Objection neutralization layer per listing",
-          "Benefit hierarchy structuring (value first, details second)",
-          "Trust reinforcement placement where uncertainty peaks",
-          "400–900 word target per listing (based on complexity)"
-        ]
-      },
-      premium: {
-        label: "Premium",
-        title: "Multi-Listing Persuasion Architecture (Up to 6 Listings)",
-        price: "$249",
-        delivery: "7–10 days",
-        revision: "2 structured revisions",
-        features: [
-          "Shop-level consistency pass (tone + positioning alignment)",
-          "Buyer decision structuring across up to 6 listings",
-          "Risk reversal framing integrated into each description",
-          "Cognitive ease compression for mobile-heavy traffic",
-          "CTA calibration per listing (ready-state matched)",
-          "Final alignment pass (title/visual/price cues consistency)",
-          "500–900 word target per listing (based on complexity)"
-        ]
-      }
-    };
+  const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
 
-    let activeTab = "basic";
+  // Guard: if core nodes are missing, fail safely
+  if (!pkgTitle || !pkgPrice || !pkgFeatures || !pkgDelivery || !pkgRevision || !continueBtn || !tabButtons.length) {
+    console.warn("Package system: required elements missing.");
+  }
 
-    function styleTabs(tabKey) {
-      tabButtons.forEach(btn => {
-        const isActive = btn.dataset.tab === tabKey;
-        btn.setAttribute("aria-selected", isActive ? "true" : "false");
-        btn.classList.remove("bg-neutral-900", "text-white");
-        btn.classList.add("border", "border-neutral-300");
-        if (isActive) {
-          btn.classList.add("bg-neutral-900", "text-white");
-          btn.classList.remove("border", "border-neutral-300");
-        }
-      });
+  const PACKAGES = {
+    basic: {
+      label: "Basic",
+      title: "Decision-Flow Rewrite (1 Listing)",
+      price: "$49",
+      delivery: "3–5 days",
+      revision: "2 structured revisions",
+      features: [
+        "Conversion diagnostic: clarity gaps + hesitation triggers",
+        "Buyer decision flow rewrite (engineered sequencing)",
+        "Objection preemption inside the copy",
+        "Mobile-first scan formatting (short blocks, fast clarity)",
+        "Emotion → Logic → Action structure",
+        "Strategic CTA placement aligned to buyer readiness",
+        "400–700 word target (based on complexity)"
+      ]
+    },
+    standard: {
+      label: "Standard",
+      title: "Conversion System Rewrite (Up to 3 Listings)",
+      price: "$129",
+      delivery: "5–7 days",
+      revision: "2 structured revisions",
+      features: [
+        "Conversion diagnostic per listing (pattern-level friction)",
+        "Buyer psychology mapping (drivers + motivators)",
+        "Decision flow architecture across up to 3 listings",
+        "Objection neutralization layer per listing",
+        "Benefit hierarchy structuring (value first, details second)",
+        "Trust reinforcement placement where uncertainty peaks",
+        "400–900 word target per listing (based on complexity)"
+      ]
+    },
+    premium: {
+      label: "Premium",
+      title: "Multi-Listing Persuasion Architecture (Up to 6 Listings)",
+      price: "$249",
+      delivery: "7–10 days",
+      revision: "2 structured revisions",
+      features: [
+        "Shop-level consistency pass (tone + positioning alignment)",
+        "Buyer decision structuring across up to 6 listings",
+        "Risk reversal framing integrated into each description",
+        "Cognitive ease compression for mobile-heavy traffic",
+        "CTA calibration per listing (ready-state matched)",
+        "Final alignment pass (title/visual/price cues consistency)",
+        "500–900 word target per listing (based on complexity)"
+      ]
     }
+  };
 
-    function renderPackage(tabKey) {
-      const data = PACKAGES[tabKey];
-      if (!data) return;
+  let activeTab = "basic";
 
-      activeTab = tabKey;
-      styleTabs(tabKey);
+  function styleTabs(tabKey) {
+    tabButtons.forEach((btn) => {
+      const isActive = btn.dataset.tab === tabKey;
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
 
-      pkgTitle.textContent = data.title;
-      pkgPrice.textContent = data.price;
-      pkgDelivery.textContent = data.delivery;
-      pkgRevision.textContent = data.revision;
+      btn.classList.remove("bg-neutral-900", "text-white");
+      btn.classList.add("border", "border-neutral-300");
 
-      pkgFeatures.innerHTML = data.features.map(t => `<li>${t}</li>`).join("");
-
-      stickyPkg.textContent = data.label;
-      stickyMeta.textContent = `${data.price} · ${data.delivery}`;
-
-      continueBtn.textContent = `Continue — ${data.label}`;
-      stickyContinue.textContent = `Continue — ${data.label}`;
-      
-// ✅ Update Continue link to checkout error page (dynamic)
-const checkoutUrl = `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(tabKey)}`;
-
-    tabButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        renderPackage(btn.dataset.tab);
-        btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      });
+      if (isActive) {
+        btn.classList.add("bg-neutral-900", "text-white");
+        btn.classList.remove("border", "border-neutral-300");
+      }
     });
+  }
 
+  function renderPackage(tabKey) {
+    const data = PACKAGES[tabKey];
+    if (!data) return;
+
+    activeTab = tabKey;
+    styleTabs(tabKey);
+
+    pkgTitle.textContent = data.title;
+    pkgPrice.textContent = data.price;
+    pkgDelivery.textContent = data.delivery;
+    pkgRevision.textContent = data.revision;
+
+    pkgFeatures.innerHTML = data.features
+      .map((t) => `<li class="list-disc ml-4">${t}</li>`)
+      .join("");
+
+    if (stickyPkg) stickyPkg.textContent = data.label;
+    if (stickyMeta) stickyMeta.textContent = `${data.price} · ${data.delivery}`;
+
+    // Labels
+    continueBtn.textContent = `Continue — ${data.label}`;
+    if (stickyContinue) stickyContinue.textContent = `Continue — ${data.label}`;
+
+    // ✅ Dynamic checkout link
+    const checkoutUrl = `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(tabKey)}`;
+    continueBtn.href = checkoutUrl;
+
+    // Sticky can be <button> or <a>
+    if (stickyContinue) {
+      if (stickyContinue.tagName === "A") stickyContinue.href = checkoutUrl;
+      else stickyContinue.dataset.href = checkoutUrl;
+    }
+  }
+
+  // --- Bind ONCE ---
+
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      renderPackage(btn.dataset.tab);
+      btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    });
+  });
+
+  if (compareBtn && comparisonSection) {
     compareBtn.addEventListener("click", () => {
       comparisonSection.classList.toggle("hidden");
-      if (!comparisonSection.classList.contains("hidden")) {
-        compareBtn.textContent = "Hide Comparison";
-        comparisonSection.scrollIntoView({ behavior: "smooth" });
-      } else {
-        compareBtn.textContent = "Compare Package";
-      }
+      const open = !comparisonSection.classList.contains("hidden");
+      compareBtn.textContent = open ? "Hide Comparison" : "Compare Package";
+      if (open) comparisonSection.scrollIntoView({ behavior: "smooth" });
     });
+  }
 
-    const pkgCard = document.getElementById("package-card");
-    const io = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) stickyBar.classList.remove("translate-y-full");
-      else stickyBar.classList.add("translate-y-full");
-    }, { threshold: 0.2 });
-
+  // Sticky bar show/hide
+  const pkgCard = document.getElementById("package-card");
+  if (pkgCard && stickyBar) {
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) stickyBar.classList.remove("translate-y-full");
+        else stickyBar.classList.add("translate-y-full");
+      },
+      { threshold: 0.2 }
+    );
     io.observe(pkgCard);
+  }
 
-    function handleContinue() {
-      const target = document.getElementById("before-order");
-      if (target) target.scrollIntoView({ behavior: "smooth" });
-    }
+  // ✅ NAVIGATE behavior:
+  // - continueBtn is <a> so it navigates by href automatically
+  // - stickyContinue is <button> so we navigate via JS
+  function handleStickyNavigate(e) {
+    if (!stickyContinue) return;
 
-    continueBtn.addEventListener("click", handleContinue);
-    stickyContinue.addEventListener("click", handleContinue);
+    // If sticky is an <a>, let it navigate naturally
+    if (stickyContinue.tagName === "A") return;
 
-    renderPackage("basic");
-  </script>
+    e.preventDefault();
+    const url =
+      stickyContinue.dataset.href ||
+      `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(activeTab)}`;
 
+    window.location.href = url;
+  }
+
+  if (stickyContinue) stickyContinue.addEventListener("click", handleStickyNavigate);
+
+  // Initial render
+  renderPackage("basic");
+</script>
 
   <script>
     /* review-flow-script */
@@ -1081,4 +1131,4 @@ const checkoutUrl = `/Gig-Offer/components/checkout-error.html?pkg=${encodeURICo
     })();
   </script>
 </body>
-</html>
+        </html>
