@@ -39,10 +39,30 @@
   <main class="max-w-5xl mx-auto px-4 py-4 space-y-6">
 
     <section class="rounded-xl border border-neutral-200 overflow-hidden">
-      <div class="aspect-[16/10] bg-neutral-100">
-        <img src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/etsyranking.png" alt="Gig Cover Banner" class="w-full h-full object-cover">
-      </div>
-    </section>
+    <!-- Preloader overlay -->
+<div id="bannerWrap" class="relative aspect-[16/10] bg-neutral-100 overflow-hidden">
+  <div id="bannerLoader" class="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-[1px]">
+    <div class="flex flex-col items-center gap-2">
+      <div class="h-8 w-8 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin"></div>
+      <p id="bannerStatus" class="text-xs font-medium text-neutral-700">Loading preview…</p>
+    </div>
+  </div>
+
+   <picture>
+    <source
+    <img
+      id="bannerImg"
+      src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/etsy-ranking.webp"
+      alt="Gig Cover Banner"
+      class="w-full h-full object-cover"
+      loading="eager"
+fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
+</div>
+</section>
+
 
     <section class="space-y-2">
       <h1 class="text-xl font-semibold leading-snug">Fix Your Etsy Ranking Instability and Rebuild Your Sales Engine</h1>
@@ -907,6 +927,58 @@
 
       items.forEach((el) => io.observe(el));
     })();
+  </script>
+  <script>
+  (function () {
+    const img = document.getElementById("bannerImg");
+    const loader = document.getElementById("bannerLoader");
+    const status = document.getElementById("bannerStatus");
+    if (!img || !loader) return;
+
+    const MIN_SHOW_MS = 1200;     // ensures users actually see it
+    const MAX_WAIT_MS = 8000;    // never block UI forever
+    const startedAt = Date.now();
+    let closed = false;
+
+    function closeLoader() {
+      if (closed) return;
+      closed = true;
+
+      const elapsed = Date.now() - startedAt;
+      const wait = Math.max(0, MIN_SHOW_MS - elapsed);
+
+      setTimeout(() => {
+        loader.classList.add("hidden");
+        loader.style.pointerEvents = "none";
+      }, wait);
+    }
+
+    function setStatus(text) {
+      if (status) status.textContent = text;
+    }
+
+    // Always show first, then close on load/cached
+    setStatus("Loading preview…");
+
+    // If cached, load event may not fire — close after min delay
+    if (img.complete && img.naturalWidth > 0) {
+      closeLoader();
+      return;
+    }
+
+    img.addEventListener("load", closeLoader, { once: true });
+
+    img.addEventListener("error", () => {
+      setStatus("Preview failed to load.");
+      setTimeout(closeLoader, 1200);
+    }, { once: true });
+
+    // Kill switch (also updates status once)
+    setTimeout(() => {
+      if (!closed) setStatus("Still loading…");
+      closeLoader();
+    }, MAX_WAIT_MS);
+  })();
   </script>
 </body>
 </html>
