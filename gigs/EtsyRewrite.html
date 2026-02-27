@@ -1163,40 +1163,56 @@
       });
     })();
   </script>
-  <script>
+<script>
   (function () {
     const img = document.getElementById("bannerImg");
     const loader = document.getElementById("bannerLoader");
     const status = document.getElementById("bannerStatus");
-
     if (!img || !loader) return;
 
-    function hideLoader() {
-      loader.classList.add("hidden");
+    const MIN_SHOW_MS = 650;     // ensures users actually see it
+    const MAX_WAIT_MS = 8000;    // never block UI forever
+    const startedAt = Date.now();
+    let closed = false;
+
+    function closeLoader() {
+      if (closed) return;
+      closed = true;
+
+      const elapsed = Date.now() - startedAt;
+      const wait = Math.max(0, MIN_SHOW_MS - elapsed);
+
+      setTimeout(() => {
+        loader.classList.add("hidden");
+        loader.style.pointerEvents = "none";
+      }, wait);
     }
 
-    // If image is already cached, load event may not fire
+    function setStatus(text) {
+      if (status) status.textContent = text;
+    }
+
+    // Always show first, then close on load/cached
+    setStatus("Loading preview…");
+
+    // If cached, load event may not fire — close after min delay
     if (img.complete && img.naturalWidth > 0) {
-      hideLoader();
+      closeLoader();
       return;
     }
 
-    img.addEventListener("load", hideLoader, { once: true });
+    img.addEventListener("load", closeLoader, { once: true });
 
-    img.addEventListener("error", function () {
-      if (status) status.textContent = "Preview failed to load.";
-      // Keep overlay visible for 1.2s then hide (so user sees feedback)
-      setTimeout(hideLoader, 1200);
+    img.addEventListener("error", () => {
+      setStatus("Preview failed to load.");
+      setTimeout(closeLoader, 1200);
     }, { once: true });
 
-    // Safety fallback (never block UI forever)
-    setTimeout(function () {
-      if (!loader.classList.contains("hidden")) {
-        if (status) status.textContent = "Still loading…";
-        // Optional: hide anyway after some time
-        setTimeout(hideLoader, 2500);
-      }
-    }, 2500);
+    // Kill switch (also updates status once)
+    setTimeout(() => {
+      if (!closed) setStatus("Still loading…");
+      closeLoader();
+    }, MAX_WAIT_MS);
   })();
 </script>
 </body>
