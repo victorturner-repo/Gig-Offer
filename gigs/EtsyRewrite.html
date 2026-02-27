@@ -1160,5 +1160,41 @@
       });
     })();
   </script>
+  <script>
+  (function () {
+    const img = document.getElementById("bannerImg");
+    const loader = document.getElementById("bannerLoader");
+    const status = document.getElementById("bannerStatus");
+
+    if (!img || !loader) return;
+
+    function hideLoader() {
+      loader.classList.add("hidden");
+    }
+
+    // If image is already cached, load event may not fire
+    if (img.complete && img.naturalWidth > 0) {
+      hideLoader();
+      return;
+    }
+
+    img.addEventListener("load", hideLoader, { once: true });
+
+    img.addEventListener("error", function () {
+      if (status) status.textContent = "Preview failed to load.";
+      // Keep overlay visible for 1.2s then hide (so user sees feedback)
+      setTimeout(hideLoader, 1200);
+    }, { once: true });
+
+    // Safety fallback (never block UI forever)
+    setTimeout(function () {
+      if (!loader.classList.contains("hidden")) {
+        if (status) status.textContent = "Still loading…";
+        // Optional: hide anyway after some time
+        setTimeout(hideLoader, 2500);
+      }
+    }, 2500);
+  })();
+</script>
 </body>
         </html>
