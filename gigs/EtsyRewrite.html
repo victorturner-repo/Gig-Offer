@@ -568,84 +568,135 @@ wants, we rebuilt around what customers actually type. It now feels strategicall
           </div>
         </section>
       </div>
-          
+ 
 
-  <script>
-    (function () {
-      const STEP = 3;          // emulate screenshot density (tight feed)
-      const MIN_VISIBLE = 3;   // first view = 3 cards like screenshot scroll
-      const list = document.getElementById("reviews-list");
-      const btnLoad = document.getElementById("btn-load");
-      const btnCollapse = document.getElementById("btn-collapse");
-      const visibleCountEl = document.getElementById("visibleCount");
-      const totalCountEl = document.getElementById("totalCount");
-      const countAllEl = document.getElementById("count-all");
-      const status = document.getElementById("status");
+      <!-- ✅ Reviews: sort + load more (FIXED) -->
+      <script>
+      (function () {
+        const STEP = 3;
+        const MIN_VISIBLE = 3;
 
-      if (!list || !btnLoad || !btnCollapse || !visibleCountEl || !totalCountEl || !countAllEl) return;
+        const list = document.getElementById("reviews-list");
+        const controls = document.getElementById("reviews-controls"); // ✅
+        const btnLoad = document.getElementById("btn-load");
+        const btnCollapse = document.getElementById("btn-collapse");
+        const visibleCountEl = document.getElementById("visibleCount");
+        const totalCountEl = document.getElementById("totalCount");
+        const countAllEl = document.getElementById("count-all");
+        const status = document.getElementById("status");
+        const pills = Array.from(document.querySelectorAll(".review-sort-pill"));
 
-      const cards = Array.prototype.slice.call(list.querySelectorAll("[data-review]"));
-      const TOTAL = cards.length;
+        if (!list || !btnLoad || !btnCollapse || !visibleCountEl || !totalCountEl || !countAllEl || !controls) return;
 
-      totalCountEl.textContent = String(TOTAL);
-      countAllEl.textContent = String(TOTAL);
+        const original = Array.from(list.querySelectorAll("[data-review]"));
+        const TOTAL = original.length;
 
-      function clamp(n, min, max) {
-        return Math.max(min, Math.min(max, n));
-      }
+        totalCountEl.textContent = String(TOTAL);
+        countAllEl.textContent = String(TOTAL);
 
-      function setVisible(card, on) {
-        if (on) {
-          card.classList.remove("hidden");
-          card.removeAttribute("aria-hidden");
-        } else {
-          card.classList.add("hidden");
-          card.setAttribute("aria-hidden", "true");
+        function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+        function getDateMs(el) {
+          const iso = (el.dataset.date || "").trim();
+          const ms = Date.parse(iso);
+          return Number.isFinite(ms) ? ms : 0;
         }
-      }
-
-      function render(count) {
-        const next = clamp(count, MIN_VISIBLE, TOTAL);
-
-        for (let i = 0; i < cards.length; i++) {
-          setVisible(cards[i], i < next);
+        function getRating(el) {
+          const n = parseFloat(el.dataset.rating || "0");
+          return Number.isFinite(n) ? n : 0;
+        }
+        function getRelevance(el) {
+          const n = parseInt(el.dataset.relevance || el.dataset.index || "0", 10);
+          return Number.isFinite(n) ? n : 0;
         }
 
-        visibleCountEl.textContent = String(next);
+        let visible = MIN_VISIBLE;
 
-        const all = next >= TOTAL;
-
-        btnLoad.classList.toggle("hidden", all);
-        btnLoad.disabled = all;
-
-        btnCollapse.classList.toggle("hidden", next === MIN_VISIBLE);
-
-        if (status) {
-          status.textContent = all
-            ? "Showing all " + TOTAL + " reviews"
-            : "Showing " + next + " of " + TOTAL;
+        function setVisible(card, on) {
+          card.classList.toggle("hidden", !on);
+          card.setAttribute("aria-hidden", on ? "false" : "true");
         }
-      }
 
-      let visible = MIN_VISIBLE;
-      render(visible);
+        // ✅ Critical fix: always re-append controls after sorting
+        function applyOrder(order) {
+          order.forEach((el) => list.appendChild(el));
+          list.appendChild(controls);
+        }
 
-      btnLoad.addEventListener("click", function () {
-        visible = clamp(visible + STEP, MIN_VISIBLE, TOTAL);
-        render(visible);
-      });
+        function setActivePill(sortKey) {
+          pills.forEach((p) => {
+            const on = p.dataset.sort === sortKey;
+            p.setAttribute("aria-pressed", on ? "true" : "false");
+            p.classList.toggle("bg-neutral-900", on);
+            p.classList.toggle("text-white", on);
+            p.classList.toggle("bg-white", !on);
+            p.classList.toggle("text-neutral-900", !on);
+          });
+        }
 
-      btnCollapse.addEventListener("click", function () {
-        visible = MIN_VISIBLE;
-        render(visible);
-        const top = document.querySelector("header");
-        if (top) top.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    })();
-  </script>
-</section>
+        function render(count) {
+          const next = clamp(count, MIN_VISIBLE, TOTAL);
+          const cards = Array.from(list.querySelectorAll("[data-review]"));
+          cards.forEach((card, idx) => setVisible(card, idx < next));
 
+          visibleCountEl.textContent = String(next);
 
+          const all = next >= TOTAL;
+          btnLoad.classList.toggle("hidden", all);
+          btnLoad.disabled = all;
+
+          btnCollapse.classList.toggle("hidden", next === MIN_VISIBLE);
+
+          if (status) status.textContent = all ? ("Showing all " + TOTAL + " reviews") : ("Showing " + next + " of " + TOTAL);
+        }
+
+        function sortAndReset(sortKey) {
+          let ordered = original.slice();
+
+          if (sortKey === "newest") {
+            ordered.sort((a, b) => getDateMs(b) - getDateMs(a));
+          } else if (sortKey === "latest") {
+            ordered.sort((a, b) => getDateMs(a) - getDateMs(b)); // oldest first
+          } else if (sortKey === "top") {
+            ordered.sort((a, b) => {
+              const r = getRating(b) - getRating(a);
+              return r !== 0 ? r : (getDateMs(b) - getDateMs(a));
+            });
+          } else {
+            ordered.sort((a, b) => getRelevance(a) - getRelevance(b));
+          }
+
+          applyOrder(ordered);
+          setActivePill(sortKey);
+
+          visible = MIN_VISIBLE;
+          render(visible);
+        }
+
+        pills.forEach((p) => p.addEventListener("click", () => sortAndReset(p.dataset.sort || "relevant")));
+
+        btnLoad.addEventListener("click", () => {
+          visible = clamp(visible + STEP, MIN_VISIBLE, TOTAL);
+          render(visible);
+        });
+
+        btnCollapse.addEventListener("click", () => {
+          visible = MIN_VISIBLE;
+          render(visible);
+
+          const target = document.getElementById("reviews");
+          if (target) {
+            const header = document.querySelector("header.sticky");
+            const offset = header ? Math.ceil(header.getBoundingClientRect().height + 16) : 16;
+            const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top, behavior: "smooth" });
+          }
+        });
+
+        // init
+        sortAndReset("relevant");
+      })();
+      </script>
+  </section>
 
     <section id="faqs" class="space-y-3">
       <h2 class="text-lg font-semibold">FAQs</h2>
