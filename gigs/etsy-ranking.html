@@ -11,7 +11,6 @@
     .flow-hidden { opacity: 0; transform: translateY(8px); }
     .flow-show { opacity: 1; transform: translateY(0); transition: opacity 420ms ease, transform 420ms ease; }
   </style>
-
 </head>
 
 <body class="bg-white text-neutral-900 antialiased">
@@ -19,60 +18,68 @@
   <header class="sticky top-0 z-50 bg-white border-b border-neutral-200">
     <div class="max-w-5xl mx-auto px-4 py-2 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3 min-w-0">
-        <img src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/profilephoto.png" alt="Victor Turner Profile" class="h-9 w-9 rounded-full object-cover shrink-0">
+        <img
+          src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/profilephoto.png"
+          alt="Victor Turner Profile"
+          class="h-9 w-9 rounded-full object-cover shrink-0"
+        >
         <div class="min-w-0">
           <p class="text-sm font-semibold truncate">Victor Turner</p>
           <p class="text-xs text-neutral-500 truncate">Ranking + Conversion Systems</p>
         </div>
       </div>
+
       <div class="flex items-center gap-2">
         <a href="/Gig-Offer/"
-  class="px-3 py-2 text-xs border border-neutral-300 rounded-lg whitespace-nowrap inline-flex items-center justify-center">
-  View Profile</a>
-<a href="/Gig-Offer/components/message.html"
-  class="px-3 py-2 text-xs bg-neutral-900 text-white rounded-lg whitespace-nowrap inline-flex items-center justify-center">
-  Message</a>      
+          class="px-3 py-2 text-xs border border-neutral-300 rounded-lg whitespace-nowrap inline-flex items-center justify-center">
+          View Profile
+        </a>
+        <a href="/Gig-Offer/components/message.html"
+          class="px-3 py-2 text-xs bg-neutral-900 text-white rounded-lg whitespace-nowrap inline-flex items-center justify-center">
+          Message
+        </a>
       </div>
     </div>
   </header>
 
   <main class="max-w-5xl mx-auto px-4 py-4 space-y-6">
 
+    <!-- Banner -->
     <section class="rounded-xl border border-neutral-200 overflow-hidden">
-  <div id="bannerWrap" class="relative aspect-[16/10] bg-neutral-100 overflow-hidden">
-    <!-- Loader -->
-    <div id="bannerLoader" class="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-[1px]">
-      <div class="flex flex-col items-center gap-2">
-        <div class="h-8 w-8 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin"></div>
-        <p id="bannerStatus" class="text-xs font-medium text-neutral-700">Loading preview…</p>
+      <div id="bannerWrap" class="relative aspect-[16/10] bg-neutral-100 overflow-hidden">
+        <div id="bannerLoader" class="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-[1px]">
+          <div class="flex flex-col items-center gap-2">
+            <div class="h-8 w-8 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin"></div>
+            <p id="bannerStatus" class="text-xs font-medium text-neutral-700">Loading preview…</p>
+          </div>
+        </div>
+
+        <img
+          id="bannerImg"
+          src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/etsy-ranking.webp"
+          alt="Gig Cover Banner"
+          class="w-full h-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
       </div>
-    </div>
+    </section>
 
-    <!-- Image -->
-    <img
-      id="bannerImg"
-      src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/etsy-ranking.webp"
-      alt="Gig Cover Banner"
-      class="w-full h-full object-cover"
-      loading="eager"
-      fetchpriority="high"
-      decoding="async"
-    />
-  </div>
-</section>
-
+    <!-- Title -->
     <section class="space-y-2">
       <h1 class="text-xl font-semibold leading-snug">Fix Your Etsy Ranking Instability and Rebuild Your Sales Engine</h1>
       <p class="text-sm text-neutral-600">Structured Ranking + Conversion System for Serious Sellers</p>
 
       <p class="mt-2">
-        <a href="#reviews" id="reviewLink" class="text-sm font-medium text-orange-600 hover:underline inline-block relative z-10 inline-block pointer-events-auto">
+        <a href="#reviews" id="reviewLink"
+           class="text-sm font-medium text-orange-600 hover:underline inline-block relative z-10 pointer-events-auto">
           View Client Reviews (7)
         </a>
       </p>
-
     </section>
 
+    <!-- Packages -->
     <section id="package-card" class="border border-neutral-200 rounded-xl p-4 space-y-4">
       <div role="tablist" aria-label="Package selection"
         class="flex gap-2 overflow-x-auto snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-3 sm:overflow-visible">
@@ -92,33 +99,35 @@
 
       <div class="bg-neutral-50 rounded-lg p-4 space-y-3">
         <div class="flex justify-between items-center gap-3">
-          <h3 id="pkg-title" class="text-sm font-semibold">Intent Correction (1 Listing)</h3>
-          <span id="pkg-price" class="text-sm font-semibold">$49</span>
+          <h3 id="pkg-title" class="text-sm font-semibold">Intent Correction - 1 Listing</h3>
+          <span id="pkg-price" class="text-sm font-semibold">$50</span>
         </div>
 
         <ul id="pkg-features" class="text-xs space-y-2 text-neutral-700"></ul>
 
         <div class="flex justify-between text-xs text-neutral-500">
-          <span id="pkg-delivery">5–7 days</span>
+          <span id="pkg-delivery">1–2 days</span>
           <span id="pkg-revision">1 revision round</span>
         </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <a 
-    id="continue-btn"
-    href="/Gig-Offer/components/checkout-error.html?pkg=basic"
-    class="w-full h-[48px] flex items-center justify-center bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white rounded-lg text-sm font-semibold text-center transition"
-  >
-    Continue — Basic
-  </a>
+        <a
+          id="continue-btn"
+          href="/Gig-Offer/components/checkout-error.html?pkg=basic&gig=etsy-ranking"
+          class="w-full h-[48px] flex items-center justify-center bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white rounded-lg text-sm font-semibold text-center transition"
+        >
+          Continue — Basic
+        </a>
+
         <button id="compare-btn"
-          class="w-full border border-neutral-300 py-3 rounded-lg text-sm font-semibold">
+          class="w-full border border-neutral-300 py-3 rounded-lg text-sm font-semibold hover:bg-neutral-50 active:scale-[0.99] transition">
           Compare Package
         </button>
       </div>
     </section>
 
+    <!-- Comparison -->
     <section id="comparison-section" class="hidden border border-neutral-200 rounded-xl p-4 space-y-4">
       <div class="overflow-x-auto">
         <table class="min-w-full text-xs border-collapse">
@@ -145,9 +154,9 @@
             </tr>
             <tr class="border-b border-neutral-200">
               <td class="p-2 sticky left-0 bg-white">Delivery</td>
-              <td class="p-2">5–7 days</td>
+              <td class="p-2">1–2 days</td>
+              <td class="p-2">3–4 days</td>
               <td class="p-2">7–10 days</td>
-              <td class="p-2">14–21 days</td>
             </tr>
             <tr class="border-b border-neutral-200">
               <td class="p-2 sticky left-0 bg-white">Revisions</td>
@@ -166,6 +175,7 @@
       </div>
     </section>
 
+    <!-- ✅ Body copy (RESTORED + COMPLETE from your earlier full version) -->
     <section class="border border-neutral-200 rounded-xl p-5 space-y-5 bg-neutral-50">
       <div class="space-y-2">
         <h2 class="text-lg font-semibold">What This Service Actually Does</h2>
@@ -185,6 +195,7 @@
           <li><span class="font-medium">Weak structural architecture:</span> titles, tags, and categories not engineered as a system.</li>
           <li><span class="font-medium">Low conversion reinforcement:</span> traffic arrives, but the listing fails to create purchase confidence.</li>
         </ul>
+
         <div class="rounded-lg border border-neutral-200 bg-white p-3">
           <p class="text-sm font-medium">Etsy rewards:</p>
           <div class="mt-2 grid grid-cols-2 gap-2 text-sm text-neutral-700">
@@ -201,6 +212,7 @@
 
       <div class="border-t border-neutral-200 pt-4 space-y-3">
         <h3 class="text-sm font-semibold">Deliverables (Clear Scope)</h3>
+
         <div class="grid gap-3 sm:grid-cols-3">
           <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
             <p class="text-sm font-semibold">What Gets Analyzed</p>
@@ -214,6 +226,7 @@
               <li>Buyer flow clarity</li>
             </ul>
           </div>
+
           <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
             <p class="text-sm font-semibold">What Gets Rebuilt</p>
             <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
@@ -224,6 +237,7 @@
               <li>Conversion reinforcement adjustments</li>
             </ul>
           </div>
+
           <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
             <p class="text-sm font-semibold">What Gets Optimized</p>
             <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
@@ -250,6 +264,7 @@
 
       <div class="border-t border-neutral-200 pt-4 space-y-3">
         <h3 class="text-sm font-semibold">Who This Is For / Not For</h3>
+
         <div class="grid gap-3 sm:grid-cols-2">
           <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
             <p class="text-sm font-semibold">This is for</p>
@@ -262,6 +277,7 @@
             </ul>
             <p class="text-sm text-neutral-700">If you treat Etsy as a business, this is relevant.</p>
           </div>
+
           <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
             <p class="text-sm font-semibold">This is not for</p>
             <ul class="text-sm text-neutral-700 space-y-1 list-disc list-inside">
@@ -278,6 +294,7 @@
 
       <div class="border-t border-neutral-200 pt-4 space-y-3">
         <h3 class="text-sm font-semibold">Outcome Expectations</h3>
+
         <div class="rounded-lg border border-neutral-200 bg-white p-3 space-y-2">
           <p class="text-sm font-medium">What improves:</p>
           <div class="flex flex-wrap gap-2 text-sm text-neutral-700">
@@ -287,16 +304,19 @@
             <span class="px-2 py-1 rounded-md bg-neutral-50 border border-neutral-200">Conversion rate</span>
             <span class="px-2 py-1 rounded-md bg-neutral-50 border border-neutral-200">Ranking stability</span>
           </div>
+
           <div class="mt-2 text-sm text-neutral-700 space-y-1">
             <p class="font-medium">Timeline reality:</p>
             <p>Indexing adjustments: 1–3 weeks</p>
             <p>Conversion signal strengthening: 2–6 weeks</p>
             <p>Ranking stabilization: depends on niche competition</p>
           </div>
+
           <div class="mt-2 text-sm text-neutral-700 space-y-1">
             <p class="font-medium">Results depend on:</p>
             <p>Product quality · Pricing competitiveness · Review strength · Market demand</p>
           </div>
+
           <p class="mt-2 text-sm text-neutral-700">
             This improves structure. Structure improves probability.
           </p>
@@ -334,8 +354,10 @@
       </div>
     </section>
 
-        <section id="reviews" class="border border-neutral-200 rounded-xl p-5 sm:p-6 space-y-4 bg-white">
+    <!-- ✅ Reviews (single #reviews) -->
+    <section id="reviews" class="border border-neutral-200 rounded-xl p-5 sm:p-6 space-y-4 bg-white">
       <div class="mx-auto w-full max-w-5xl px-3 sm:px-4 py-4">
+
         <header class="pt-2 flow-hidden">
           <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900">Reviews</h2>
 
@@ -348,219 +370,310 @@
           </div>
         </header>
 
+        <!-- ✅ Filter pills -->
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <span class="text-xs text-neutral-500 mr-1">Sort:</span>
+
+          <button type="button"
+            class="review-sort-pill px-3 py-1.5 rounded-full text-xs font-semibold border border-neutral-200 bg-neutral-900 text-white"
+            data-sort="relevant" aria-pressed="true">
+            Relevant
+          </button>
+
+          <button type="button"
+            class="review-sort-pill px-3 py-1.5 rounded-full text-xs font-semibold border border-neutral-200 bg-white text-neutral-900 hover:bg-neutral-50"
+            data-sort="newest" aria-pressed="false">
+            Newest
+          </button>
+
+          <button type="button"
+            class="review-sort-pill px-3 py-1.5 rounded-full text-xs font-semibold border border-neutral-200 bg-white text-neutral-900 hover:bg-neutral-50"
+            data-sort="latest" aria-pressed="false">
+            Latest
+          </button>
+
+          <button type="button"
+            class="review-sort-pill px-3 py-1.5 rounded-full text-xs font-semibold border border-neutral-200 bg-white text-neutral-900 hover:bg-neutral-50"
+            data-sort="top" aria-pressed="false">
+            Top rated
+          </button>
+        </div>
+
         <section class="mt-4">
           <div id="reviews-list" class="space-y-6" role="list">
 
-  <!-- 1 -->
-  <article data-review data-index="1" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
-    <div class="flex justify-between">
-      <div>
-        <p class="text-base font-semibold text-neutral-900">Daniel Mercer</p>
-        <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
-      </div>
-      <div class="text-right">
-        <span class="text-amber-500">★★★★★</span>
-        <div class="text-xs font-semibold text-neutral-500">5.0</div>
-      </div>
-    </div>
-    <div class="mt-3 text-xs text-neutral-600">Intent Correction • Dec 12, 2025</div>
-    <h3 class="mt-3 text-lg font-semibold text-neutral-900">Clear structural correction</h3>
-    <p class="mt-2 text-sm text-neutral-600">The audit was extremely structured. He showed exactly where my ranking logic was weak and how Etsy likely interpreted my listing. Implementing changes now.</p>
-  </article>
+            <article data-review data-index="1" data-relevance="1" data-rating="5" data-date="2025-12-12"
+              class="review-card rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex justify-between">
+                <div>
+                  <p class="text-base font-semibold text-neutral-900">Daniel Mercer</p>
+                  <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-amber-500">★★★★★</span>
+                  <div class="text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 text-xs text-neutral-600">Intent Correction • Dec 12, 2025</div>
+              <h3 class="mt-3 text-lg font-semibold text-neutral-900">Clear structural correction</h3>
+              <p class="mt-2 text-sm text-neutral-600">
+                The audit was extremely structured. He showed exactly where my ranking logic was weak and how Etsy likely interpreted my listing. Implementing changes now.
+              </p>
+            </article>
 
-  <!-- 2 -->
-  <article data-review data-index="2" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
-    <div class="flex justify-between">
-      <div>
-        <p class="text-base font-semibold text-neutral-900">Michael Hart</p>
-        <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
-      </div>
-      <div class="text-right">
-        <span class="text-amber-500">★★★★★</span>
-        <div class="text-xs font-semibold text-neutral-500">5.0</div>
-      </div>
-    </div>
-    <div class="mt-3 text-xs text-neutral-600">Ranking Stabilization • Dec 28, 2025</div>
-    <h3 class="mt-3 text-lg font-semibold text-neutral-900">Professional and analytical</h3>
-    <p class="mt-2 text-sm text-neutral-600">This felt like system work, not SEO guessing. Everything had reasoning behind it.</p>
-  </article>
+            <article data-review data-index="2" data-relevance="2" data-rating="5" data-date="2025-12-28"
+              class="review-card rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex justify-between">
+                <div>
+                  <p class="text-base font-semibold text-neutral-900">Michael Hart</p>
+                  <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-amber-500">★★★★★</span>
+                  <div class="text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 text-xs text-neutral-600">Ranking Stabilization • Dec 28, 2025</div>
+              <h3 class="mt-3 text-lg font-semibold text-neutral-900">Professional and analytical</h3>
+              <p class="mt-2 text-sm text-neutral-600">This felt like system work, not SEO guessing. Everything had reasoning behind it.</p>
+            </article>
 
-  <!-- 3 -->
-  <article data-review data-index="3" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
-    <div class="flex justify-between">
-      <div>
-        <p class="text-base font-semibold text-neutral-900">Ethan Cole</p>
-        <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
-      </div>
-      <div class="text-right">
-        <span class="text-amber-500">★★★★★</span>
-        <div class="text-xs font-semibold text-neutral-500">5.0</div>
-      </div>
-    </div>
-    <div class="mt-3 text-xs text-neutral-600">Search Intent Alignment • Jan 6, 2026</div>
-    <h3 class="mt-3 text-lg font-semibold text-neutral-900">Made the logic clearer</h3>
-    <p class="mt-2 text-sm text-neutral-600">I appreciated the explanation behind each title and tag change. It finally feels aligned.</p>
-  </article>
+            <article data-review data-index="3" data-relevance="3" data-rating="5" data-date="2026-01-06"
+              class="review-card rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex justify-between">
+                <div>
+                  <p class="text-base font-semibold text-neutral-900">Ethan Cole</p>
+                  <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-amber-500">★★★★★</span>
+                  <div class="text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 text-xs text-neutral-600">Search Intent Alignment • Jan 6, 2026</div>
+              <h3 class="mt-3 text-lg font-semibold text-neutral-900">Made the logic clearer</h3>
+              <p class="mt-2 text-sm text-neutral-600">I appreciated the explanation behind each title and tag change. It finally feels aligned.</p>
+            </article>
 
-  <!-- 4 -->
-  <article data-review data-index="4" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
-    <div class="flex justify-between">
-      <div>
-        <p class="text-base font-semibold text-neutral-900">James Okoro</p>
-        <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
-      </div>
-      <div class="text-right">
-        <span class="text-amber-500">★★★★★</span>
-        <div class="text-xs font-semibold text-neutral-500">5.0</div>
-      </div>
-    </div>
-    <div class="mt-3 text-xs text-neutral-600">Diagnostic Audit • Jan 19, 2026</div>
-    <h3 class="mt-3 text-lg font-semibold text-neutral-900">Clear execution roadmap</h3>
-    <p class="mt-2 text-sm text-neutral-600">The audit removed confusion. Clear priorities, clean delivery.</p>
-  </article>
+            <article data-review data-index="4" data-relevance="4" data-rating="5" data-date="2026-01-19"
+              class="review-card rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex justify-between">
+                <div>
+                  <p class="text-base font-semibold text-neutral-900">James Okoro</p>
+                  <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-amber-500">★★★★★</span>
+                  <div class="text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 text-xs text-neutral-600">Diagnostic Audit • Jan 19, 2026</div>
+              <h3 class="mt-3 text-lg font-semibold text-neutral-900">Clear execution roadmap</h3>
+              <p class="mt-2 text-sm text-neutral-600">The audit removed confusion. Clear priorities, clean delivery.</p>
+            </article>
 
-  <!-- 5 -->
-  <article data-review data-index="5" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
-    <div class="flex justify-between">
-      <div>
-        <p class="text-base font-semibold text-neutral-900">Alina Shalom</p>
-        <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
-      </div>
-      <div class="text-right">
-        <span class="text-amber-500">★★★★★</span>
-        <div class="text-xs font-semibold text-neutral-500">5.0</div>
-      </div>
-    </div>
-    <div class="mt-3 text-xs text-neutral-600">Conversion Support • Feb 2, 2026</div>
-    <h3 class="mt-3 text-lg font-semibold text-neutral-900">Already seeing better engagement</h3>
-    <p class="mt-2 text-sm text-neutral-600">Too early for long-term results, but traffic quality feels improved.</p>
-  </article>
+            <article data-review data-index="5" data-relevance="5" data-rating="5" data-date="2026-02-02"
+              class="review-card rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex justify-between">
+                <div>
+                  <p class="text-base font-semibold text-neutral-900">Alina Shalom</p>
+                  <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-amber-500">★★★★★</span>
+                  <div class="text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 text-xs text-neutral-600">Conversion Support • Feb 2, 2026</div>
+              <h3 class="mt-3 text-lg font-semibold text-neutral-900">Already seeing better engagement</h3>
+              <p class="mt-2 text-sm text-neutral-600">Too early for long-term results, but traffic quality feels improved.</p>
+            </article>
 
-  <!-- 6 -->
-  <article data-review data-index="6" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
-    <div class="flex justify-between">
-      <div>
-        <p class="text-base font-semibold text-neutral-900">Sophia Bennett</p>
-        <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
-      </div>
-      <div class="text-right">
-        <span class="text-amber-500">★★★★★</span>
-        <div class="text-xs font-semibold text-neutral-500">5.0</div>
-      </div>
-    </div>
-    <div class="mt-3 text-xs text-neutral-600">Ranking + Conversion • Feb 11, 2026</div>
-    <h3 class="mt-3 text-lg font-semibold text-neutral-900">More confident positioning</h3>
-    <p class="mt-2 text-sm text-neutral-600">The revised structure reads stronger and more aligned with buyers.</p>
-  </article>
+            <article data-review data-index="6" data-relevance="6" data-rating="5" data-date="2026-02-11"
+              class="review-card rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex justify-between">
+                <div>
+                  <p class="text-base font-semibold text-neutral-900">Sophia Bennett</p>
+                  <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-amber-500">★★★★★</span>
+                  <div class="text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 text-xs text-neutral-600">Ranking + Conversion • Feb 11, 2026</div>
+              <h3 class="mt-3 text-lg font-semibold text-neutral-900">More confident positioning</h3>
+              <p class="mt-2 text-sm text-neutral-600">The revised structure reads stronger and more aligned with buyers.</p>
+            </article>
 
-  <!-- 7 -->
-  <article data-review data-index="7" class="review-card flow-hidden rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
-    <div class="flex justify-between">
-      <div>
-        <p class="text-base font-semibold text-neutral-900">Naomi Fischer</p>
-        <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
-      </div>
-      <div class="text-right">
-        <span class="text-amber-500">★★★★★</span>
-        <div class="text-xs font-semibold text-neutral-500">5.0</div>
-      </div>
-    </div>
-    <div class="mt-3 text-xs text-neutral-600">Stability Optimization • Feb 23, 2026</div>
-    <h3 class="mt-3 text-lg font-semibold text-neutral-900">Movement in the right direction</h3>
-    <p class="mt-2 text-sm text-neutral-600">Started noticing more consistent impressions after adjustments.</p>
-  </article>
-<div class="mt-6 flex flex-col gap-3">
-  <button id="btn-load"
-    type="button"
-    class="w-full rounded-xl bg-neutral-900 px-4 py-3 text-sm font-semibold text-white hover:bg-neutral-800">
-    Load more reviews
-  </button>
+            <article data-review data-index="7" data-relevance="7" data-rating="5" data-date="2026-02-23"
+              class="review-card rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-[0_1px_0_rgba(0,0,0,0.03)] max-w-[620px] mx-auto">
+              <div class="flex justify-between">
+                <div>
+                  <p class="text-base font-semibold text-neutral-900">Naomi Fischer</p>
+                  <span class="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">Verified buyer</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-amber-500">★★★★★</span>
+                  <div class="text-xs font-semibold text-neutral-500">5.0</div>
+                </div>
+              </div>
+              <div class="mt-3 text-xs text-neutral-600">Stability Optimization • Feb 23, 2026</div>
+              <h3 class="mt-3 text-lg font-semibold text-neutral-900">Movement in the right direction</h3>
+              <p class="mt-2 text-sm text-neutral-600">Started noticing more consistent impressions after adjustments.</p>
+            </article>
 
-  <button id="btn-collapse"
-    type="button"
-    class="hidden w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm font-semibold text-neutral-900 hover:bg-neutral-50">
-    Collapse reviews
-  </button>
+            <!-- ✅ Controls (PINNED to bottom via JS) -->
+            <div id="reviews-controls" class="mt-6 flex flex-col gap-3">
+              <button id="btn-load" type="button"
+                class="w-full rounded-xl bg-neutral-900 px-4 py-3 text-sm font-semibold text-white hover:bg-neutral-800">
+                Load more reviews
+              </button>
 
-  <p id="status" class="text-center text-xs text-neutral-500">
-    Showing <span id="visibleCount">3</span> of <span id="totalCount">7</span>
-  </p>
-</div>
-</div>
+              <button id="btn-collapse" type="button"
+                class="hidden w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm font-semibold text-neutral-900 hover:bg-neutral-50">
+                Collapse reviews
+              </button>
+
+              <p id="status" class="text-center text-xs text-neutral-500">
+                Showing <span id="visibleCount">3</span> of <span id="totalCount">7</span>
+              </p>
+            </div>
+
+          </div>
         </section>
       </div>
 
+      <!-- ✅ Reviews: sort + load more (FIXED) -->
       <script>
-        (function () {
-          const STEP = 3;
-          const MIN_VISIBLE = 3;
-          const list = document.getElementById("reviews-list");
-          const btnLoad = document.getElementById("btn-load");
-          const btnCollapse = document.getElementById("btn-collapse");
-          const visibleCountEl = document.getElementById("visibleCount");
-          const totalCountEl = document.getElementById("totalCount");
-          const countAllEl = document.getElementById("count-all");
-          const status = document.getElementById("status");
+      (function () {
+        const STEP = 3;
+        const MIN_VISIBLE = 3;
 
-          if (!list || !btnLoad || !btnCollapse || !visibleCountEl || !totalCountEl || !countAllEl) return;
+        const list = document.getElementById("reviews-list");
+        const controls = document.getElementById("reviews-controls"); // ✅
+        const btnLoad = document.getElementById("btn-load");
+        const btnCollapse = document.getElementById("btn-collapse");
+        const visibleCountEl = document.getElementById("visibleCount");
+        const totalCountEl = document.getElementById("totalCount");
+        const countAllEl = document.getElementById("count-all");
+        const status = document.getElementById("status");
+        const pills = Array.from(document.querySelectorAll(".review-sort-pill"));
 
-          const cards = Array.prototype.slice.call(list.querySelectorAll("[data-review]"));
-          const TOTAL = cards.length;
+        if (!list || !btnLoad || !btnCollapse || !visibleCountEl || !totalCountEl || !countAllEl || !controls) return;
 
-          totalCountEl.textContent = String(TOTAL);
-          countAllEl.textContent = String(TOTAL);
+        const original = Array.from(list.querySelectorAll("[data-review]"));
+        const TOTAL = original.length;
 
-          function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+        totalCountEl.textContent = String(TOTAL);
+        countAllEl.textContent = String(TOTAL);
 
-          function setVisible(card, on) {
-            if (on) {
-              card.classList.remove("hidden");
-              card.removeAttribute("aria-hidden");
-            } else {
-              card.classList.add("hidden");
-              card.setAttribute("aria-hidden", "true");
-            }
+        function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+        function getDateMs(el) {
+          const iso = (el.dataset.date || "").trim();
+          const ms = Date.parse(iso);
+          return Number.isFinite(ms) ? ms : 0;
+        }
+        function getRating(el) {
+          const n = parseFloat(el.dataset.rating || "0");
+          return Number.isFinite(n) ? n : 0;
+        }
+        function getRelevance(el) {
+          const n = parseInt(el.dataset.relevance || el.dataset.index || "0", 10);
+          return Number.isFinite(n) ? n : 0;
+        }
+
+        let visible = MIN_VISIBLE;
+
+        function setVisible(card, on) {
+          card.classList.toggle("hidden", !on);
+          card.setAttribute("aria-hidden", on ? "false" : "true");
+        }
+
+        // ✅ Critical fix: always re-append controls after sorting
+        function applyOrder(order) {
+          order.forEach((el) => list.appendChild(el));
+          list.appendChild(controls);
+        }
+
+        function setActivePill(sortKey) {
+          pills.forEach((p) => {
+            const on = p.dataset.sort === sortKey;
+            p.setAttribute("aria-pressed", on ? "true" : "false");
+            p.classList.toggle("bg-neutral-900", on);
+            p.classList.toggle("text-white", on);
+            p.classList.toggle("bg-white", !on);
+            p.classList.toggle("text-neutral-900", !on);
+          });
+        }
+
+        function render(count) {
+          const next = clamp(count, MIN_VISIBLE, TOTAL);
+          const cards = Array.from(list.querySelectorAll("[data-review]"));
+          cards.forEach((card, idx) => setVisible(card, idx < next));
+
+          visibleCountEl.textContent = String(next);
+
+          const all = next >= TOTAL;
+          btnLoad.classList.toggle("hidden", all);
+          btnLoad.disabled = all;
+
+          btnCollapse.classList.toggle("hidden", next === MIN_VISIBLE);
+
+          if (status) status.textContent = all ? ("Showing all " + TOTAL + " reviews") : ("Showing " + next + " of " + TOTAL);
+        }
+
+        function sortAndReset(sortKey) {
+          let ordered = original.slice();
+
+          if (sortKey === "newest") {
+            ordered.sort((a, b) => getDateMs(b) - getDateMs(a));
+          } else if (sortKey === "latest") {
+            ordered.sort((a, b) => getDateMs(a) - getDateMs(b)); // oldest first
+          } else if (sortKey === "top") {
+            ordered.sort((a, b) => {
+              const r = getRating(b) - getRating(a);
+              return r !== 0 ? r : (getDateMs(b) - getDateMs(a));
+            });
+          } else {
+            ordered.sort((a, b) => getRelevance(a) - getRelevance(b));
           }
 
-          function render(count) {
-            const next = clamp(count, MIN_VISIBLE, TOTAL);
-            for (let i = 0; i < cards.length; i++) setVisible(cards[i], i < next);
+          applyOrder(ordered);
+          setActivePill(sortKey);
 
-            visibleCountEl.textContent = String(next);
+          visible = MIN_VISIBLE;
+          render(visible);
+        }
 
-            const all = next >= TOTAL;
-            btnLoad.classList.toggle("hidden", all);
-            btnLoad.disabled = all;
+        pills.forEach((p) => p.addEventListener("click", () => sortAndReset(p.dataset.sort || "relevant")));
 
-            btnCollapse.classList.toggle("hidden", next === MIN_VISIBLE);
+        btnLoad.addEventListener("click", () => {
+          visible = clamp(visible + STEP, MIN_VISIBLE, TOTAL);
+          render(visible);
+        });
 
-            if (status) status.textContent = all ? "Showing all " + TOTAL + " reviews" : "Showing " + next + " of " + TOTAL;
-          }
-
-          let visible = MIN_VISIBLE;
+        btnCollapse.addEventListener("click", () => {
+          visible = MIN_VISIBLE;
           render(visible);
 
-          btnLoad.addEventListener("click", function () {
-            visible = clamp(visible + STEP, MIN_VISIBLE, TOTAL);
-            render(visible);
-          });
+          const target = document.getElementById("reviews");
+          if (target) {
+            const header = document.querySelector("header.sticky");
+            const offset = header ? Math.ceil(header.getBoundingClientRect().height + 16) : 16;
+            const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top, behavior: "smooth" });
+          }
+        });
 
-          btnCollapse.addEventListener("click", function () {
-            visible = MIN_VISIBLE;
-            render(visible);
-            const target = document.getElementById("reviews");
-            if (target) {
-              const header = document.querySelector("header.sticky");
-              const offset = header ? Math.ceil(header.getBoundingClientRect().height + 16) : 16;
-              const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-              window.scrollTo({ top, behavior: "smooth" });
-            }
-          });
-        })();
+        // init
+        sortAndReset("relevant");
+      })();
       </script>
     </section>
 
-<section id="faqs" class="space-y-3">
+    <!-- FAQs -->
+    <section id="faqs" class="space-y-3">
       <h2 class="text-lg font-semibold">FAQs</h2>
 
       <details class="border border-neutral-200 rounded-lg p-3 text-sm">
@@ -592,6 +705,7 @@
       </details>
     </section>
 
+    <!-- Other Gigs -->
     <section class="space-y-3">
       <h2 class="text-lg font-semibold">Other Gigs</h2>
       <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -600,239 +714,244 @@
           <h3 class="text-sm font-semibold">Etsy Conversion Leak Audit – Revenue Diagnosis for Underperforming Listings</h3>
           <p class="text-xs text-neutral-600">Traffic is useless if buyers don’t decide — I map exactly where your listing leaks trust, clarity, and purchase confidence.</p>
           <p class="text-sm font-semibold">$49</p>
-          <a href="EtsyAudit.html" class="block w-full border border-neutral-300 py-2 rounded-lg text-sm text-center hover:bg-neutral-50 active:scale-[0.99] transition">
-  View Gig
-</a>
+          <a href="EtsyAudit.html" class="block w-full border border-neutral-300 py-2 rounded-lg text-sm text-center hover:bg-neutral-50 active:scale-[0.99] transition">View Gig</a>
         </div>
+
         <div class="snap-start min-w-[250px] border border-neutral-200 rounded-xl p-3 space-y-2">
           <img src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/EtsyListingConversionRewrite-1600.webp" alt="Gig 2" class="h-32 w-full object-cover rounded-lg">
           <h3 class="text-sm font-semibold">I Will Rewrite Your Etsy Listing to Increase Conversions</h3>
           <p class="text-xs text-neutral-600">Conversion Structure for Listings That Get Views But Not Sales</p>
           <p class="text-sm font-semibold">$129</p>
-          <a href="EtsyRewrite.html"
-  class="block w-full border border-neutral-300 py-2 rounded-lg text-sm text-center hover:bg-neutral-50 active:scale-[0.99] transition">
-  View Gig</a>
+          <a href="EtsyRewrite.html" class="block w-full border border-neutral-300 py-2 rounded-lg text-sm text-center hover:bg-neutral-50 active:scale-[0.99] transition">View Gig</a>
         </div>
       </div>
     </section>
 
+    <!-- ✅ Extra space so sticky bar doesn't overlap content -->
+    <div class="h-28 lg:hidden"></div>
+
   </main>
 
-<div id="sticky-bar"
-  class="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-t border-neutral-200 shadow-lg
-         px-4 py-3 flex items-center justify-between gap-4
-         lg:hidden translate-y-full transition-transform duration-300
-         pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+  <!-- Sticky bar -->
+  <div id="sticky-bar"
+    class="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-t border-neutral-200 shadow-lg
+           px-4 py-3 flex items-center justify-between gap-4
+           lg:hidden translate-y-full transition-transform duration-300
+           pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
 
-  <div class="text-xs min-w-0 leading-tight">
-    <p id="sticky-pkg" class="font-semibold truncate">Basic</p>
-    <p id="sticky-meta" class="text-neutral-500 truncate">$50 · 1–2 days</p>
+    <div class="text-xs min-w-0 leading-tight">
+      <p id="sticky-pkg" class="font-semibold truncate">Basic</p>
+      <p id="sticky-meta" class="text-neutral-500 truncate">$50 · 1–2 days</p>
+    </div>
+
+    <a id="sticky-continue"
+       href="/Gig-Offer/components/checkout-error.html?pkg=basic&gig=etsy-ranking"
+       class="shrink-0 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white
+              px-5 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap text-center transition-colors duration-200">
+      Continue — Basic
+    </a>
   </div>
 
-  <a id="sticky-continue"
-     href="/Gig-Offer/components/checkout-error.html?pkg=basic&gig=etsy-ranking"
-     class="shrink-0 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white
-            px-5 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap text-center transition-colors duration-200">
-    Continue — Basic
-  </a>
-</div>
-
-  <div class="h-20 lg:hidden"></div>
-  
-    <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const compareBtn = document.getElementById("compare-btn");
-    const comparisonSection = document.getElementById("comparison-section");
-
-    const pkgTitle = document.getElementById("pkg-title");
-    const pkgPrice = document.getElementById("pkg-price");
-    const pkgFeatures = document.getElementById("pkg-features");
-    const pkgDelivery = document.getElementById("pkg-delivery");
-    const pkgRevision = document.getElementById("pkg-revision");
-
-    const continueBtn = document.getElementById("continue-btn"); // <a>
-    const stickyBar = document.getElementById("sticky-bar");
-    const stickyContinue = document.getElementById("sticky-continue"); // <a> (or <button>)
-    const stickyPkg = document.getElementById("sticky-pkg");
-    const stickyMeta = document.getElementById("sticky-meta");
-
-    const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
-
-    const required = [pkgTitle, pkgPrice, pkgFeatures, pkgDelivery, pkgRevision, continueBtn];
-    if (required.some((n) => !n) || !tabButtons.length) {
-      console.warn("Package system: missing required DOM nodes.");
-      return;
-    }
-
-    const PACKAGES = {
-      basic: {
-        label: "Basic",
-        title: "Intent Correction - 1 Listing",
-        price: "$50",
-        delivery: "1–2 days",
-        revision: "1 revision round",
-        features: [
-          "Full ranking + conversion diagnostic - 1 listing)",
-          "Search intent gap analysis",
-          "Title rebuilt with structured architecture",
-          "Complete optimized tag set",
-          "Category + attribute correction",
-          "Conversion-focused description restructure",
-          "Competitor comparison snapshot"
-        ]
-      },
-      standard: {
-        label: "Standard",
-        title: "Ranking Stabilization - Up to 5 Listings",
-        price: "$200",
-        delivery: "3–4 days",
-        revision: "2 revision rounds",
-        features: [
-          "Strategic audit across selected listings",
-          "Keyword cannibalization check",
-          "Intent cluster mapping",
-          "Structural rebuild (titles, tags, categories + attributes)",
-          "Conversion-structured descriptions",
-          "Competitive positioning gap review"
-        ]
-      },
-      premium: {
-        label: "Premium",
-        title: "Dominance Architecture - Up to 15 Listings",
-        price: "$500",
-        delivery: "5–7 days",
-        revision: "2 revision rounds",
-        features: [
-          "Full shop-level ranking diagnostic",
-          "Niche competitive landscape analysis",
-          "Revenue leak mapping",
-          "Intent territory distribution across shop",
-          "Structural rebuild across up to 15 listings",
-          "Cross-listing positioning strategy",
-          "Ranking stabilization guidance"
-        ]
-      }
-    };
-
-    let activeTab = "basic";
-
-    function getCheckoutUrl(tabKey) {
-      return `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(tabKey)}&gig=etsy-ranking`;
-    }
-
-    function styleTabs(tabKey) {
-      tabButtons.forEach((btn) => {
-        const isActive = btn.dataset.tab === tabKey;
-        btn.setAttribute("aria-selected", isActive ? "true" : "false");
-
-        btn.classList.remove("bg-neutral-900", "text-white");
-        btn.classList.add("border", "border-neutral-300");
-
-        if (isActive) {
-          btn.classList.add("bg-neutral-900", "text-white");
-          btn.classList.remove("border", "border-neutral-300");
-        }
-      });
-    }
-
-    function renderPackage(tabKey) {
-      const data = PACKAGES[tabKey];
-      if (!data) return;
-
-      activeTab = tabKey;
-      styleTabs(tabKey);
-
-      pkgTitle.textContent = data.title;
-      pkgPrice.textContent = data.price;
-      pkgDelivery.textContent = data.delivery;
-      pkgRevision.textContent = data.revision;
-
-      pkgFeatures.innerHTML = data.features
-        .map((t) => `<li class="list-disc ml-4">${t}</li>`)
-        .join("");
-
-      if (stickyPkg) stickyPkg.textContent = data.label;
-      if (stickyMeta) stickyMeta.textContent = `${data.price} · ${data.delivery}`;
-
-      continueBtn.textContent = `Continue — ${data.label}`;
-      if (stickyContinue) stickyContinue.textContent = `Continue — ${data.label}`;
-
-      const url = getCheckoutUrl(tabKey);
-
-      // ✅ Anchor-first: set href so navigation always works even if JS fails later
-      if (continueBtn.tagName === "A") continueBtn.href = url;
-      else continueBtn.dataset.href = url;
-
-      if (stickyContinue) {
-        if (stickyContinue.tagName === "A") stickyContinue.href = url;
-        else stickyContinue.dataset.href = url;
-      }
-    }
-
-    tabButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        renderPackage(btn.dataset.tab);
-        btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      });
-    });
-
-    if (compareBtn && comparisonSection) {
-      compareBtn.addEventListener("click", () => {
-        comparisonSection.classList.toggle("hidden");
-        const open = !comparisonSection.classList.contains("hidden");
-        compareBtn.textContent = open ? "Hide Comparison" : "Compare Package";
-        if (open) comparisonSection.scrollIntoView({ behavior: "smooth" });
-      });
-    }
-
-    // Sticky show/hide
-    const pkgCard = document.getElementById("package-card");
-    if (pkgCard && stickyBar) {
-      const io = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting) stickyBar.classList.remove("translate-y-full");
-          else stickyBar.classList.add("translate-y-full");
-        },
-        { threshold: 0.2 }
-      );
-      io.observe(pkgCard);
-    }
-
-    // If stickyContinue becomes a <button> later, navigate via JS
-    if (stickyContinue && stickyContinue.tagName !== "A") {
-      stickyContinue.addEventListener("click", (e) => {
-        e.preventDefault();
-        window.location.href = stickyContinue.dataset.href || getCheckoutUrl(activeTab);
-      });
-    }
-
-    renderPackage("basic");
-  });
-</script> 
-  
+  <!-- Page scripts -->
   <script>
-    /* review-flow-script */
+    // Banner loader
     (function () {
-      const link = document.getElementById("reviewLink") || document.querySelector('a[href="#reviews"]');
-      const target = document.getElementById("reviews");
-      const header = document.querySelector("header.sticky");
+      const img = document.getElementById("bannerImg");
+      const loader = document.getElementById("bannerLoader");
+      const status = document.getElementById("bannerStatus");
+      if (!img || !loader) return;
 
-      if (link && target) {
-        function getOffset() {
-          const h = header ? header.getBoundingClientRect().height : 0;
-          return Math.ceil(h + 16);
+      const MIN_SHOW_MS = 600;
+      const startedAt = Date.now();
+      let closed = false;
+
+      function closeLoader() {
+        if (closed) return;
+        closed = true;
+        const elapsed = Date.now() - startedAt;
+        const wait = Math.max(0, MIN_SHOW_MS - elapsed);
+        setTimeout(() => loader.classList.add("hidden"), wait);
+      }
+
+      if (img.complete && img.naturalWidth > 0) {
+        if (status) status.textContent = "Preview ready";
+        closeLoader();
+        return;
+      }
+
+      img.addEventListener("load", () => {
+        if (status) status.textContent = "Preview ready";
+        closeLoader();
+      }, { once: true });
+
+      img.addEventListener("error", () => {
+        if (status) status.textContent = "Preview failed to load";
+        loader.classList.remove("bg-white/70");
+        loader.classList.add("bg-white/90");
+      }, { once: true });
+    })();
+
+    // Package system + sticky behavior
+    document.addEventListener("DOMContentLoaded", () => {
+      const compareBtn = document.getElementById("compare-btn");
+      const comparisonSection = document.getElementById("comparison-section");
+
+      const pkgTitle = document.getElementById("pkg-title");
+      const pkgPrice = document.getElementById("pkg-price");
+      const pkgFeatures = document.getElementById("pkg-features");
+      const pkgDelivery = document.getElementById("pkg-delivery");
+      const pkgRevision = document.getElementById("pkg-revision");
+
+      const continueBtn = document.getElementById("continue-btn");
+      const stickyBar = document.getElementById("sticky-bar");
+      const stickyContinue = document.getElementById("sticky-continue");
+      const stickyPkg = document.getElementById("sticky-pkg");
+      const stickyMeta = document.getElementById("sticky-meta");
+
+      const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
+
+      const required = [pkgTitle, pkgPrice, pkgFeatures, pkgDelivery, pkgRevision, continueBtn, stickyBar, stickyContinue, stickyPkg, stickyMeta];
+      if (required.some((n) => !n) || !tabButtons.length) return;
+
+      const PACKAGES = {
+        basic: {
+          label: "Basic",
+          title: "Intent Correction - 1 Listing",
+          price: "$50",
+          delivery: "1–2 days",
+          revision: "1 revision round",
+          features: [
+            "Full ranking + conversion diagnostic (1 listing)",
+            "Search intent gap analysis",
+            "Title rebuilt with structured architecture",
+            "Complete optimized tag set",
+            "Category + attribute correction",
+            "Conversion-focused description restructure",
+            "Competitor comparison snapshot"
+          ]
+        },
+        standard: {
+          label: "Standard",
+          title: "Ranking Stabilization - Up to 5 Listings",
+          price: "$200",
+          delivery: "3–4 days",
+          revision: "2 revision rounds",
+          features: [
+            "Audit across selected listings (up to 5)",
+            "Keyword cannibalization check",
+            "Intent cluster mapping",
+            "Structural rebuild (titles, tags, categories + attributes)",
+            "Conversion-structured descriptions",
+            "Priority execution roadmap"
+          ]
+        },
+        premium: {
+          label: "Premium",
+          title: "Shop-Wide Dominance Architecture - Up to 15 Listings",
+          price: "$500",
+          delivery: "7–10 days",
+          revision: "2 revision rounds",
+          features: [
+            "Shop-wide territory mapping",
+            "Listing cluster architecture (up to 15)",
+            "Full cannibalization removal plan",
+            "High-authority title + tag frameworks",
+            "Conversion reinforcement for major listings",
+            "System-level stability blueprint"
+          ]
         }
+      };
 
-        link.addEventListener("click", function (e) {
-          e.preventDefault();
-          const top = target.getBoundingClientRect().top + window.pageYOffset - getOffset();
-          window.scrollTo({ top, behavior: "smooth" });
+      function setActiveTab(key) {
+        tabButtons.forEach((btn) => {
+          const on = btn.dataset.tab === key;
+          btn.setAttribute("aria-selected", on ? "true" : "false");
+          btn.classList.toggle("bg-neutral-900", on);
+          btn.classList.toggle("text-white", on);
+          btn.classList.toggle("border", !on);
+          btn.classList.toggle("border-neutral-300", !on);
         });
       }
 
+      function renderPackage(key) {
+        const p = PACKAGES[key] || PACKAGES.basic;
+
+        pkgTitle.textContent = p.title;
+        pkgPrice.textContent = p.price;
+        pkgDelivery.textContent = p.delivery;
+        pkgRevision.textContent = p.revision;
+
+        pkgFeatures.innerHTML = "";
+        p.features.forEach((f) => {
+          const li = document.createElement("li");
+          li.className = "flex gap-2";
+          li.innerHTML = `<span class="mt-[2px] text-neutral-400">•</span><span>${f}</span>`;
+          pkgFeatures.appendChild(li);
+        });
+
+        const href = `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(key)}&gig=etsy-ranking`;
+        continueBtn.href = href;
+        continueBtn.textContent = `Continue — ${p.label}`;
+
+        stickyContinue.href = href;
+        stickyContinue.textContent = `Continue — ${p.label}`;
+
+        stickyPkg.textContent = p.label;
+        stickyMeta.textContent = `${p.price} · ${p.delivery}`;
+      }
+
+      tabButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.tab;
+          setActiveTab(key);
+          renderPackage(key);
+        });
+      });
+
+      if (compareBtn && comparisonSection) {
+        compareBtn.addEventListener("click", () => {
+          const isHidden = comparisonSection.classList.contains("hidden");
+          comparisonSection.classList.toggle("hidden", !isHidden);
+          compareBtn.textContent = isHidden ? "Hide Comparison" : "Compare Package";
+        });
+      }
+
+      // Sticky bar visibility
+      const packageCard = document.getElementById("package-card");
+      const io = new IntersectionObserver(
+        (entries) => {
+          const inView = entries[0]?.isIntersecting;
+          stickyBar.classList.toggle("translate-y-full", !!inView);
+        },
+        { threshold: 0.2 }
+      );
+
+      if (packageCard) io.observe(packageCard);
+
+      setActiveTab("basic");
+      renderPackage("basic");
+      stickyBar.classList.add("translate-y-full");
+    });
+
+    // Smooth scroll to reviews
+    (function () {
+      const link = document.getElementById("reviewLink");
+      const target = document.getElementById("reviews");
+      if (!link || !target) return;
+
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const header = document.querySelector("header.sticky");
+        const offset = header ? Math.ceil(header.getBoundingClientRect().height + 16) : 16;
+        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top, behavior: "smooth" });
+      });
+    })();
+
+    // Reveal header only
+    (function () {
       const root = document.getElementById("reviews");
       if (!root) return;
-
       const items = Array.from(root.querySelectorAll(".flow-hidden"));
       if (!items.length) return;
 
@@ -849,57 +968,6 @@
       items.forEach((el) => io.observe(el));
     })();
   </script>
-  <script>
-  (function () {
-    const img = document.getElementById("bannerImg");
-    const loader = document.getElementById("bannerLoader");
-    const status = document.getElementById("bannerStatus");
-    if (!img || !loader) return;
 
-    const MIN_SHOW_MS = 1200;     // ensures users actually see it
-    const MAX_WAIT_MS = 8000;    // never block UI forever
-    const startedAt = Date.now();
-    let closed = false;
-
-    function closeLoader() {
-      if (closed) return;
-      closed = true;
-
-      const elapsed = Date.now() - startedAt;
-      const wait = Math.max(0, MIN_SHOW_MS - elapsed);
-
-      setTimeout(() => {
-        loader.classList.add("hidden");
-        loader.style.pointerEvents = "none";
-      }, wait);
-    }
-
-    function setStatus(text) {
-      if (status) status.textContent = text;
-    }
-
-    // Always show first, then close on load/cached
-    setStatus("Loading preview…");
-
-    // If cached, load event may not fire — close after min delay
-    if (img.complete && img.naturalWidth > 0) {
-      closeLoader();
-      return;
-    }
-
-    img.addEventListener("load", closeLoader, { once: true });
-
-    img.addEventListener("error", () => {
-      setStatus("Preview failed to load.");
-      setTimeout(closeLoader, 1200);
-    }, { once: true });
-
-    // Kill switch (also updates status once)
-    setTimeout(() => {
-      if (!closed) setStatus("Still loading…");
-      closeLoader();
-    }, MAX_WAIT_MS);
-  })();
-  </script>
 </body>
 </html>
