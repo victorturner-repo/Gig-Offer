@@ -941,9 +941,24 @@ stability instead of spikes. That consistency makes scaling easier.</p>
     continueBtn.textContent = `Continue — ${data.label}`;
     if (stickyContinue) stickyContinue.textContent = `Continue — ${data.label}`;
 
-    // ✅ Dynamic checkout link
-    const checkoutUrl = `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(tabKey)}`;
-    continueBtn.href = checkoutUrl;
+// ✅ Dynamic intake link (SYNC selected package → intake page)
+const params = new URLSearchParams();
+params.set("gig", "etsy-rewrite");
+params.set("service", "Etsy Listing Conversion Rewrite");
+params.set("pkg", tabKey);
+params.set("package", data.label);
+params.set("title", data.title);
+params.set("price", data.price);
+params.set("delivery", data.delivery);
+params.set("revision", data.revision);
+
+const intakeUrl = `/Gig-Offer/components/intake.html?${params.toString()}`;
+continueBtn.href = intakeUrl;
+
+if (stickyContinue) {
+  if (stickyContinue.tagName === "A") stickyContinue.href = intakeUrl;
+  else stickyContinue.dataset.href = intakeUrl;
+}
 
     // Sticky can be <button> or <a>
     if (stickyContinue) {
