@@ -944,7 +944,7 @@ wants, we rebuilt around what customers actually type. It now feels strategicall
       params.set("delivery", data.delivery);
       params.set("revision", data.revision);
 
-      const intakeUrl = `/Gig-Offer/components/checkout-error.html?${params.toString()}`;
+      const intakeUrl = `/Gig-Offer/components/intake.html?${params.toString()}`;
       continueBtn.href = intakeUrl;
 
       if (stickyContinue) {
@@ -990,7 +990,7 @@ wants, we rebuilt around what customers actually type. It now feels strategicall
         e.preventDefault();
         const url =
           stickyContinue.dataset.href ||
-          `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(activeTab)}`;
+          `/Gig-Offer/components/intake.html?pkg=${encodeURIComponent(activeTab)}`;
         window.location.href = url;
       });
     }
