@@ -108,19 +108,16 @@
         </div>
       </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-  <a 
-  id="continue-btn"
-  href="/Gig-Offer/components/intake.html?gig=etsy-rewrite&service=Etsy%20Listing%20Conversion%
-    20Rewrite&pkg=basic&package=Basic&title=Decision-Flow%20Rewrite%20-%201%20Listing&price=%2450&
-    delivery=1%E2%80%932%20days&revision=1%20structured%20revisions">
+    <!-- Continue + Compare -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+  <a id="continue-btn"
+    href="/Gig-Offer/components/intake.html"
+    class="w-full h-[48px] flex items-center justify-center bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white rounded-lg text-sm font-semibold text-center transition">
     Continue — Basic
   </a>
-
   <button
     id="compare-btn"
-    class="w-full h-[48px] flex items-center justify-center border border-neutral-300 rounded-lg text-sm font-semibold"
-  >
+    class="w-full h-[48px] flex items-center justify-center border border-neutral-300 rounded-lg text-sm font-semibold">
     Compare Package
   </button>
 </div>
@@ -812,18 +809,18 @@ stability instead of spikes. That consistency makes scaling easier.</p>
   </main>
 
   <div id="sticky-bar"
-    class="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-200 shadow-lg p-3 flex items-center justify-between gap-3 lg:hidden translate-y-full transition-transform duration-300">
-    <div class="text-xs min-w-0">
-      <p id="sticky-pkg" class="font-semibold truncate">Basic</p>
-      <p id="sticky-meta" class="truncate">$50 · 1–2 days</p>
-    </div>
-<a id="sticky-continue"
-   href="/Gig-Offer/components/intake.html?gig=etsy-rewrite&service=
-  Etsy%20Listing%20Conversion%20Rewrite&pkg=basic&package=Basic&title=Decision-Flow%
-  20Rewrite%20-%201%20Listing&price=%2450&delivery=1%E2%80%932%20days&revision=1%20structured%20revisions"
-  </a>
+  class="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-200 shadow-lg p-3 flex items-center justify-between gap-3 lg:hidden translate-y-full transition-transform duration-300">
+  <div class="text-xs min-w-0">
+    <p id="sticky-pkg" class="font-semibold truncate">Basic</p>
+    <p id="sticky-meta" class="truncate">$50 · 1–2 days</p>
   </div>
 
+  <a id="sticky-continue"
+    href="/Gig-Offer/components/intake.html"
+    class="bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap text-center">
+    Continue — Basic
+  </a>
+  </div>
   <div class="h-20 lg:hidden"></div>
 
 <script>
