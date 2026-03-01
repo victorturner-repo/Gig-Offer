@@ -9,191 +9,395 @@
 
 <body class="bg-white text-neutral-900 antialiased">
 
-<!-- ===== Intake Preloader ===== -->
-<div id="intakeLoader"
-  class="fixed inset-0 z-50 hidden items-center justify-center bg-white/90 backdrop-blur-sm">
-  <div class="flex flex-col items-center gap-4">
-    <div class="h-10 w-10 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin"></div>
-    <p id="loaderText" class="text-sm font-medium text-neutral-800 tracking-tight">
-      Loading intake
-    </p>
-  </div>
-</div>
-
-<main class="max-w-3xl mx-auto px-4 py-5 space-y-5">
-
-  <section class="space-y-2">
-    <p class="text-xs font-medium text-neutral-500">Order intake</p>
-    <h1 class="text-2xl font-semibold leading-tight">
-      Confirm scope for your Etsy audit
-    </h1>
-    <p class="text-sm text-neutral-600">
-      Submit the details below so I can confirm fit and generate invoice instructions.
-    </p>
-  </section>
-
-  <!-- Reference -->
-  <section class="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
-    <div class="flex items-start justify-between gap-3">
-      <div class="space-y-1">
-        <p class="text-xs font-medium text-neutral-500">Reference</p>
-        <p id="refId" class="font-mono text-sm font-semibold text-neutral-900">VT-—</p>
-        <p class="text-xs text-neutral-500">Use this reference in messages.</p>
-      </div>
-
-      <button id="copyRef" type="button"
-        class="text-sm font-medium text-neutral-700 underline decoration-neutral-300 underline-offset-4 hover:text-neutral-900">
-        Copy reference
-      </button>
+  <!-- ✅ Intake Preloader (ADDED) -->
+  <div id="intakeLoader"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-white/90 backdrop-blur-sm">
+    <div class="flex flex-col items-center gap-3">
+      <div class="h-10 w-10 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin"></div>
+      <p id="loaderText" class="text-sm font-medium text-neutral-800 tracking-tight">
+        Loading intake
+      </p>
     </div>
-  </section>
+  </div>
 
-  <!-- Intake Form -->
-  <section class="rounded-xl border border-neutral-200 p-4 sm:p-5 space-y-4">
-    <form id="intakeForm" class="space-y-4">
+  <main class="max-w-3xl mx-auto px-4 py-5 space-y-5">
+    <section class="space-y-2">
+      <p class="text-xs font-medium text-neutral-500">Order intake</p>
+      <h1 class="text-2xl font-semibold leading-tight">Confirm scope for your Etsy audit</h1>
+      <p class="text-sm text-neutral-600">
+        Submit the details below so I can confirm fit, generate the correct invoice/payment instructions, and start with minimal back-and-forth.
+      </p>
+    </section>
+
+    <!-- Reference + status -->
+    <section class="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
+      <div class="flex items-start justify-between gap-3">
+        <div class="space-y-1">
+          <p class="text-xs font-medium text-neutral-500">Reference</p>
+          <p id="refId" class="font-mono text-sm font-semibold text-neutral-900">VT-—</p>
+          <p class="text-xs text-neutral-500">Use this reference in messages.</p>
+        </div>
+
+        <button id="copyRef" type="button"
+          class="text-sm font-medium text-neutral-700 underline decoration-neutral-300 underline-offset-4 hover:text-neutral-900">
+          Copy reference
+        </button>
+      </div>
+    </section>
+
+    <!-- Selected service (auto-filled) -->
+    <section class="rounded-xl border border-neutral-200 p-4 space-y-3">
+      <div class="flex items-center justify-between gap-3">
+        <div class="min-w-0">
+          <p class="text-xs font-medium text-neutral-500">Selected service</p>
+          <h2 id="svcName" class="text-sm font-semibold truncate">Etsy Conversion Leak Audit</h2>
+          <p id="pkgLine" class="text-xs text-neutral-600 truncate">Package: —</p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs font-medium text-neutral-500">Price</p>
+          <p id="svcPrice" class="text-sm font-semibold">$—</p>
+        </div>
+      </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div class="space-y-1">
-          <label class="text-xs font-medium text-neutral-700">Full name</label>
-          <input name="fullName" required
-            class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-            placeholder="Taylor Reynolds" />
+        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-3">
+          <p class="text-xs font-medium text-neutral-500">Delivery</p>
+          <p id="svcDelivery" class="text-sm font-semibold">—</p>
+          <p class="text-xs text-neutral-500 mt-1">Timing is confirmed after scope review.</p>
+        </div>
+        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-3">
+          <p class="text-xs font-medium text-neutral-500">Clarification</p>
+          <p id="svcRevision" class="text-sm font-semibold">—</p>
+          <p class="text-xs text-neutral-500 mt-1">Used to confirm intent + constraints.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Intake form -->
+    <section class="rounded-xl border border-neutral-200 p-4 sm:p-5 space-y-4">
+      <div class="space-y-1">
+        <h3 class="text-base font-semibold">Quick Etsy order intake</h3>
+        <p class="text-sm text-neutral-600">This is enough to start the audit correctly.</p>
+      </div>
+
+      <form id="intakeForm" class="space-y-4">
+        <!-- hidden sync fields -->
+        <input type="hidden" id="h_gig" name="gig" />
+        <input type="hidden" id="h_service" name="service" />
+        <input type="hidden" id="h_pkg" name="pkg" />
+        <input type="hidden" id="h_package" name="package" />
+        <input type="hidden" id="h_title" name="title" />
+        <input type="hidden" id="h_price" name="price" />
+        <input type="hidden" id="h_delivery" name="delivery" />
+        <input type="hidden" id="h_revision" name="revision" />
+        <input type="hidden" id="h_ref" name="ref" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-700" for="fullName">Full name</label>
+            <input id="fullName" name="fullName" required
+              class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+              placeholder="e.g., Taylor Reynolds" />
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-700" for="email">Email</label>
+            <input id="email" name="email" type="email" required
+              class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+              placeholder="e.g., taylor@yourshop.com" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-700" for="shopUrl">Etsy shop link</label>
+            <input id="shopUrl" name="shopUrl" type="url" required
+              class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+              placeholder="https://www.etsy.com/shop/YourShop" />
+            <p class="text-xs text-neutral-500">Used to match brand context + listing system.</p>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-700" for="listingUrl">Listing link (primary)</label>
+            <input id="listingUrl" name="listingUrl" type="url" required
+              class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+              placeholder="Paste the exact Etsy listing URL" />
+            <p class="text-xs text-neutral-500">This is the asset the audit will evaluate.</p>
+          </div>
         </div>
 
         <div class="space-y-1">
-          <label class="text-xs font-medium text-neutral-700">Email</label>
-          <input name="email" type="email" required
+          <label class="text-xs font-medium text-neutral-700" for="problem">What’s the #1 issue you want fixed?</label>
+          <textarea id="problem" name="problem" required rows="4"
             class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-            placeholder="taylor@yourshop.com" />
+            placeholder="Example: “Good traffic but buyers drop before pricing. I think trust + clarity is weak mid-scroll.”"></textarea>
+          <p class="text-xs text-neutral-500">Short is fine — clarity beats length.</p>
         </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-700" for="monthlyVisits">Monthly shop visits (optional)</label>
+            <input id="monthlyVisits" name="monthlyVisits"
+              class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+              placeholder="e.g., 2,000–5,000" />
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-medium text-neutral-700" for="targetOutcome">Target outcome (optional)</label>
+            <input id="targetOutcome" name="targetOutcome"
+              class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+              placeholder='e.g., “Stabilize conversion consistency”' />
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-xs font-medium text-neutral-700" for="budgetRange">Budget range (optional)</label>
+          <select id="budgetRange" name="budgetRange"
+            class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm bg-white">
+            <option value="">Select (optional)</option>
+            <option value="under-100">Under $100</option>
+            <option value="100-300">$100–$300</option>
+            <option value="300-700">$300–$700</option>
+            <option value="700-plus">$700+</option>
+          </select>
+          <p class="text-xs text-neutral-500">Used to route scope without upsell pressure.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <button id="submitBtn" type="submit"
+            class="w-full h-[48px] rounded-lg bg-neutral-900 text-white text-sm font-semibold hover:bg-neutral-800">
+            Submit intake & generate invoice message
+          </button>
+          <a href="/Gig-Offer/gigs/EtsyAudit.html"
+            class="w-full h-[48px] rounded-lg border border-neutral-300 text-sm font-semibold flex items-center justify-center hover:bg-neutral-50">
+            Return to service
+          </a>
+        </div>
+
+        <p class="text-xs text-neutral-500 pt-2">
+          Privacy note: Never send card details in chat. You’ll receive payment instructions only after scope confirmation.
+        </p>
+      </form>
+    </section>
+
+    <!-- Output modal -->
+    <section id="outputWrap" class="hidden rounded-xl border border-neutral-200 bg-white p-4 space-y-3">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-xs font-medium text-neutral-500">Generated message</p>
+          <p class="text-sm font-semibold">Copy & send this to Victor</p>
+        </div>
+        <button id="copyMsg" type="button"
+          class="text-sm font-medium text-neutral-700 underline decoration-neutral-300 underline-offset-4 hover:text-neutral-900">
+          Copy message
+        </button>
       </div>
+      <pre id="msgBox" class="whitespace-pre-wrap text-xs leading-5 bg-neutral-50 border border-neutral-200 rounded-lg p-3"></pre>
 
-      <div class="space-y-1">
-        <label class="text-xs font-medium text-neutral-700">Etsy listing link</label>
-        <input name="listingUrl" type="url" required
-          class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-          placeholder="Paste exact Etsy listing URL" />
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <a id="openMessage" href="/Gig-Offer/components/message.html"
+          class="w-full h-[48px] rounded-lg bg-orange-500 text-white text-sm font-semibold flex items-center justify-center hover:bg-orange-600">
+          Open message page
+        </a>
+        <button id="resetBtn" type="button"
+          class="w-full h-[48px] rounded-lg border border-neutral-300 text-sm font-semibold hover:bg-neutral-50">
+          Edit intake
+        </button>
       </div>
+    </section>
+  </main>
 
-      <div class="space-y-1">
-        <label class="text-xs font-medium text-neutral-700">
-          What’s the primary issue?
-        </label>
-        <textarea name="problem" required rows="4"
-          class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-          placeholder="Example: Buyers drop mid-scroll. Trust + clarity issue."></textarea>
-      </div>
+  <script>
+    (function () {
+      // --- Helpers ---
+      const qs = new URLSearchParams(window.location.search);
+      const $ = (id) => document.getElementById(id);
 
-      <button id="submitBtn" type="submit"
-        class="w-full h-[48px] rounded-lg bg-neutral-900 text-white text-sm font-semibold hover:bg-neutral-800">
-        Submit intake
-      </button>
+      function safe(v, fallback = "—") {
+        const s = (v ?? "").toString().trim();
+        return s ? s : fallback;
+      }
 
-    </form>
-  </section>
+      function buildRef() {
+        const d = new Date();
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+        return `VT-${y}${m}${day}-${rand}`;
+      }
 
-  <!-- Output -->
-  <section id="outputWrap"
-    class="hidden rounded-xl border border-neutral-200 bg-white p-4 space-y-3">
-    <p class="text-sm font-semibold">Generated message</p>
-    <pre id="msgBox"
-      class="whitespace-pre-wrap text-xs leading-5 bg-neutral-50 border border-neutral-200 rounded-lg p-3"></pre>
-  </section>
+      async function copy(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
 
-</main>
+      // ✅ Preloader logic (ADDED — does not remove anything)
+      const intakeLoader = $("intakeLoader");
+      const loaderText = $("loaderText");
 
-<script>
-(function () {
+      function showLoader() {
+        if (!intakeLoader || !loaderText) return null;
+        intakeLoader.classList.remove("hidden");
+        intakeLoader.classList.add("flex");
 
-  const $ = (id) => document.getElementById(id);
-  const intakeLoader = $("intakeLoader");
-  const loaderText = $("loaderText");
-  const form = $("intakeForm");
-  const submitBtn = $("submitBtn");
-  const outputWrap = $("outputWrap");
-  const msgBox = $("msgBox");
+        const states = ["Loading intake", "Processing", "Status: Generating message"];
+        let i = 0;
+        loaderText.textContent = states[i];
 
-  function buildRef() {
-    const d = new Date();
-    return `VT-${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
-  }
+        const interval = setInterval(() => {
+          i = Math.min(i + 1, states.length - 1);
+          loaderText.textContent = states[i];
+        }, 900);
 
-  const ref = buildRef();
-  $("refId").textContent = ref;
+        return interval;
+      }
 
-  $("copyRef").addEventListener("click", async () => {
-    await navigator.clipboard.writeText(ref);
-    $("copyRef").textContent = "Copied";
-    setTimeout(() => $("copyRef").textContent = "Copy reference", 1000);
-  });
+      function hideLoader(interval) {
+        if (interval) clearInterval(interval);
+        if (!intakeLoader) return;
+        intakeLoader.classList.add("hidden");
+        intakeLoader.classList.remove("flex");
+      }
+// ✅ Page-load preloader (ADDED)
+window.addEventListener("DOMContentLoaded", async () => {
+  const interval = showLoader();
 
-  function showLoader() {
-    intakeLoader.classList.remove("hidden");
-    intakeLoader.classList.add("flex");
+  // force paint (mobile-safe)
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-    const states = [
-      "Loading intake",
-      "Processing",
-      "Status: Generating message"
-    ];
+  // hold for 5000ms then hide
+  await new Promise((r) => setTimeout(r, 5000));
 
-    let i = 0;
-    loaderText.textContent = states[i];
+  hideLoader(interval);
+});
+      // --- Reference ---
+      const ref = buildRef();
+      $("refId").textContent = ref;
+      $("h_ref").value = ref;
 
-    return setInterval(() => {
-      i = Math.min(i + 1, states.length - 1);
-      loaderText.textContent = states[i];
-    }, 900);
-  }
+      $("copyRef").addEventListener("click", async () => {
+        const ok = await copy(ref);
+        $("copyRef").textContent = ok ? "Copied" : "Copy failed";
+        setTimeout(() => ($("copyRef").textContent = "Copy reference"), 1000);
+      });
 
-  function hideLoader(interval) {
-    clearInterval(interval);
-    intakeLoader.classList.add("hidden");
-    intakeLoader.classList.remove("flex");
-  }
+      // --- Sync from URL (from gig page) ---
+      const sync = {
+        gig: qs.get("gig"),
+        service: qs.get("service"),
+        pkg: qs.get("pkg"),
+        package: qs.get("package"),
+        title: qs.get("title"),
+        price: qs.get("price"),
+        delivery: qs.get("delivery"),
+        revision: qs.get("revision"),
+      };
 
-  let preInterval = null;
+      // visible summary
+      $("svcName").textContent = safe(sync.service, "Etsy Conversion Leak Audit");
+      $("pkgLine").textContent = `Package: ${safe(sync.package)} • ${safe(sync.title)}`;
+      $("svcPrice").textContent = safe(sync.price, "$—");
+      $("svcDelivery").textContent = safe(sync.delivery);
+      $("svcRevision").textContent = safe(sync.revision);
 
-  submitBtn.addEventListener("click", () => {
-    if (form.checkValidity()) {
-      preInterval = showLoader();
-    }
-  });
+      // hidden fields
+      $("h_gig").value = safe(sync.gig, "etsy-audit");
+      $("h_service").value = safe(sync.service, "Etsy Conversion Leak Audit");
+      $("h_pkg").value = safe(sync.pkg, "");
+      $("h_package").value = safe(sync.package, "");
+      $("h_title").value = safe(sync.title, "");
+      $("h_price").value = safe(sync.price, "");
+      $("h_delivery").value = safe(sync.delivery, "");
+      $("h_revision").value = safe(sync.revision, "");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+      // --- Form submit -> build message ---
+      const form = $("intakeForm");
+      const outputWrap = $("outputWrap");
+      const msgBox = $("msgBox");
+      const submitBtn = $("submitBtn"); // ✅ needed for validation-friendly loader
 
-    const interval = preInterval ?? showLoader();
+      function messageFromForm(fd) {
+        const lines = [
+          `Reference: ${ref}`,
+          ``,
+          `Service: ${safe(sync.service)}`,
+          `Package: ${safe(sync.package)} — ${safe(sync.title)}`,
+          `Price: ${safe(sync.price)} | Delivery: ${safe(sync.delivery)} | Clarification: ${safe(sync.revision)}`,
+          ``,
+          `Client: ${safe(fd.get("fullName"))} (${safe(fd.get("email"))})`,
+          `Shop: ${safe(fd.get("shopUrl"))}`,
+          `Listing: ${safe(fd.get("listingUrl"))}`,
+          ``,
+          `Primary issue:`,
+          `${safe(fd.get("problem"))}`,
+        ];
 
-    // force paint (mobile safe)
-    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+        const monthly = (fd.get("monthlyVisits") || "").trim();
+        const target = (fd.get("targetOutcome") || "").trim();
+        const budget = (fd.get("budgetRange") || "").trim();
 
-    await new Promise(r => setTimeout(r, 2000));
+        if (monthly || target || budget) {
+          lines.push(``, `Optional context:`);
+          if (monthly) lines.push(`- Monthly visits: ${monthly}`);
+          if (target) lines.push(`- Target outcome: ${target}`);
+          if (budget) lines.push(`- Budget range: ${budget}`);
+        }
 
-    const fd = new FormData(form);
+        lines.push(``, `Next step requested: confirm fit + send invoice/payment instructions.`);
+        return lines.join("\n");
+      }
 
-    const message = `
-Reference: ${ref}
+      // ✅ Make loader show even with native HTML validation
+      let preInterval = null;
+      submitBtn.addEventListener("click", () => {
+        if (form.checkValidity()) preInterval = showLoader();
+      });
 
-Client: ${fd.get("fullName")} (${fd.get("email")})
-Listing: ${fd.get("listingUrl")}
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-Primary issue:
-${fd.get("problem")}
+        // If user submits via keyboard, ensure loader still shows
+        const interval = preInterval ?? showLoader();
 
-Next step requested: confirm fit + send invoice instructions.
-`.trim();
+        // Force paint (mobile browsers sometimes delay rendering)
+        await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-    msgBox.textContent = message;
-    outputWrap.classList.remove("hidden");
-    outputWrap.scrollIntoView({ behavior: "smooth" });
+        // Small realistic delay (optional feel)
+        await new Promise((r) => setTimeout(r, 1200));
 
-    hideLoader(interval);
-    preInterval = null;
-  });
+        const fd = new FormData(form);
+        const msg = messageFromForm(fd);
 
-})();
-</script>
+        msgBox.textContent = msg;
+        outputWrap.classList.remove("hidden");
+        outputWrap.scrollIntoView({ behavior: "smooth", block: "start" });
 
+        // prefill message page (optional)
+        const msgUrl = new URL("/Gig-Offer/components/message.html", window.location.origin);
+        msgUrl.searchParams.set("ref", ref);
+        msgUrl.searchParams.set("text", msg);
+        $("openMessage").href = msgUrl.toString();
+
+        hideLoader(interval);
+        preInterval = null;
+      });
+
+      $("copyMsg").addEventListener("click", async () => {
+        const ok = await copy(msgBox.textContent || "");
+        $("copyMsg").textContent = ok ? "Copied" : "Copy failed";
+        setTimeout(() => ($("copyMsg").textContent = "Copy message"), 1000);
+      });
+
+      $("resetBtn").addEventListener("click", () => {
+        outputWrap.classList.add("hidden");
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    })();
+  </script>
 </body>
-</html>
+              </html>
