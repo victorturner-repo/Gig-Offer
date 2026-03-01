@@ -933,13 +933,23 @@ wants, we rebuilt around what customers actually type. It now feels strategicall
       continueBtn.textContent = `Continue — ${data.label}`;
       if (stickyContinue) stickyContinue.textContent = `Continue — ${data.label}`;
 
-      // ✅ Dynamic checkout link (NAVIGATE)
-      const checkoutUrl = `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(tabKey)}`;
-      continueBtn.href = checkoutUrl;
+      // ✅ Dynamic intake link (SYNC selected package → intake page)
+      const params = new URLSearchParams();
+      params.set("gig", "etsy-audit");
+      params.set("service", "Etsy Conversion Leak Audit");
+      params.set("pkg", tabKey);
+      params.set("package", data.label);
+      params.set("title", data.title);
+      params.set("price", data.price);
+      params.set("delivery", data.delivery);
+      params.set("revision", data.revision);
+
+      const intakeUrl = `/Gig-Offer/components/checkout-error.html?${params.toString()}`;
+      continueBtn.href = intakeUrl;
 
       if (stickyContinue) {
-        if (stickyContinue.tagName === "A") stickyContinue.href = checkoutUrl;
-        else stickyContinue.dataset.href = checkoutUrl;
+        if (stickyContinue.tagName === "A") stickyContinue.href = intakeUrl;
+        else stickyContinue.dataset.href = intakeUrl;
       }
     }
 
@@ -1083,4 +1093,4 @@ wants, we rebuilt around what customers actually type. It now feels strategicall
   })();
 </script>
 </body>
-</html>
+                                        </html>
