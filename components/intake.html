@@ -9,7 +9,7 @@
 
 <body class="bg-white text-neutral-900 antialiased">
 
-  <!-- ✅ Intake Preloader (ADDED) -->
+  <!-- ✅ Intake Preloader -->
   <div id="intakeLoader"
     class="fixed inset-0 z-[9999] hidden items-center justify-center bg-white/90 backdrop-blur-sm">
     <div class="flex flex-col items-center gap-3">
@@ -23,9 +23,12 @@
   <main class="max-w-3xl mx-auto px-4 py-5 space-y-5">
     <section class="space-y-2">
       <p class="text-xs font-medium text-neutral-500">Order intake</p>
-      <h1 class="text-2xl font-semibold leading-tight">Confirm scope for your Etsy audit</h1>
+      <h1 class="text-2xl font-semibold leading-tight">Confirm scope for your Etsy service</h1>
       <p class="text-sm text-neutral-600">
-        Submit the details below so I can confirm fit, generate the correct invoice/payment instructions, and start with minimal back-and-forth.
+        Submit details to confirm fit and receive a structured invoice message. This keeps the process clean and avoids back-and-forth.
+      </p>
+      <p class="text-xs text-neutral-500">
+        Only submit if you’re ready to proceed once scope is confirmed and the invoice is issued.
       </p>
     </section>
 
@@ -35,7 +38,7 @@
         <div class="space-y-1">
           <p class="text-xs font-medium text-neutral-500">Reference</p>
           <p id="refId" class="font-mono text-sm font-semibold text-neutral-900">VT-—</p>
-          <p class="text-xs text-neutral-500">Use this reference in messages.</p>
+          <p class="text-xs text-neutral-500">Include this reference in all messages.</p>
         </div>
 
         <button id="copyRef" type="button"
@@ -52,6 +55,9 @@
           <p class="text-xs font-medium text-neutral-500">Selected service</p>
           <h2 id="svcName" class="text-sm font-semibold truncate">Etsy Conversion Leak Audit</h2>
           <p id="pkgLine" class="text-xs text-neutral-600 truncate">Package: —</p>
+          <p class="text-xs text-neutral-500 mt-1">
+            You’re securing a structured deliverable focused on buyer decision flow and conversion clarity — not cosmetic edits.
+          </p>
         </div>
         <div class="text-right">
           <p class="text-xs font-medium text-neutral-500">Price</p>
@@ -63,12 +69,12 @@
         <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-3">
           <p class="text-xs font-medium text-neutral-500">Delivery</p>
           <p id="svcDelivery" class="text-sm font-semibold">—</p>
-          <p class="text-xs text-neutral-500 mt-1">Timing is confirmed after scope review.</p>
+          <p class="text-xs text-neutral-500 mt-1">Delivery window is reserved after payment confirmation.</p>
         </div>
         <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-3">
           <p class="text-xs font-medium text-neutral-500">Clarification</p>
           <p id="svcRevision" class="text-sm font-semibold">—</p>
-          <p class="text-xs text-neutral-500 mt-1">Used to confirm intent + constraints.</p>
+          <p class="text-xs text-neutral-500 mt-1">Used to confirm intent + constraints before work begins.</p>
         </div>
       </div>
     </section>
@@ -76,8 +82,10 @@
     <!-- Intake form -->
     <section class="rounded-xl border border-neutral-200 p-4 sm:p-5 space-y-4">
       <div class="space-y-1">
-        <h3 class="text-base font-semibold">Quick Etsy order intake</h3>
-        <p class="text-sm text-neutral-600">This is enough to start the audit correctly.</p>
+        <h3 class="text-base font-semibold">Quick order intake</h3>
+        <p class="text-sm text-neutral-600">
+          Provide the essentials. If scope is aligned, you’ll receive a structured invoice message (valid for a limited window).
+        </p>
       </div>
 
       <form id="intakeForm" class="space-y-4">
@@ -118,11 +126,11 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-medium text-neutral-700" for="listingUrl">Listing link (primary)</label>
+            <label class="text-xs font-medium text-neutral-700" for="listingUrl">Primary listing link</label>
             <input id="listingUrl" name="listingUrl" type="url" required
               class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
               placeholder="Paste the exact Etsy listing URL" />
-            <p class="text-xs text-neutral-500">This is the asset the audit will evaluate.</p>
+            <p class="text-xs text-neutral-500">This is the primary asset for scope review.</p>
           </div>
         </div>
 
@@ -130,7 +138,7 @@
           <label class="text-xs font-medium text-neutral-700" for="problem">What’s the #1 issue you want fixed?</label>
           <textarea id="problem" name="problem" required rows="4"
             class="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-            placeholder="Example: “Good traffic but buyers drop before pricing. I think trust + clarity is weak mid-scroll.”"></textarea>
+            placeholder="Example: “Good traffic but buyers drop before pricing. Trust + clarity weak mid-scroll.”"></textarea>
           <p class="text-xs text-neutral-500">Short is fine — clarity beats length.</p>
         </div>
 
@@ -160,7 +168,7 @@
             <option value="300-700">$300–$700</option>
             <option value="700-plus">$700+</option>
           </select>
-          <p class="text-xs text-neutral-500">Used to route scope without upsell pressure.</p>
+          <p class="text-xs text-neutral-500">Used to route scope without negotiation.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
@@ -168,14 +176,16 @@
             class="w-full h-[48px] rounded-lg bg-neutral-900 text-white text-sm font-semibold hover:bg-neutral-800">
             Submit intake & generate invoice message
           </button>
-          <a href="/Gig-Offer/gigs/EtsyAudit.html"
+
+          <!-- ✅ Minor fix: make return link dynamic (still defaults to EtsyAudit.html) -->
+          <a id="returnLink" href="/Gig-Offer/gigs/EtsyAudit.html"
             class="w-full h-[48px] rounded-lg border border-neutral-300 text-sm font-semibold flex items-center justify-center hover:bg-neutral-50">
             Return to service
           </a>
         </div>
 
         <p class="text-xs text-neutral-500 pt-2">
-          Privacy note: Never send card details in chat. You’ll receive payment instructions only after scope confirmation.
+          Payment instructions are issued only after scope confirmation. Never send card details in chat.
         </p>
       </form>
     </section>
@@ -185,25 +195,45 @@
       <div class="flex items-start justify-between gap-3">
         <div>
           <p class="text-xs font-medium text-neutral-500">Generated message</p>
-          <p class="text-sm font-semibold">Copy & send this to Victor</p>
+          <p class="text-sm font-semibold">Copy & email this to Victor</p>
+          <p class="text-xs text-neutral-500 mt-1">
+            Send to:
+            <a
+              class="font-medium text-neutral-700 underline decoration-neutral-300 underline-offset-4 hover:text-neutral-900"
+              href="mailto:victorturnerchat@gmail.com"
+            >
+              victorturnerchat@gmail.com
+            </a>
+          </p>
         </div>
         <button id="copyMsg" type="button"
           class="text-sm font-medium text-neutral-700 underline decoration-neutral-300 underline-offset-4 hover:text-neutral-900">
           Copy message
         </button>
       </div>
+
       <pre id="msgBox" class="whitespace-pre-wrap text-xs leading-5 bg-neutral-50 border border-neutral-200 rounded-lg p-3"></pre>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <a id="openMessage" href="/Gig-Offer/components/message.html"
+        <a id="emailVictor" href="#"
           class="w-full h-[48px] rounded-lg bg-orange-500 text-white text-sm font-semibold flex items-center justify-center hover:bg-orange-600">
-          Open message page
+          Email Victor
         </a>
         <button id="resetBtn" type="button"
           class="w-full h-[48px] rounded-lg border border-neutral-300 text-sm font-semibold hover:bg-neutral-50">
           Edit intake
         </button>
       </div>
+
+      <p class="text-xs text-neutral-500">
+        If your email app doesn’t open, copy the message and send it manually to
+        <a
+          class="font-medium underline decoration-neutral-300 underline-offset-4 hover:text-neutral-900"
+          href="mailto:victorturnerchat@gmail.com"
+        >
+          victorturnerchat@gmail.com
+        </a>.
+      </p>
     </section>
   </main>
 
@@ -236,7 +266,7 @@
         }
       }
 
-      // ✅ Preloader logic (ADDED — does not remove anything)
+      // ✅ Preloader logic
       const intakeLoader = $("intakeLoader");
       const loaderText = $("loaderText");
 
@@ -263,18 +293,15 @@
         intakeLoader.classList.add("hidden");
         intakeLoader.classList.remove("flex");
       }
-// ✅ Page-load preloader (ADDED)
-window.addEventListener("DOMContentLoaded", async () => {
-  const interval = showLoader();
 
-  // force paint (mobile-safe)
-  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      // ✅ Page-load preloader
+      window.addEventListener("DOMContentLoaded", async () => {
+        const interval = showLoader();
+        await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+        await new Promise((r) => setTimeout(r, 5000));
+        hideLoader(interval);
+      });
 
-  // hold for 5000ms then hide
-  await new Promise((r) => setTimeout(r, 5000));
-
-  hideLoader(interval);
-});
       // --- Reference ---
       const ref = buildRef();
       $("refId").textContent = ref;
@@ -298,16 +325,21 @@ window.addEventListener("DOMContentLoaded", async () => {
         revision: qs.get("revision"),
       };
 
+      // ✅ Minor fix: dynamic return link (doesn't break existing)
+      const returnLink = $("returnLink");
+      const returnTo = qs.get("return");
+      if (returnLink && returnTo) returnLink.href = returnTo;
+
       // visible summary
-      $("svcName").textContent = safe(sync.service, "Etsy Conversion Leak Audit");
+      $("svcName").textContent = safe(sync.service, "Etsy Service");
       $("pkgLine").textContent = `Package: ${safe(sync.package)} • ${safe(sync.title)}`;
       $("svcPrice").textContent = safe(sync.price, "$—");
       $("svcDelivery").textContent = safe(sync.delivery);
       $("svcRevision").textContent = safe(sync.revision);
 
       // hidden fields
-      $("h_gig").value = safe(sync.gig, "etsy-audit");
-      $("h_service").value = safe(sync.service, "Etsy Conversion Leak Audit");
+      $("h_gig").value = safe(sync.gig, "etsy");
+      $("h_service").value = safe(sync.service, "Etsy Service");
       $("h_pkg").value = safe(sync.pkg, "");
       $("h_package").value = safe(sync.package, "");
       $("h_title").value = safe(sync.title, "");
@@ -319,15 +351,18 @@ window.addEventListener("DOMContentLoaded", async () => {
       const form = $("intakeForm");
       const outputWrap = $("outputWrap");
       const msgBox = $("msgBox");
-      const submitBtn = $("submitBtn"); // ✅ needed for validation-friendly loader
+      const submitBtn = $("submitBtn");
+      const emailVictor = $("emailVictor");
 
       function messageFromForm(fd) {
         const lines = [
           `Reference: ${ref}`,
           ``,
+          `Scope request — please confirm fit and issue invoice instructions.`,
+          ``,
           `Service: ${safe(sync.service)}`,
           `Package: ${safe(sync.package)} — ${safe(sync.title)}`,
-          `Price: ${safe(sync.price)} | Delivery: ${safe(sync.delivery)} | Clarification: ${safe(sync.revision)}`,
+          `Quoted: ${safe(sync.price)} | Delivery: ${safe(sync.delivery)} | Clarification: ${safe(sync.revision)}`,
           ``,
           `Client: ${safe(fd.get("fullName"))} (${safe(fd.get("email"))})`,
           `Shop: ${safe(fd.get("shopUrl"))}`,
@@ -348,7 +383,12 @@ window.addEventListener("DOMContentLoaded", async () => {
           if (budget) lines.push(`- Budget range: ${budget}`);
         }
 
-        lines.push(``, `Next step requested: confirm fit + send invoice/payment instructions.`);
+        lines.push(
+          ``,
+          `Commitment: I’m ready to proceed once scope is confirmed and the invoice is issued.`,
+          `Request: Please include invoice validity (24 hours) to reserve the delivery window.`
+        );
+
         return lines.join("\n");
       }
 
@@ -361,13 +401,8 @@ window.addEventListener("DOMContentLoaded", async () => {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // If user submits via keyboard, ensure loader still shows
         const interval = preInterval ?? showLoader();
-
-        // Force paint (mobile browsers sometimes delay rendering)
         await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-        // Small realistic delay (optional feel)
         await new Promise((r) => setTimeout(r, 1200));
 
         const fd = new FormData(form);
@@ -377,11 +412,13 @@ window.addEventListener("DOMContentLoaded", async () => {
         outputWrap.classList.remove("hidden");
         outputWrap.scrollIntoView({ behavior: "smooth", block: "start" });
 
-        // prefill message page (optional)
-        const msgUrl = new URL("/Gig-Offer/components/message.html", window.location.origin);
-        msgUrl.searchParams.set("ref", ref);
-        msgUrl.searchParams.set("text", msg);
-        $("openMessage").href = msgUrl.toString();
+        // ✅ Build mailto (opens user's email app)
+        const to = "victorturnerchat@gmail.com";
+        const subject = `Order Intake — ${ref} — ${safe(sync.service, "Etsy Service")}`;
+        const body = msg;
+
+        const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        emailVictor.setAttribute("href", mailto);
 
         hideLoader(interval);
         preInterval = null;
@@ -400,4 +437,4 @@ window.addEventListener("DOMContentLoaded", async () => {
     })();
   </script>
 </body>
-              </html>
+</html>
