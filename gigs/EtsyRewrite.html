@@ -1130,5 +1130,45 @@ if (stickyContinue) {
     }, MAX_WAIT_MS);
   })();
 </script>
+  <script>
+(function () {
+  // Source of truth: reviews on THIS page
+  const cards = Array.from(document.querySelectorAll('[data-review]'));
+  if (!cards.length) return;
+
+  const total = cards.length;
+
+  const ratings = cards
+    .map(c => Number(c.dataset.rating || 0))
+    .filter(n => Number.isFinite(n) && n > 0);
+
+  const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0) / ratings.length) : 0;
+  const avgText = avg ? avg.toFixed(1) : "—";
+
+  // Update top "View Client Reviews (X)"
+  const reviewLink = document.getElementById("reviewLink");
+  if (reviewLink) reviewLink.textContent = `View Client Reviews (${total})`;
+
+  // Update counts in Reviews header + status
+  const countAll = document.getElementById("count-all");
+  if (countAll) countAll.textContent = String(total);
+
+  const totalCount = document.getElementById("totalCount");
+  if (totalCount) totalCount.textContent = String(total);
+
+  // Update Other Gigs indicators (both cards)
+  const map = [
+    ["og-audit-rating-count", "og-audit-rating-avg"],
+    ["og-rank-rating-count", "og-rank-rating-avg"],
+  ];
+
+  map.forEach(([countId, avgId]) => {
+    const c = document.getElementById(countId);
+    const a = document.getElementById(avgId);
+    if (c) c.textContent = String(total);
+    if (a) a.textContent = avgText;
+  });
+})();
+  </script>
 </body>
         </html>
