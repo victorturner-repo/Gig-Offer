@@ -8,6 +8,7 @@
 </head>
 
 <body class="min-h-screen bg-neutral-100 text-neutral-900">
+
   <!-- Top Bar -->
   <header class="sticky top-0 z-50 bg-neutral-950 text-white">
     <div class="mx-auto w-full max-w-5xl px-4 py-3">
@@ -16,181 +17,273 @@
   </header>
 
   <main class="mx-auto w-full max-w-5xl px-4 py-4 pb-12">
-    <!-- Mobile: single column. Desktop: two column. -->
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-12">
-      <!-- LEFT: Profile + Stats -->
+
+      <!-- LEFT -->
       <section class="lg:col-span-5">
         <div class="rounded-2xl bg-white shadow-sm ring-1 ring-neutral-200">
-          <div class="px-4 pt-5 pb-4">
-            <div class="flex flex-col items-center text-center">
-              <img
-                src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/profilephoto.png"
-                alt="Victor Turner Profile"
-                class="h-20 w-20 rounded-full object-cover ring-2 ring-neutral-200 sm:h-24 sm:w-24"
-              />
-              <h1 class="mt-3 text-lg font-semibold sm:text-xl">Victor Turner</h1>
-              <p class="mt-0.5 text-xs text-neutral-600 sm:text-sm">@victorturner82</p>
-              <p class="mt-2 text-sm text-neutral-700">Conversion Operator</p>
+          <div class="px-4 pt-5 pb-4 text-center">
 
-              <button
-                type="button"
-                class="mt-3 inline-flex items-center justify-center rounded-full bg-neutral-950 px-7 py-2 text-sm font-semibold text-white transition hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
-              >
-                Message
-              </button>
-            </div>
-          </div>
+            <img
+              src="https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/profilephoto.png"
+              alt="Victor Turner Profile"
+              class="mx-auto h-20 w-20 rounded-full object-cover ring-2 ring-neutral-200 sm:h-24 sm:w-24"
+            />
 
-          <!-- Stats Grid (values grey/opacity like your screenshot) -->
-          <div class="px-4 pb-5">
-            <div class="grid grid-cols-2 gap-3 sm:gap-4">
-              <div class="rounded-none border border-neutral-300 bg-white p-3 sm:p-4">
-                <div class="text-sm font-semibold sm:text-base">In Progress</div>
-                <div class="mt-2 text-sm font-medium text-neutral-500/80" id="statInProgress">5</div>
-              </div>
-
-              <div class="rounded-none border border-neutral-300 bg-white p-3 sm:p-4">
-                <div class="text-sm font-semibold sm:text-base">Queue</div>
-                <div class="mt-2 text-sm font-medium text-neutral-500/80" id="statQueue">2</div>
-              </div>
-
-              <div class="rounded-none border border-neutral-300 bg-white p-3 sm:p-4">
-                <div class="text-sm font-semibold sm:text-base">Completed</div>
-                <div class="mt-2 text-sm font-medium text-neutral-500/80" id="statCompleted">47</div>
-              </div>
-
-              <div class="rounded-none border border-neutral-300 bg-white p-3 sm:p-4">
-                <div class="text-sm font-semibold sm:text-base">Status</div>
-                <div class="mt-2 flex items-center gap-2 text-sm font-medium text-neutral-500/80">
-                  <span id="statStatus">Active</span>
-                  <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- RIGHT: Gig tab + Scrollable gig list (NO STICKY / NO FLOAT) -->
-      <section class="lg:col-span-7">
-        <div class="rounded-2xl bg-white shadow-sm ring-1 ring-neutral-200">
-          <div class="p-4 sm:p-5">
-            <div class="text-sm text-neutral-600">Gig tab</div>
-
-            <!-- Tabs: mobile scrollable -->
-            <div class="mt-3 -mx-4 overflow-x-auto px-4">
-              <div class="flex w-max gap-3 sm:w-full sm:justify-start">
-                <button
-                  type="button"
-                  class="tab-btn whitespace-nowrap rounded-full border border-neutral-200 bg-neutral-950 px-6 py-3 text-sm font-semibold text-white"
-                  data-tab="etsy"
-                  aria-selected="true"
-                >
-                  Etsy
-                </button>
-                
-              </div>
-            </div>
-
-            <!-- Scroll container: standard height in-flow + internal scroll -->
-            <!-- Mobile-friendly: max height relative to viewport, with safe padding -->
-            <div
-              class="mt-5 overflow-hidden rounded-2xl bg-neutral-50 ring-1 ring-neutral-200"
-            >
-              <div class="px-4 py-3 text-xs font-medium text-neutral-600">
-                Offers (scroll)
-              </div>
-
-              <div
-                id="gigScroll"
-                class="max-h-[55vh] overflow-y-auto px-4 pb-4"
-              >
-                <div id="gigGrid" class="grid grid-cols-1 gap-4 sm:grid-cols-2"></div>
-              </div>
-            </div>
-
-            <!-- Optional: small hint for mobile -->
-            <div class="mt-3 text-xs text-neutral-500">
-              Scroll inside this section to view more offers.
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <script>
-    const gigs = {
-      etsy: [
-        { title: "Full Etsy Rewrite", desc: "Optimize listing messaging.", price: "$129", image: "assets/images/gig-etsy-rewrite.jpg", cta: "View Gig" },
-        { title: "Etsy Conversion Audit", desc: "Find why traffic doesn’t convert.", price: "$79", image: "assets/images/gig-etsy-audit.jpg", cta: "View Gig" },
-        { title: "Etsy Listing Audit", desc: "Identify listing friction points.", price: "$89", image: "assets/images/gig-etsy-audit.jpg", cta: "View Gig" },
-        { title: "Etsy Offer Upgrade", desc: "Tighten clarity and confidence.", price: "$149", image: "assets/images/gig-etsy-rewrite.jpg", cta: "View Gig" },
-      ],
-    };
-
-    const gigGrid = document.getElementById("gigGrid");
-    let activeTab = "etsy";
-
-    function gigCardHTML(g) {
-      return `
-        <article class="w-full rounded-2xl bg-white shadow-sm ring-1 ring-neutral-200">
-          <div class="p-4">
-            <div class="w-full overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-neutral-200">
-              <img src="${g.image}" alt="${g.title}" class="h-36 w-full object-cover sm:h-40" />
-            </div>
-
-            <h3 class="mt-3 text-sm font-semibold sm:text-base">${g.title}</h3>
-            <p class="mt-1 text-xs text-neutral-600 sm:text-sm">${g.desc}</p>
-
-            <div class="mt-2 text-base font-semibold sm:text-lg">${g.price}</div>
+            <h1 class="mt-3 text-lg font-semibold sm:text-xl">Victor Turner</h1>
+            <p class="mt-1 text-xs text-neutral-600 sm:text-sm">@victorturner82</p>
+            <p class="mt-2 text-sm text-neutral-700">Conversion Operator</p>
 
             <button
               type="button"
-              class="mt-3 inline-flex w-full items-center justify-center rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
+              class="mt-3 inline-flex items-center justify-center rounded-full bg-neutral-950 px-7 py-2 text-sm font-semibold text-white transition hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
             >
-              ${g.cta}
+              Message
             </button>
           </div>
-        </article>
-      `;
+        </div>
+        
+        <!-- Stats Grid -->
+<div class="mt-6 grid grid-cols-2 gap-3">
+  
+  <!-- In Progress -->
+  <div class="bg-white rounded-xl p-4 shadow-sm ring-1 ring-neutral-200">
+    <p class="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
+      In Progress
+    </p>
+    <p class="mt-1 text-base font-semibold tracking-tight text-neutral-900 stat-count" data-count="2">
+      0
+    </p>
+  </div>
+  
+  <!-- Queue -->
+  <div class="bg-white rounded-xl p-4 shadow-sm ring-1 ring-neutral-200">
+    <p class="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
+      Queue
+    </p>
+    <p class="mt-1 text-base font-semibold tracking-tight text-neutral-900 stat-count" data-count="1">
+      0
+    </p>
+  </div>
+  
+  <!-- Completed -->
+  <div class="bg-white rounded-xl p-4 shadow-sm ring-1 ring-neutral-200">
+    <p class="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
+      Completed
+    </p>
+    <p class="mt-1 text-base font-semibold tracking-tight text-neutral-900 stat-count" data-count="37">
+      0
+    </p>
+  </div>
+  
+  <!-- Status -->
+  <div class="bg-white rounded-xl p-4 shadow-sm ring-1 ring-neutral-200">
+    <p class="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
+      Status
+    </p>
+    <div class="mt-1 flex items-center gap-2">
+      <span class="text-xs font-semibold text-neutral-900">Active</span>
+      <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+    </div>
+  </div>
+  
+</div>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="lg:col-span-7">
+        <div class="rounded-2xl bg-white shadow-sm ring-1 ring-neutral-200 p-5">
+
+          <div class="text-sm text-neutral-600">Gig tab</div>
+
+          <!-- Tabs -->
+          <div class="mt-3 flex gap-3">
+            <button
+              type="button"
+              class="tab-btn rounded-full bg-neutral-950 px-6 py-3 text-sm font-semibold text-white"
+              data-tab="etsy"
+            >
+              Etsy
+            </button>
+          </div>
+
+          <!-- Gig List -->
+          <div class="mt-5 rounded-2xl bg-neutral-50 ring-1 ring-neutral-200">
+            <div class="px-4 py-3 text-xs font-medium text-neutral-600">
+              Offers
+            </div>
+
+            <div id="gigScroll" class="max-h-[55vh] overflow-y-auto px-4 pb-4">
+              <div id="gigGrid" class="grid grid-cols-1 gap-4 sm:grid-cols-2"></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+<script>
+  const gigs = {
+  etsy: [
+    {
+      title: "I Will Rewrite Your Etsy Listing to Increase Conversions",
+      desc: "Conversion Structure for Listings That Get Views But Not Sales",
+      price: "$50",
+      image: "https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/EtsyListingConversionRewrite.png",
+      cta: "View Gig",
+      link: "/Gig-Offer/gigs/EtsyRewrite.html",
+      rating: 5.0,
+      reviews: 9
+    },
+    {
+      title: "Etsy Conversion Leak Audit – Revenue Diagnosis for Underperforming Listings",
+      desc: "Traffic is useless if buyers don’t decide — I map exactly where your listing leaks trust, clarity, and purchase confidence.",
+      price: "$50",
+      image: "https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/EtsyAudit.png",
+      cta: "View Gig",
+      link: "/Gig-Offer/gigs/EtsyAudit.html",
+      rating: 5.0,
+      reviews: 13
+    },
+    {
+      title: "Fix Your Etsy Ranking Instability and Rebuild Your Sales Engine",
+      desc: "Structured Ranking + Conversion System for Serious Sellers.",
+      price: "$50",
+      image: "https://cdn.jsdelivr.net/gh/victorturner-repo/Gig-Offer@main/assets/images/etsy-ranking.webp",
+      cta: "View Gig",
+      link: "/Gig-Offer/gigs/etsy-ranking.html",
+      rating: 5.0,
+      reviews: 7
     }
+  ]
+};
 
-    function renderGigs(tab) {
-      gigGrid.innerHTML = (gigs[tab] || []).map(gigCardHTML).join("");
-      // Reset internal scroll to top on tab change (better UX on mobile)
-      const scroller = document.getElementById("gigScroll");
-      if (scroller) scroller.scrollTop = 0;
-    }
+  const gigGrid = document.getElementById("gigGrid");
+  let activeTab = "etsy";
 
-    function updateTabUI(tab) {
-      document.querySelectorAll(".tab-btn").forEach((btn) => {
-        const isActive = btn.dataset.tab === tab;
+  const CTA_BASE = "/Gig-Offer"; // keep consistent for GitHub Pages
 
-        btn.classList.remove("bg-neutral-950", "text-white");
-        btn.classList.add("bg-white", "text-neutral-900");
+function normalizeLink(link) {
+  if (!link) return null;
+  // If you ever pass relative like "gigs/EtsyRewrite.html", normalize it:
+  if (link.startsWith("http")) return link;
+  if (link.startsWith("/")) return link;
+  return `${CTA_BASE}/${link.replace(/^\/+/, "")}`;
+}
 
-        if (isActive) {
-          btn.classList.remove("bg-white", "text-neutral-900");
-          btn.classList.add("bg-neutral-950", "text-white");
+function gigCardHTML(g) {
+  const href = normalizeLink(g.link);
+  
+  return `
+    <article class="rounded-2xl bg-white shadow-sm ring-1 ring-neutral-200">
+      <div class="p-4">
+        <div class="overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-neutral-200">
+          <img src="${g.image}" alt="${g.title}" class="h-36 w-full object-cover sm:h-40" />
+        </div>
+
+        <h3 class="mt-3 text-sm font-semibold sm:text-base">${g.title}</h3>
+        <p class="mt-1 text-xs text-neutral-600 sm:text-sm">${g.desc}</p>
+     
+       <div class="mt-3 flex items-center justify-between">
+  <div class="text-base font-semibold sm:text-lg">
+    ${g.price}
+  </div>
+
+  ${(g.rating != null && g.reviews != null) ? `
+  <div class="inline-flex items-center gap-1.5 text-xs font-medium">
+    <span class="text-amber-600">★</span>
+    <span class="font-semibold text-neutral-900">${Number(g.rating).toFixed(1)}</span>
+    <span class="text-neutral-500">(${Number(g.reviews)})</span>
+  </div>
+` : ``}
+</div>
+
+        ${
+          href
+            ? `<a href="${href}"
+   class="mt-4 block w-full rounded-xl bg-neutral-950 px-4 py-3 text-sm font-semibold text-white text-center shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2">
+   View Gig →
+</a>`
+            : `<button type="button" disabled
+                 class="mt-3 w-full rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-sm font-semibold text-neutral-400 cursor-not-allowed">
+                 ${g.cta || "View Gig"}
+               </button>`
         }
-      });
-    }
+      </div>
+    </article>
+  `;
+}
 
-    function setActiveTab(tab) {
-      activeTab = tab;
-      renderGigs(tab);
-      updateTabUI(tab);
-    }
+  function renderGigs(tab) {
+    const data = gigs[tab] || gigs["etsy"];
+    gigGrid.innerHTML = data.map(gigCardHTML).join("");
 
-    // Event delegation
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".tab-btn");
-      if (!btn) return;
-      setActiveTab(btn.dataset.tab);
+    const scroller = document.getElementById("gigScroll");
+    if (scroller) scroller.scrollTop = 0;
+  }
+
+  function updateTabUI(tab) {
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      const isActive = btn.dataset.tab === tab;
+
+      btn.classList.remove("bg-neutral-950", "text-white");
+      btn.classList.add("bg-white", "text-neutral-900");
+
+      if (isActive) {
+        btn.classList.remove("bg-white", "text-neutral-900");
+        btn.classList.add("bg-neutral-950", "text-white");
+      }
     });
+  }
 
+  function setActiveTab(tab) {
+    if (!gigs[tab]) tab = "etsy"; // safety guard
+    activeTab = tab;
+    renderGigs(tab);
+    updateTabUI(tab);
+  }
+
+  document.addEventListener("click", e => {
+    const btn = e.target.closest(".tab-btn");
+    if (!btn) return;
+    setActiveTab(btn.dataset.tab);
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
     setActiveTab(activeTab);
-  </script>
+  });
+</script>
+
+<script>
+  function animateCount(el, { duration = 900 } = {}) {
+    const target = Number(el.dataset.count || 0);
+    const start = 0;
+
+    const startTime = performance.now();
+
+    function tick(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+
+      // Ease-out (feels premium vs linear)
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      const value = Math.round(start + (target - start) * eased);
+      el.textContent = value.toLocaleString();
+
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".stat-count").forEach((el, idx) => {
+      // slight stagger so it feels “systemy”
+      setTimeout(() => animateCount(el, { duration: 900 }), idx * 120);
+    });
+  });
+</script>
 </body>
 </html>
