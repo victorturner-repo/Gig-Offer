@@ -826,24 +826,31 @@ It now feels strategically sound and far more stable.
       continueBtn.textContent = `Continue — ${data.label}`;
       if (stickyContinue) stickyContinue.textContent = `Continue — ${data.label}`;
 
-      // ✅ Intake sync + return link
-      const params = new URLSearchParams();
-      params.set("gig", "etsy-ranking");
-      params.set("service", "Etsy Ranking Stabilization System");
-      params.set("pkg", tabKey);
-      params.set("package", data.label);
-      params.set("title", data.title);
-      params.set("price", data.price);
-      params.set("delivery", data.delivery);
-      params.set("revision", data.revision);
-      params.set("return", "/Gig-Offer/gigs/etsy-ranking.html");
+// ✅ Intake sync + return link (context-aware + URL-encoded)
+const params = new URLSearchParams();
 
-      const intakeUrl = `/Gig-Offer/components/intake.html?${params.toString()}`;
+params.set("gig", "etsy-ranking");
+params.set("service", "Etsy Ranking Stabilization System");
+params.set("pkg", tabKey);
+params.set("package", data.label);
+params.set("title", data.title);
+params.set("price", data.price);
+params.set("delivery", data.delivery);
+params.set("revision", data.revision);
 
-      continueBtn.href = intakeUrl;
-      if (stickyContinue) stickyContinue.href = intakeUrl;
-    }
+// ✅ return = current page path (safe on localhost + GitHub Pages)
+const returnUrl = new URL(window.location.href);
+returnUrl.hash = "";
+params.set("return", returnUrl.pathname + returnUrl.search);
 
+// ✅ FINAL encoded URL (URLSearchParams handles encoding)
+const intakePath = "/Gig-Offer/components/intake.html";
+const intakeUrl = `${intakePath}?${params.toString()}`;
+
+// apply to buttons
+continueBtn.href = intakeUrl;
+if (stickyContinue) stickyContinue.href = intakeUrl; 
+      
     tabButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
         renderPackage(btn.dataset.tab);
