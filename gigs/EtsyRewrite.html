@@ -836,11 +836,12 @@ stability instead of spikes. That consistency makes scaling easier.</p>
   </div>
   <div class="h-20 lg:hidden"></div>
 
-<script>
   // ---------------------------
   // Package + Compare System (Navigate Mode)
   // ---------------------------
 
+  <script>
+(function () {
   const compareBtn = document.getElementById("compare-btn");
   const comparisonSection = document.getElementById("comparison-section");
 
@@ -850,17 +851,17 @@ stability instead of spikes. That consistency makes scaling easier.</p>
   const pkgDelivery = document.getElementById("pkg-delivery");
   const pkgRevision = document.getElementById("pkg-revision");
 
-  const continueBtn = document.getElementById("continue-btn"); // <a>
+  const continueBtn = document.getElementById("continue-btn");
   const stickyBar = document.getElementById("sticky-bar");
-  const stickyContinue = document.getElementById("sticky-continue"); // <button> (or <a>)
+  const stickyContinue = document.getElementById("sticky-continue");
   const stickyPkg = document.getElementById("sticky-pkg");
   const stickyMeta = document.getElementById("sticky-meta");
 
   const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
 
-  // Guard: if core nodes are missing, fail safely
   if (!pkgTitle || !pkgPrice || !pkgFeatures || !pkgDelivery || !pkgRevision || !continueBtn || !tabButtons.length) {
     console.warn("Package system: required elements missing.");
+    return;
   }
 
   const PACKAGES = {
@@ -869,7 +870,7 @@ stability instead of spikes. That consistency makes scaling easier.</p>
       title: "Decision-Flow Rewrite - 1 Listing",
       price: "$50",
       delivery: "1–2 days",
-      revision: "1 structured revisions",
+      revision: "1 structured revision",
       features: [
         "Conversion diagnostic: clarity gaps + hesitation triggers",
         "Buyer decision flow rewrite (engineered sequencing)",
@@ -892,8 +893,8 @@ stability instead of spikes. That consistency makes scaling easier.</p>
         "Decision flow architecture across up to 3 listings",
         "Objection neutralization layer per listing",
         "Benefit hierarchy structuring (value first, details second)",
-        "Trust reinforcement placement where uncertainty peaks",
-        "400–900 word target per listing (based on complexity)"
+        "Trust reinforcement where uncertainty peaks",
+        "400–900 word target per listing"
       ]
     },
     premium: {
@@ -905,25 +906,21 @@ stability instead of spikes. That consistency makes scaling easier.</p>
       features: [
         "Shop-level consistency pass (tone + positioning alignment)",
         "Buyer decision structuring across up to 6 listings",
-        "Risk reversal framing integrated into each description",
-        "Cognitive ease compression for mobile-heavy traffic",
-        "CTA calibration per listing (ready-state matched)",
-        "Final alignment pass (title/visual/price cues consistency)",
-        "500–900 word target per listing (based on complexity)"
+        "Risk reversal framing integrated",
+        "Cognitive ease compression for mobile traffic",
+        "CTA calibration per listing",
+        "Final alignment pass (title/visual/price cues)",
+        "500–900 word target per listing"
       ]
     }
   };
-
-  let activeTab = "basic";
 
   function styleTabs(tabKey) {
     tabButtons.forEach((btn) => {
       const isActive = btn.dataset.tab === tabKey;
       btn.setAttribute("aria-selected", isActive ? "true" : "false");
-
       btn.classList.remove("bg-neutral-900", "text-white");
       btn.classList.add("border", "border-neutral-300");
-
       if (isActive) {
         btn.classList.add("bg-neutral-900", "text-white");
         btn.classList.remove("border", "border-neutral-300");
@@ -935,7 +932,6 @@ stability instead of spikes. That consistency makes scaling easier.</p>
     const data = PACKAGES[tabKey];
     if (!data) return;
 
-    activeTab = tabKey;
     styleTabs(tabKey);
 
     pkgTitle.textContent = data.title;
@@ -943,39 +939,35 @@ stability instead of spikes. That consistency makes scaling easier.</p>
     pkgDelivery.textContent = data.delivery;
     pkgRevision.textContent = data.revision;
 
-    pkgFeatures.innerHTML = data.features
-      .map((t) => `<li class="list-disc ml-4">${t}</li>`)
-      .join("");
+    pkgFeatures.innerHTML = data.features.map(t => `<li class="list-disc ml-4">${t}</li>`).join("");
 
     if (stickyPkg) stickyPkg.textContent = data.label;
     if (stickyMeta) stickyMeta.textContent = `${data.price} · ${data.delivery}`;
 
-    // Labels
     continueBtn.textContent = `Continue — ${data.label}`;
     if (stickyContinue) stickyContinue.textContent = `Continue — ${data.label}`;
 
-// ✅ Dynamic intake link (SYNC selected package → intake page)
-const params = new URLSearchParams();
-params.set("gig", "etsy-rewrite");
-params.set("service", "Etsy Listing Conversion Rewrite");
-params.set("pkg", tabKey);
-params.set("package", data.label);
-params.set("title", data.title);
-params.set("price", data.price);
-params.set("delivery", data.delivery);
-params.set("revision", data.revision);
+    // ✅ intake sync + return param
+    const params = new URLSearchParams();
+    params.set("gig", "etsy-rewrite");
+    params.set("service", "Etsy Listing Conversion Rewrite");
+    params.set("pkg", tabKey);
+    params.set("package", data.label);
+    params.set("title", data.title);
+    params.set("price", data.price);
+    params.set("delivery", data.delivery);
+    params.set("revision", data.revision);
 
-const intakeUrl = `/Gig-Offer/components/intake.html?${params.toString()}`;
-continueBtn.href = intakeUrl;
+    const returnUrl = new URL(window.location.href);
+    returnUrl.hash = "";
+    params.set("return", returnUrl.pathname + returnUrl.search);
 
-if (stickyContinue) {
-  if (stickyContinue.tagName === "A") stickyContinue.href = intakeUrl;
-  else stickyContinue.dataset.href = intakeUrl;
-}
+    const intakeUrl = `/Gig-Offer/components/intake.html?${params.toString()}`;
 
-// ✅ Sticky already synced to intakeUrl above — nothing else needed here.
-
-  // --- Bind ONCE ---
+    continueBtn.href = intakeUrl;
+    if (stickyContinue && stickyContinue.tagName === "A") stickyContinue.href = intakeUrl;
+    if (stickyContinue && stickyContinue.tagName !== "A") stickyContinue.dataset.href = intakeUrl;
+  }
 
   tabButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -993,40 +985,23 @@ if (stickyContinue) {
     });
   }
 
-  // Sticky bar show/hide
   const pkgCard = document.getElementById("package-card");
   if (pkgCard && stickyBar) {
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) stickyBar.classList.remove("translate-y-full");
-        else stickyBar.classList.add("translate-y-full");
-      },
-      { threshold: 0.2 }
-    );
+    const io = new IntersectionObserver(([entry]) => {
+      stickyBar.classList.toggle("translate-y-full", entry.isIntersecting);
+    }, { threshold: 0.2 });
     io.observe(pkgCard);
   }
 
-  // ✅ NAVIGATE behavior:
-  // - continueBtn is <a> so it navigates by href automatically
-  // - stickyContinue is <button> so we navigate via JS
-  function handleStickyNavigate(e) {
-    if (!stickyContinue) return;
-
-    // If sticky is an <a>, let it navigate naturally
-    if (stickyContinue.tagName === "A") return;
-
-    e.preventDefault();
-    const url =
-      stickyContinue.dataset.href ||
-      `/Gig-Offer/components/checkout-error.html?pkg=${encodeURIComponent(activeTab)}`;
-
-    window.location.href = url;
+  if (stickyContinue && stickyContinue.tagName !== "A") {
+    stickyContinue.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = stickyContinue.dataset.href || "/Gig-Offer/components/intake.html";
+    });
   }
 
-  if (stickyContinue) stickyContinue.addEventListener("click", handleStickyNavigate);
-
-  // Initial render
   renderPackage("basic");
+})();
 </script>
 
   <script>
