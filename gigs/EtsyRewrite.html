@@ -973,12 +973,7 @@ if (stickyContinue) {
   else stickyContinue.dataset.href = intakeUrl;
 }
 
-    // Sticky can be <button> or <a>
-    if (stickyContinue) {
-      if (stickyContinue.tagName === "A") stickyContinue.href = checkoutUrl;
-      else stickyContinue.dataset.href = checkoutUrl;
-    }
-  }
+// ✅ Sticky already synced to intakeUrl above — nothing else needed here.
 
   // --- Bind ONCE ---
 
