@@ -776,14 +776,12 @@ wants, we rebuilt around what customers actually type. It now feels strategicall
       <h3 class="text-sm font-semibold">I Will Rewrite Your Etsy Listing to Increase Conversions</h3>
       <p class="text-xs text-neutral-600">Conversion Structure for Listings That Get Views But Not Sales.</p>
 
-      <!-- ✅ Review indicator -->
-      <div class="text-xs font-semibold text-neutral-700" data-gig-rating="etsy-rewrite">
-        <span class="text-amber-500">⭐</span>
-        <span data-rating-avg>5.0</span>
-        <span class="text-neutral-500">·</span>
-        <span data-rating-count>9</span>
-        <span class="text-neutral-500">Ratings</span>
-      </div>
+      <!-- ⭐ Review Indicator (auto-sync) -->
+<div class="flex items-center gap-1 text-xs font-medium" data-og-review="etsy-rewrite">
+  <span class="text-amber-500">⭐</span>
+  <span class="text-neutral-900" data-og-avg>5.0</span>
+  <span class="text-neutral-500">· <span data-og-count>9</span> Ratings</span>
+</div>
 
       <p class="text-sm font-semibold">$50</p>
 
@@ -798,15 +796,12 @@ wants, we rebuilt around what customers actually type. It now feels strategicall
       <h3 class="text-sm font-semibold">Fix Your Etsy Ranking Instability and Rebuild Your Sales Engine</h3>
       <p class="text-xs text-neutral-600">Structured Ranking + Conversion System for Serious Sellers.</p>
 
-      <!-- ✅ Review indicator -->
-      <div class="text-xs font-semibold text-neutral-700" data-gig-rating="etsy-ranking">
-        <span class="text-amber-500">⭐</span>
-        <span data-rating-avg>5.0</span>
-        <span class="text-neutral-500">·</span>
-        <span data-rating-count>7</span>
-        <span class="text-neutral-500">Ratings</span>
-      </div>
-
+      <!-- ⭐ Review Indicator (auto-sync) -->
+<div class="flex items-center gap-1 text-xs font-medium" data-og-review="etsy-ranking">
+  <span class="text-amber-500">⭐</span>
+  <span class="text-neutral-900" data-og-avg>5.0</span>
+  <span class="text-neutral-500">· <span data-og-count>7</span> Ratings</span>
+</div>
       <p class="text-sm font-semibold">$50</p>
 
       <a href="etsy-ranking.html"
@@ -1141,5 +1136,49 @@ wants, we rebuilt around what customers actually type. It now feels strategicall
     });
   })();
 </script>
+
+  <script>
+(function () {
+  // ✅ This page's gig key (Audit page)
+  const PAGE_GIG_KEY = "etsy-audit";
+
+  // ✅ Source of truth: reviews on THIS page
+  const reviewCards = Array.from(document.querySelectorAll('[data-review]'));
+  if (!reviewCards.length) return;
+
+  const total = reviewCards.length;
+
+  const ratings = reviewCards
+    .map(c => Number(c.dataset.rating || 0))
+    .filter(n => Number.isFinite(n) && n > 0);
+
+  const avg = ratings.length
+    ? (ratings.reduce((a,b)=>a+b,0) / ratings.length)
+    : 0;
+
+  const avgText = avg ? avg.toFixed(1) : "—";
+
+  // ✅ Update top link: "View Client Reviews (X)"
+  const reviewLink = document.getElementById("reviewLink");
+  if (reviewLink) reviewLink.textContent = `View Client Reviews (${total})`;
+
+  // ✅ Update reviews tab count: All (X)
+  const countAllEl = document.getElementById("count-all");
+  if (countAllEl) countAllEl.textContent = String(total);
+
+  // ✅ Update totals used by "Showing 3 of X"
+  const totalCountEl = document.getElementById("totalCount");
+  if (totalCountEl) totalCountEl.textContent = String(total);
+
+  // ✅ Update ONLY the matching Other Gigs indicator (etsy-audit)
+  const targetWrap = document.querySelector(`[data-og-review="${PAGE_GIG_KEY}"]`);
+  if (targetWrap) {
+    const ogAvg = targetWrap.querySelector("[data-og-avg]");
+    const ogCount = targetWrap.querySelector("[data-og-count]");
+    if (ogAvg) ogAvg.textContent = avgText;
+    if (ogCount) ogCount.textContent = String(total);
+  }
+})();
+  </script>
 </body>
 </html>
