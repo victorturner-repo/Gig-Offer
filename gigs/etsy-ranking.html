@@ -468,11 +468,11 @@ It now feels strategically sound and far more stable.
         I map exactly where your listing leaks trust, clarity, and purchase confidence.
       </p>
 
-      <!-- ⭐ Review Indicator (auto-sync) -->
-<div class="flex items-center gap-1 text-xs font-medium">
+   <!-- ⭐ Review Indicator (registry-ready; no DOM conflicts) -->
+<div class="flex items-center gap-1 text-xs font-medium" data-og-review="etsy-audit">
   <span class="text-amber-500">⭐</span>
-  <span class="text-neutral-900" id="og-rating-avg">5.0</span>
-  <span class="text-neutral-500">· <span id="og-rating-count">13</span> Ratings</span>
+  <span class="text-neutral-900" data-og-avg>5.0</span>
+  <span class="text-neutral-500">· <span data-og-count>13</span> Ratings</span>
 </div>
 
       <p class="text-sm font-semibold">$50</p>
@@ -496,11 +496,11 @@ It now feels strategically sound and far more stable.
         Conversion Structure for Listings That Get Views But Not Sales
       </p>
 
-      <!-- ⭐ Review Indicator (auto-sync) -->
-<div class="flex items-center gap-1 text-xs font-medium">
+<!-- ⭐ Review Indicator (registry-ready; no DOM conflicts) -->
+<div class="flex items-center gap-1 text-xs font-medium" data-og-review="etsy-rewrite">
   <span class="text-amber-500">⭐</span>
-  <span class="text-neutral-900" id="og-rating-avg">5.0</span>
-  <span class="text-neutral-500">· <span id="og-rating-count">9</span> Ratings</span>
+  <span class="text-neutral-900" data-og-avg>5.0</span>
+  <span class="text-neutral-500">· <span data-og-count>9</span> Ratings</span>
 </div>
 
       <p class="text-sm font-semibold">$50</p>
@@ -931,8 +931,11 @@ It now feels strategically sound and far more stable.
   
 <script>
 (function () {
-  // ✅ Reviews source of truth
-  const reviewCards = Array.from(document.querySelectorAll('[data-review]'));
+  // ✅ Page identity (this is the Ranking page)
+  const PAGE_GIG_KEY = "etsy-ranking";
+
+  // ✅ Source of truth: reviews on THIS page only
+  const reviewCards = Array.from(document.querySelectorAll("[data-review]"));
   if (!reviewCards.length) return;
 
   const total = reviewCards.length;
@@ -941,19 +944,14 @@ It now feels strategically sound and far more stable.
     .map(c => Number(c.dataset.rating || 0))
     .filter(n => Number.isFinite(n) && n > 0);
 
-  const avg = ratings.length
-    ? (ratings.reduce((a,b)=>a+b,0) / ratings.length)
-    : 0;
-
+  const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0) / ratings.length) : 0;
   const avgText = avg ? avg.toFixed(1) : "—";
 
   // ✅ Update top link: "View Client Reviews (X)"
   const reviewLink = document.getElementById("reviewLink");
-  if (reviewLink) {
-    reviewLink.textContent = `View Client Reviews (${total})`;
-  }
+  if (reviewLink) reviewLink.textContent = `View Client Reviews (${total})`;
 
-  // ✅ Update reviews tab count: All (X)
+  // ✅ Update Reviews header count: All (X)
   const countAllEl = document.getElementById("count-all");
   if (countAllEl) countAllEl.textContent = String(total);
 
@@ -961,13 +959,14 @@ It now feels strategically sound and far more stable.
   const totalCountEl = document.getElementById("totalCount");
   if (totalCountEl) totalCountEl.textContent = String(total);
 
-  // ✅ Optional: update a visible “avg” + “count” indicator in Other Gigs
-  const ogCount = document.getElementById("og-rating-count");
-  if (ogCount) ogCount.textContent = String(total);
-
-  const ogAvg = document.getElementById("og-rating-avg");
-  if (ogAvg) ogAvg.textContent = avgText;
-
+  // ✅ If you ever show THIS gig's indicator anywhere on this page, update ONLY that one
+  const selfIndicator = document.querySelector(`[data-og-review="${PAGE_GIG_KEY}"]`);
+  if (selfIndicator) {
+    const avgEl = selfIndicator.querySelector("[data-og-avg]");
+    const countEl = selfIndicator.querySelector("[data-og-count]");
+    if (avgEl) avgEl.textContent = avgText;
+    if (countEl) countEl.textContent = String(total);
+  }
 })();
 </script>
   
