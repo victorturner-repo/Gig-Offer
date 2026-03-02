@@ -761,168 +761,172 @@ It now feels strategically sound and far more stable.
   </script>
 
   <!-- ✅ Package + Compare + Sticky + INTAKE SYNC (Audit logic adapted) -->
+
   <script>
-  (function () {
-    const compareBtn = document.getElementById("compare-btn");
-    const comparisonSection = document.getElementById("comparison-section");
+(function () {
+  const compareBtn = document.getElementById("compare-btn");
+  const comparisonSection = document.getElementById("comparison-section");
 
-    const pkgTitle = document.getElementById("pkg-title");
-    const pkgPrice = document.getElementById("pkg-price");
-    const pkgFeatures = document.getElementById("pkg-features");
-    const pkgDelivery = document.getElementById("pkg-delivery");
-    const pkgRevision = document.getElementById("pkg-revision");
+  const pkgTitle = document.getElementById("pkg-title");
+  const pkgPrice = document.getElementById("pkg-price");
+  const pkgFeatures = document.getElementById("pkg-features");
+  const pkgDelivery = document.getElementById("pkg-delivery");
+  const pkgRevision = document.getElementById("pkg-revision");
 
-    const continueBtn = document.getElementById("continue-btn");
-    const stickyBar = document.getElementById("sticky-bar");
-    const stickyContinue = document.getElementById("sticky-continue");
-    const stickyPkg = document.getElementById("sticky-pkg");
-    const stickyMeta = document.getElementById("sticky-meta");
+  const continueBtn = document.getElementById("continue-btn");
+  const stickyBar = document.getElementById("sticky-bar");
+  const stickyContinue = document.getElementById("sticky-continue");
+  const stickyPkg = document.getElementById("sticky-pkg");
+  const stickyMeta = document.getElementById("sticky-meta");
 
-    const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
+  const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
 
-    if (!pkgTitle || !pkgPrice || !pkgFeatures || !pkgDelivery || !pkgRevision || !continueBtn || !tabButtons.length) {
-      console.warn("Ranking package system: required elements missing.");
-      return;
+  if (!pkgTitle || !pkgPrice || !pkgFeatures || !pkgDelivery || !pkgRevision || !continueBtn || !tabButtons.length) {
+    console.warn("Ranking package system: required elements missing.");
+    return;
+  }
+
+  const PACKAGES = {
+    basic: {
+      label: "Basic",
+      title: "Intent Correction - 1 Listing",
+      price: "$50",
+      delivery: "1–2 days",
+      revision: "1 revision round",
+      features: [
+        "Search intent mismatch diagnosis",
+        "Title restructuring (buyer-aligned)",
+        "Tag efficiency rebuild",
+        "Category + attribute corrections",
+        "Conversion reinforcement notes (what kills clarity)",
+        "Priority action list (what moves ranking first)"
+      ]
+    },
+    standard: {
+      label: "Standard",
+      title: "Ranking Stabilization - Up to 5 Listings",
+      price: "$200",
+      delivery: "3–4 days",
+      revision: "2 revision rounds",
+      features: [
+        "Everything in Basic",
+        "Cannibalization check across listings",
+        "Intent cluster mapping (what each listing should own)",
+        "Stability fixes (titles/tags/categories system-wide)",
+        "Execution roadmap (ranked by leverage)"
+      ]
+    },
+    premium: {
+      label: "Premium",
+      title: "Shop-Wide Dominance Architecture - Up to 15 Listings",
+      price: "$500",
+      delivery: "7–10 days",
+      revision: "2 revision rounds",
+      features: [
+        "Everything in Standard",
+        "Territory mapping (keyword + intent ownership)",
+        "Shop-wide listing cluster architecture",
+        "High-authority title/tag frameworks",
+        "System-level stability blueprint (maintenance model)"
+      ]
     }
+  };
 
-    const PACKAGES = {
-      basic: {
-        label: "Basic",
-        title: "Intent Correction - 1 Listing",
-        price: "$50",
-        delivery: "1–2 days",
-        revision: "1 revision round",
-        features: [
-          "Search intent mismatch diagnosis",
-          "Title restructuring (buyer-aligned)",
-          "Tag efficiency rebuild",
-          "Category + attribute corrections",
-          "Conversion reinforcement notes (what kills clarity)",
-          "Priority action list (what moves ranking first)"
-        ]
-      },
-      standard: {
-        label: "Standard",
-        title: "Ranking Stabilization - Up to 5 Listings",
-        price: "$200",
-        delivery: "3–4 days",
-        revision: "2 revision rounds",
-        features: [
-          "Everything in Basic",
-          "Cannibalization check across listings",
-          "Intent cluster mapping (what each listing should own)",
-          "Stability fixes (titles/tags/categories system-wide)",
-          "Execution roadmap (ranked by leverage)"
-        ]
-      },
-      premium: {
-        label: "Premium",
-        title: "Shop-Wide Dominance Architecture - Up to 15 Listings",
-        price: "$500",
-        delivery: "7–10 days",
-        revision: "2 revision rounds",
-        features: [
-          "Everything in Standard",
-          "Territory mapping (keyword + intent ownership)",
-          "Shop-wide listing cluster architecture",
-          "High-authority title/tag frameworks",
-          "System-level stability blueprint (maintenance model)"
-        ]
-      }
-    };
-
-    let activeTab = "basic";
-
-    function styleTabs(tabKey) {
-      tabButtons.forEach((btn) => {
-        const isActive = btn.dataset.tab === tabKey;
-        btn.setAttribute("aria-selected", isActive ? "true" : "false");
-
-        btn.classList.remove("bg-neutral-900", "text-white");
-        btn.classList.add("border", "border-neutral-300");
-
-        if (isActive) {
-          btn.classList.add("bg-neutral-900", "text-white");
-          btn.classList.remove("border", "border-neutral-300");
-        }
-      });
-    }
-
-    function renderPackage(tabKey) {
-      const data = PACKAGES[tabKey];
-      if (!data) return;
-
-      activeTab = tabKey;
-      styleTabs(tabKey);
-
-      pkgTitle.textContent = data.title;
-      pkgPrice.textContent = data.price;
-      pkgDelivery.textContent = data.delivery;
-      pkgRevision.textContent = data.revision;
-
-      pkgFeatures.innerHTML = data.features.map((t) => `<li class="list-disc ml-4">${t}</li>`).join("");
-
-      if (stickyPkg) stickyPkg.textContent = data.label;
-      if (stickyMeta) stickyMeta.textContent = `${data.price} · ${data.delivery}`;
-
-      continueBtn.textContent = `Continue — ${data.label}`;
-      if (stickyContinue) stickyContinue.textContent = `Continue — ${data.label}`;
-
-// ✅ Intake sync + return link (context-aware + URL-encoded)
-const params = new URLSearchParams();
-
-params.set("gig", "etsy-ranking");
-params.set("service", "Etsy Ranking Stabilization System");
-params.set("pkg", tabKey);
-params.set("package", data.label);
-params.set("title", data.title);
-params.set("price", data.price);
-params.set("delivery", data.delivery);
-params.set("revision", data.revision);
-
-// ✅ return = current page path (safe on localhost + GitHub Pages)
-const returnUrl = new URL(window.location.href);
-returnUrl.hash = "";
-params.set("return", returnUrl.pathname + returnUrl.search);
-
-// ✅ FINAL encoded URL (URLSearchParams handles encoding)
-const intakePath = "/Gig-Offer/components/intake.html";
-const intakeUrl = `${intakePath}?${params.toString()}`;
-
-// apply to buttons
-continueBtn.href = intakeUrl;
-if (stickyContinue) stickyContinue.href = intakeUrl; 
-      
+  function styleTabs(tabKey) {
     tabButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        renderPackage(btn.dataset.tab);
-        btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      });
+      const isActive = btn.dataset.tab === tabKey;
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
+
+      // reset
+      btn.classList.remove("bg-neutral-900", "text-white");
+      btn.classList.add("border", "border-neutral-300");
+
+      // active
+      if (isActive) {
+        btn.classList.add("bg-neutral-900", "text-white");
+        btn.classList.remove("border", "border-neutral-300");
+      }
     });
+  }
 
-    if (compareBtn && comparisonSection) {
-      compareBtn.addEventListener("click", () => {
-        comparisonSection.classList.toggle("hidden");
-        const open = !comparisonSection.classList.contains("hidden");
-        compareBtn.textContent = open ? "Hide Comparison" : "Compare Package";
-        if (open) comparisonSection.scrollIntoView({ behavior: "smooth" });
-      });
-    }
+  function renderPackage(tabKey) {
+    const data = PACKAGES[tabKey];
+    if (!data) return;
 
-    const pkgCard = document.getElementById("package-card");
-    if (pkgCard && stickyBar) {
-      const io = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting) stickyBar.classList.remove("translate-y-full");
-          else stickyBar.classList.add("translate-y-full");
-        },
-        { threshold: 0.2 }
-      );
-      io.observe(pkgCard);
-    }
+    styleTabs(tabKey);
 
-    renderPackage("basic");
-  })();
+    pkgTitle.textContent = data.title;
+    pkgPrice.textContent = data.price;
+    pkgDelivery.textContent = data.delivery;
+    pkgRevision.textContent = data.revision;
+
+    pkgFeatures.innerHTML = data.features
+      .map((t) => `<li class="list-disc ml-4">${t}</li>`)
+      .join("");
+
+    if (stickyPkg) stickyPkg.textContent = data.label;
+    if (stickyMeta) stickyMeta.textContent = `${data.price} · ${data.delivery}`;
+
+    continueBtn.textContent = `Continue — ${data.label}`;
+    if (stickyContinue) stickyContinue.textContent = `Continue — ${data.label}`;
+
+    // ✅ Intake sync (URLSearchParams handles encoding)
+    const params = new URLSearchParams();
+    params.set("gig", "etsy-ranking");
+    params.set("service", "Etsy Ranking Stabilization System");
+    params.set("pkg", tabKey);
+    params.set("package", data.label);
+    params.set("title", data.title);
+    params.set("price", data.price);
+    params.set("delivery", data.delivery);
+    params.set("revision", data.revision);
+
+    // ✅ return = current page path
+    const returnUrl = new URL(window.location.href);
+    returnUrl.hash = "";
+    params.set("return", returnUrl.pathname + returnUrl.search);
+
+    const intakePath = "/Gig-Offer/components/intake.html";
+    const intakeUrl = `${intakePath}?${params.toString()}`;
+
+    continueBtn.href = intakeUrl;
+    if (stickyContinue) stickyContinue.href = intakeUrl;
+  } // ✅ IMPORTANT: renderPackage CLOSED
+
+  // ✅ tab switching
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      renderPackage(btn.dataset.tab);
+      btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    });
+  });
+
+  // ✅ compare toggle
+  if (compareBtn && comparisonSection) {
+    compareBtn.addEventListener("click", () => {
+      comparisonSection.classList.toggle("hidden");
+      const open = !comparisonSection.classList.contains("hidden");
+      compareBtn.textContent = open ? "Hide Comparison" : "Compare Package";
+      if (open) comparisonSection.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  // ✅ sticky bar show/hide
+  const pkgCard = document.getElementById("package-card");
+  if (pkgCard && stickyBar) {
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) stickyBar.classList.remove("translate-y-full");
+        else stickyBar.classList.add("translate-y-full");
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(pkgCard);
+  }
+
+  // ✅ init
+  renderPackage("basic");
+})();
   </script>
   
 <script>
