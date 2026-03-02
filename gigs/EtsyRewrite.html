@@ -781,11 +781,11 @@ stability instead of spikes. That consistency makes scaling easier.</p>
              alt="Gig 1" class="h-32 w-full object-cover rounded-lg">
         <h3 class="text-sm font-semibold">Etsy Conversion Leak Audit – Revenue Diagnosis for Underperforming Listings</h3>
         <p class="text-xs text-neutral-600">Traffic is useless if buyers don’t decide — I map exactly where your listing leaks trust, clarity, and purchase confidence.</p>
-        <!-- ⭐ Review Indicator (auto-sync from this page reviews) -->
-<div class="flex items-center gap-1 text-xs font-medium">
+        <!-- ⭐ Review Indicator (auto-sync) -->
+<div class="flex items-center gap-1 text-xs font-medium" data-og-review="etsy-audit">
   <span class="text-amber-500">⭐</span>
-  <span class="text-neutral-900" id="og-audit-rating-avg">5.0</span>
-  <span class="text-neutral-500">· <span id="og-audit-rating-count">13</span> Ratings</span>
+  <span class="text-neutral-900" data-og-avg>5.0</span>
+  <span class="text-neutral-500">· <span data-og-count>13</span> Ratings</span>
 </div>
 <p class="text-sm font-semibold">$50</p>
 
@@ -800,11 +800,11 @@ stability instead of spikes. That consistency makes scaling easier.</p>
              alt="Gig 2" class="h-32 w-full object-cover rounded-lg">
         <h3 class="text-sm font-semibold">Fix Your Etsy Ranking Instability and Rebuild Your Sales Engine</h3>
         <p class="text-xs text-neutral-600">Structured Ranking + Conversion System for Serious Sellers.</p>
-      <!-- ⭐ Review Indicator (auto-sync from this page reviews) -->
-<div class="flex items-center gap-1 text-xs font-medium">
+      <!-- ⭐ Review Indicator (auto-sync) -->
+<div class="flex items-center gap-1 text-xs font-medium" data-og-review="etsy-ranking">
   <span class="text-amber-500">⭐</span>
-  <span class="text-neutral-900" id="og-rank-rating-avg">5.0</span>
-  <span class="text-neutral-500">· <span id="og-rank-rating-count">7</span> Ratings</span>
+  <span class="text-neutral-900" data-og-avg>5.0</span>
+  <span class="text-neutral-500">· <span data-og-count>7</span> Ratings</span>
 </div>
 
 <p class="text-sm font-semibold">$50</p>
@@ -1132,7 +1132,10 @@ if (stickyContinue) {
 </script>
   <script>
 (function () {
-  // Source of truth: reviews on THIS page
+  // ✅ This page's gig key (Rewrite page)
+  const PAGE_GIG_KEY = "etsy-rewrite";
+
+  // ✅ Source of truth: reviews on THIS page
   const cards = Array.from(document.querySelectorAll('[data-review]'));
   if (!cards.length) return;
 
@@ -1145,29 +1148,26 @@ if (stickyContinue) {
   const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0) / ratings.length) : 0;
   const avgText = avg ? avg.toFixed(1) : "—";
 
-  // Update top "View Client Reviews (X)"
+  // ✅ Update top "View Client Reviews (X)"
   const reviewLink = document.getElementById("reviewLink");
   if (reviewLink) reviewLink.textContent = `View Client Reviews (${total})`;
 
-  // Update counts in Reviews header + status
+  // ✅ Update Reviews tab count: All (X)
   const countAll = document.getElementById("count-all");
   if (countAll) countAll.textContent = String(total);
 
+  // ✅ Update totals used by "Showing 3 of X"
   const totalCount = document.getElementById("totalCount");
   if (totalCount) totalCount.textContent = String(total);
 
-  // Update Other Gigs indicators (both cards)
-  const map = [
-    ["og-audit-rating-count", "og-audit-rating-avg"],
-    ["og-rank-rating-count", "og-rank-rating-avg"],
-  ];
-
-  map.forEach(([countId, avgId]) => {
-    const c = document.getElementById(countId);
-    const a = document.getElementById(avgId);
-    if (c) c.textContent = String(total);
+  // ✅ Update ONLY the indicator that matches THIS page gig (if present anywhere)
+  const selfWrap = document.querySelector(`[data-og-review="${PAGE_GIG_KEY}"]`);
+  if (selfWrap) {
+    const a = selfWrap.querySelector("[data-og-avg]");
+    const c = selfWrap.querySelector("[data-og-count]");
     if (a) a.textContent = avgText;
-  });
+    if (c) c.textContent = String(total);
+  }
 })();
   </script>
 </body>
