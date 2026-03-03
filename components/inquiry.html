@@ -10,6 +10,14 @@
 
 <body class="min-h-screen bg-neutral-100 text-neutral-900 antialiased">
 
+  <!-- ✅ Page Preloader (on load) -->
+  <div id="pageLoader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-white/90 backdrop-blur-sm">
+    <div class="flex flex-col items-center gap-3">
+      <div class="h-10 w-10 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin"></div>
+      <p class="text-sm font-medium text-neutral-800 tracking-tight">Loading inquiry…</p>
+    </div>
+  </div>
+
   <!-- Top Bar -->
   <header class="sticky top-0 z-50 bg-neutral-950 text-white">
     <div class="mx-auto w-full max-w-2xl px-4 py-3">
@@ -38,7 +46,6 @@
       <div class="mt-5 h-px w-full bg-neutral-200"></div>
 
       <!-- Form -->
-      <!-- ✅ LIVE: Formspree endpoint added (keeps same layout + form structure) -->
       <form
         id="inquiryForm"
         action="https://formspree.io/f/mykdqdjv"
@@ -53,8 +60,7 @@
         <input type="hidden" id="utm_medium" name="utm_medium" value="" />
         <input type="hidden" id="utm_campaign" name="utm_campaign" value="" />
 
-        <!-- ✅ LIVE: Optional redirect after successful submission (set your real URL) -->
-        <!-- If you don't want redirect, delete this line -->
+        <!-- Optional redirect (set your real URL or remove) -->
         <input type="hidden" name="_redirect" value="https://YOURDOMAIN.com/thank-you.html" />
 
         <!-- Full Name -->
@@ -91,7 +97,7 @@
           <p class="hidden text-xs text-red-600" data-err="email">Please enter a valid email.</p>
         </div>
 
-        <!-- Project Details (kept inside flow spacing) -->
+        <!-- Project Details -->
         <div class="pt-1">
           <p class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
             Project Details
@@ -222,7 +228,24 @@
   </main>
 
   <script>
-    // v0.2 inquiry hub context sync + validation (demo submit mode)
+    // ✅ Page preloader (on page load)
+    (function () {
+      const loader = document.getElementById("pageLoader");
+      const hide = () => loader && loader.classList.add("hidden");
+
+      // Hide when fully loaded
+      window.addEventListener("load", () => {
+        // small delay to avoid flicker
+        setTimeout(hide, 3000);
+      });
+
+      // Safety fallback: hide after 2.5s even if load event doesn't fire
+      setTimeout(hide, 3000);
+    })();
+  </script>
+
+  <script>
+    // v0.2 inquiry hub context sync + validation (LIVE submit mode)
     (function () {
       const qs = new URLSearchParams(window.location.search);
 
@@ -302,7 +325,7 @@
       };
 
       form.addEventListener("submit", function (e) {
-        // ✅ LIVE MODE ENABLED (keeps all existing functions + validations)
+        // LIVE enabled (keeps existing validation behavior)
         const LIVE_SUBMIT = true;
 
         if (!LIVE_SUBMIT) e.preventDefault();
@@ -313,15 +336,16 @@
           return;
         }
 
-        // ✅ Keep existing demo success behavior ONLY when not live
-        if (!LIVE_SUBMIT) {
-          submitBtn.disabled = true;
-          status.classList.remove("hidden");
-          status.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        // Disable button immediately to prevent double-submits
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting…";
+        setTimeout(() => {
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Submit for Review";
+}, 12000);
       });
     })();
   </script>
 
 </body>
-  </html>
+</html>
